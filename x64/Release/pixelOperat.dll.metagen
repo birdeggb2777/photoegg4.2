@@ -1,0 +1,35 @@
+ImageRuntimeVersion: v4.0.30319
+Assembly pixelOperat, Version=1.0.*, Culture=不因語言而異 (不因國別而異): 
+	hash=SHA1, flags=PublicKey
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Class pix.pixelOperate: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    colorTo255(Byte*, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    colorToGray(Byte*, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    horizontalFlip(Byte*, Byte*, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    verticalFlip(Byte*, Byte*, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    brightness(Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    blurry(Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    pasteImage(Byte*, Byte*, Int32, Int32, Int32, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    tile(Byte*, Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    mosaic(Byte*, Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    emboss(Byte*, Byte*, Int32, Int32, Int32, Int32, Int32, Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig
+    blurry2(Byte*, Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    blurry3B(Byte**, Byte**, Int32, Int32, Int32, Int32): PrivateScope, Public, Static, HideBySig
+    blurry3G(Byte**, Byte**, Int32, Int32, Int32, Int32): PrivateScope, Public, Static, HideBySig
+    blurry3R(Byte**, Byte**, Int32, Int32, Int32, Int32): PrivateScope, Public, Static, HideBySig
+    blurry3(Byte*, Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    colorOrder(Byte* IsImplicitlyDereferenced, Byte* IsImplicitlyDereferenced, Byte* IsImplicitlyDereferenced, Int32): PrivateScope, Public, HideBySig
+    ConvertHSV(Byte*, Int32, Int32, Int32, Int32, Int32, Int32, Boolean(HasFieldMarshal), Int32): PrivateScope, Public, HideBySig
+    HSVMin(Double, Double): PrivateScope, Public, Static, HideBySig
+    HSVMax(Double, Double): PrivateScope, Public, Static, HideBySig
+    BGRToHSV(Int32, Int32, Int32, Byte* IsImplicitlyDereferenced, Byte* IsImplicitlyDereferenced, Byte* IsImplicitlyDereferenced, Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig
+    HSVToBGR(Double, Double, Double, Byte* IsImplicitlyDereferenced, Byte* IsImplicitlyDereferenced, Byte* IsImplicitlyDereferenced): PrivateScope, Public, HideBySig
