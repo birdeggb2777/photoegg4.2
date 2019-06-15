@@ -284,6 +284,22 @@ namespace photoegg4._1
             mosaicForm form = new mosaicForm(this);
             form.Show();
         }
+
+        private void 磁磚ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            tileForm form = new tileForm(this);
+            form.Show();
+        }
+
+        private void 水平翻轉ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            flipX();
+        }
+
+        private void 垂直翻轉ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            flipY();
+        }
     }
 }
 
