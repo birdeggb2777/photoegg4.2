@@ -19,7 +19,7 @@ Class pix.pixelOperate: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     brightness(Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     blurry(Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     pasteImage(Byte*, Byte*, Int32, Int32, Int32, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
-    tile(Byte*, Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    tile(Byte*, Int32, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     mosaic(Byte*, Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     emboss(Byte*, Byte*, Int32, Int32, Int32, Int32, Int32, Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig
     blurry2(Byte*, Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig

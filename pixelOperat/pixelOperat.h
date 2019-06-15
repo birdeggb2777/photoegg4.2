@@ -188,17 +188,13 @@ namespace pix {
 			delete[] fp;
 			delete[] fp2;
 		}
-		void tile(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value)
+		void tile(unsigned char* ptr, int width, int height, int channel, int value, int value2)
 		{
-			int value2 = 5;
 			unsigned char** fp = new unsigned char* [height];
-			unsigned char** fp2 = new unsigned char* [height];
 			const int recSize = value * value;
 			int Stride = width * channel, x = 0, y = 0;
 			for (int j = 0; j < height; j++)
 				fp[j] = ptr + (Stride * j);
-			for (int j = 0; j < height; j++)
-				fp2[j] = ptr2 + (Stride * j);
 			int x2 = 0; int y2 = 0;
 			int B = 0;
 			int G = 0;
@@ -233,9 +229,9 @@ namespace pix {
 						{
 							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
 								continue;
-							B = fp[y + y2][x + x2] * (y2 ) / value2 + 255 * (value2 - y2 ) / value2;
-							G = fp[y + y2][x + x2 + 1] * (y2 ) / value2 + 255 * (value2 - y2 ) / value2;
-							R = fp[y + y2][x + x2 + 2] * (y2 ) / value2 + 255 * (value2 - y2 ) / value2;
+							B = fp[y + y2][x + x2] * (y2) / value2 + 255 * (value2 - y2) / value2;
+							G = fp[y + y2][x + x2 + 1] * (y2) / value2 + 255 * (value2 - y2) / value2;
+							R = fp[y + y2][x + x2 + 2] * (y2) / value2 + 255 * (value2 - y2) / value2;
 							if (B > 255)B = 255;
 							if (B < 0) B = 0;
 							if (G > 255)G = 255;
@@ -250,14 +246,14 @@ namespace pix {
 					}
 					for (y2 = 0; y2 <= value; y2++)
 					{
-						for (x2 = (value-value2) * channel;x2<=value*channel; x2 += channel)
+						for (x2 = (value - value2) * channel; x2 <= value * channel; x2 += channel)
 						{
 							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
 								continue;
-							int temptra = x2 - ((value-value2) * channel);
-							B = fp[y + y2][x + x2] *   (value2- temptra/channel)/value2 +  (temptra / channel) / value2;
+							int temptra = x2 - ((value - value2) * channel);
+							B = fp[y + y2][x + x2] * (value2 - temptra / channel) / value2 + (temptra / channel) / value2;
 							G = fp[y + y2][x + x2 + 1] * (value2 - temptra / channel) / value2 + (temptra / channel) / value2;
-							R = fp[y + y2][x + x2 + 2] * (value2 - temptra / channel) / value2 +  (temptra / channel) / value2;
+							R = fp[y + y2][x + x2 + 2] * (value2 - temptra / channel) / value2 + (temptra / channel) / value2;
 							if (B > 255)B = 255;
 							if (B < 0) B = 0;
 							if (G > 255)G = 255;
@@ -275,7 +271,7 @@ namespace pix {
 						{
 							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
 								continue;
-							int temptra =( y2 - (value - value2)) * channel;
+							int temptra = (y2 - (value - value2)) * channel;
 							B = fp[y + y2][x + x2] * (value2 - temptra / channel) / value2 + (temptra / channel) / value2;
 							G = fp[y + y2][x + x2 + 1] * (value2 - temptra / channel) / value2 + (temptra / channel) / value2;
 							R = fp[y + y2][x + x2 + 2] * (value2 - temptra / channel) / value2 + (temptra / channel) / value2;

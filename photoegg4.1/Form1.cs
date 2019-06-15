@@ -99,7 +99,7 @@ namespace photoegg4._1
                 else if (func == (int)colorFunction.verticalFlip)
                     Pixel_C.verticalFlip((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
                 else if (func == (int)colorFunction.tile)
-                    Pixel_C.tile((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4,20);
+                    Pixel_C.tile((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 20, 10);
 
 
             }
@@ -132,7 +132,8 @@ namespace photoegg4._1
                     Pixel_C.emboss((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2, value_bool_1);
                 else if (func == (int)colorFunction.mosaic)
                     Pixel_C.mosaic((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
-
+                else if (func == (int)colorFunction.tile)
+                    Pixel_C.tile((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
