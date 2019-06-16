@@ -43,7 +43,7 @@ namespace photoegg4._1
         /// 
         /// </summary>
         public bool isTemp = false;
-        public enum colorFunction { colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss, mosaic, horizontalFlip, verticalFlip,tile };
+        public enum colorFunction { colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss, mosaic, horizontalFlip, verticalFlip,tile , ToneSeparation };
         public Form1()
         {
             InitializeComponent();
@@ -58,13 +58,13 @@ namespace photoegg4._1
                 originBitmap.Add(a);
                 pictureBox1.Image = a;
                 Now_Bitmap++;
-              /*  System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();//引用stopwatch物件
-                sw.Reset();//碼表歸零
-                sw.Start();//碼表開始計時
-                value_int_1 = 50;
-                blurry(false);
-                sw.Stop();//碼錶停止
-                MessageBox.Show(sw.Elapsed.TotalMilliseconds.ToString());*/
+                /*  System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();//引用stopwatch物件
+                  sw.Reset();//碼表歸零
+                  sw.Start();//碼表開始計時
+                  value_int_1 = 50;
+                  blurry(false);
+                  sw.Stop();//碼錶停止
+                  MessageBox.Show(sw.Elapsed.TotalMilliseconds.ToString());*/
             }
         }
         public void Pixel_Operate(colorFunction fun)
@@ -100,7 +100,8 @@ namespace photoegg4._1
                     Pixel_C.verticalFlip((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
                 else if (func == (int)colorFunction.tile)
                     Pixel_C.tile((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 20, 10);
-
+                else if (func == (int)colorFunction.ToneSeparation)
+                    Pixel_C.ToneSeparation((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 150);
 
             }
             MyNewBmp.UnlockBits(MyBmpData);
@@ -134,6 +135,8 @@ namespace photoegg4._1
                     Pixel_C.mosaic((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
                 else if (func == (int)colorFunction.tile)
                     Pixel_C.tile((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
+                else if (func == (int)colorFunction.ToneSeparation)
+                    Pixel_C.ToneSeparation((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -255,6 +258,19 @@ namespace photoegg4._1
                 Pixel_Operate_Temp(colorFunction.emboss);
             }
         }
+        public void ToneSeparation(bool istemp)
+        {
+            if (Now_Bitmap < 0) return;
+            if (istemp == false)
+            {
+                Pixel_Operate(colorFunction.ToneSeparation);
+                pictureBox1.Image = originBitmap[Now_Bitmap];
+            }
+            else
+            {
+                Pixel_Operate_Temp(colorFunction.ToneSeparation);
+            }
+        }
         private void 亮度ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             brightnessForm form = new brightnessForm(this);
@@ -299,6 +315,12 @@ namespace photoegg4._1
         private void 垂直翻轉ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             flipY();
+        }
+
+        private void 色調分離ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToneSeparationForm form = new ToneSeparationForm(this);
+            form.Show();
         }
     }
 }

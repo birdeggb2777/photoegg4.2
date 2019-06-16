@@ -113,6 +113,12 @@
     <Compile Include="tileForm.Designer.cs">
       <DependentUpon>tileForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ToneSeparationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ToneSeparationForm.Designer.cs">
+      <DependentUpon>ToneSeparationForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="blurryForm.resx">
       <DependentUpon>blurryForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -142,6 +148,9 @@
     </Compile>
     <EmbeddedResource Include="tileForm.resx">
       <DependentUpon>tileForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ToneSeparationForm.resx">
+      <DependentUpon>ToneSeparationForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

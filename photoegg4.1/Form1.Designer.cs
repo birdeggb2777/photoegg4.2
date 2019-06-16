@@ -39,16 +39,17 @@
             this.模糊ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.風格化ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.浮雕ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.磁磚ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.馬賽克ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.色彩ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.亮度ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.磁磚ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.翻轉ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.水平翻轉ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.垂直翻轉ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.色調分離ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -95,7 +96,8 @@
             this.詼諧ToolStripMenuItem,
             this.模糊ToolStripMenuItem,
             this.風格化ToolStripMenuItem,
-            this.馬賽克ToolStripMenuItem});
+            this.馬賽克ToolStripMenuItem,
+            this.色調分離ToolStripMenuItem});
             this.濾鏡ToolStripMenuItem.Name = "濾鏡ToolStripMenuItem";
             this.濾鏡ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.濾鏡ToolStripMenuItem.Text = "濾鏡";
@@ -137,6 +139,13 @@
             this.浮雕ToolStripMenuItem.Text = "浮雕";
             this.浮雕ToolStripMenuItem.Click += new System.EventHandler(this.浮雕ToolStripMenuItem_Click);
             // 
+            // 磁磚ToolStripMenuItem
+            // 
+            this.磁磚ToolStripMenuItem.Name = "磁磚ToolStripMenuItem";
+            this.磁磚ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.磁磚ToolStripMenuItem.Text = "磁磚";
+            this.磁磚ToolStripMenuItem.Click += new System.EventHandler(this.磁磚ToolStripMenuItem_Click);
+            // 
             // 馬賽克ToolStripMenuItem
             // 
             this.馬賽克ToolStripMenuItem.Name = "馬賽克ToolStripMenuItem";
@@ -167,34 +176,6 @@
             this.hSVToolStripMenuItem.Text = "HSV";
             this.hSVToolStripMenuItem.Click += new System.EventHandler(this.HSVToolStripMenuItem_Click);
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.pictureBox1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 24);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(533, 314);
-            this.panel1.TabIndex = 1;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(533, 314);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // 磁磚ToolStripMenuItem
-            // 
-            this.磁磚ToolStripMenuItem.Name = "磁磚ToolStripMenuItem";
-            this.磁磚ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.磁磚ToolStripMenuItem.Text = "磁磚";
-            this.磁磚ToolStripMenuItem.Click += new System.EventHandler(this.磁磚ToolStripMenuItem_Click);
-            // 
             // 翻轉ToolStripMenuItem
             // 
             this.翻轉ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -207,16 +188,44 @@
             // 水平翻轉ToolStripMenuItem
             // 
             this.水平翻轉ToolStripMenuItem.Name = "水平翻轉ToolStripMenuItem";
-            this.水平翻轉ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.水平翻轉ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.水平翻轉ToolStripMenuItem.Text = "水平翻轉";
             this.水平翻轉ToolStripMenuItem.Click += new System.EventHandler(this.水平翻轉ToolStripMenuItem_Click);
             // 
             // 垂直翻轉ToolStripMenuItem
             // 
             this.垂直翻轉ToolStripMenuItem.Name = "垂直翻轉ToolStripMenuItem";
-            this.垂直翻轉ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.垂直翻轉ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.垂直翻轉ToolStripMenuItem.Text = "垂直翻轉";
             this.垂直翻轉ToolStripMenuItem.Click += new System.EventHandler(this.垂直翻轉ToolStripMenuItem_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 24);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(533, 314);
+            this.panel1.TabIndex = 1;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(533, 314);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // 色調分離ToolStripMenuItem
+            // 
+            this.色調分離ToolStripMenuItem.Name = "色調分離ToolStripMenuItem";
+            this.色調分離ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.色調分離ToolStripMenuItem.Text = "色調分離";
+            this.色調分離ToolStripMenuItem.Click += new System.EventHandler(this.色調分離ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -226,7 +235,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.menuStrip1.ResumeLayout(false);
@@ -261,6 +270,7 @@
         private System.Windows.Forms.ToolStripMenuItem 翻轉ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 水平翻轉ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 垂直翻轉ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 色調分離ToolStripMenuItem;
     }
 }
 

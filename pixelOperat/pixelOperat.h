@@ -401,6 +401,46 @@ namespace pix {
 			delete[] fp;
 			delete[] fp2;
 		}
+		void ToneSeparation(unsigned char* ptr, int width, int height, int channel, int value)
+		{
+			int* colorList = new int[256];
+			for (int i = 0; i < 256; i++)
+				colorList[i] = i;
+			int newValue = 255 / (61-value);
+			for (int i = 0; i < 128; i++)
+			{
+				for (int j = 0; j < 256; j+= newValue)
+				{
+					//for (int k = 0; k < newValue; k++)
+					{
+						if (i >= j )
+							colorList[i] = j;
+					}
+				}
+			}
+			for (int i = 128; i < 256; i++)
+			{
+				for (int j = 255; j >=0; j -= newValue)
+				{
+						if (i <= j)
+							colorList[i] = j ;
+				}
+			}
+			unsigned char** fp = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					fp[y][x] = colorList[fp[y][x]];
+					fp[y][x + 1] = colorList[fp[y][x + 1]];
+					fp[y][x + 2] = colorList[fp[y][x + 2]];
+				}
+			}
+			delete[] fp;
+		}
 		void  inline blurry2(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value)
 		{
 			unsigned char** fp = new unsigned char* [height];
@@ -675,7 +715,7 @@ namespace pix {
 		}
 		void  inline blurry3(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value)
 		{
-			
+
 			unsigned char** fp = new unsigned char* [height];
 			unsigned char** fp2 = new unsigned char* [height];
 			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
@@ -693,12 +733,12 @@ namespace pix {
 			int reduceRecSize1 = 0;
 			int reduceRecSize2 = 0;
 			int boxSize = 0;
-			thread ThreadB(blurry3B,fp,fp2,width,height,channel,value);
+			thread ThreadB(blurry3B, fp, fp2, width, height, channel, value);
 			thread ThreadG(blurry3G, fp, fp2, width, height, channel, value);
 			thread ThreadR(blurry3R, fp, fp2, width, height, channel, value);
 			ThreadB.join();
 			ThreadG.join();
-			ThreadR.join();		
+			ThreadR.join();
 			delete[] fp;
 			delete[] fp2;
 		}
