@@ -43,7 +43,7 @@ namespace photoegg4._1
         /// 
         /// </summary>
         public bool isTemp = false;
-        public enum colorFunction { colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss, mosaic, horizontalFlip, verticalFlip,tile , ToneSeparation };
+        public enum colorFunction { colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss, mosaic, horizontalFlip, verticalFlip,tile , ToneSeparation, Overexposed, oilPaint };
         public Form1()
         {
             InitializeComponent();
@@ -62,9 +62,11 @@ namespace photoegg4._1
                   sw.Reset();//碼表歸零
                   sw.Start();//碼表開始計時
                   value_int_1 = 50;
-                  blurry(false);
+                blurry(false);
+                  //oilPaint(false);
                   sw.Stop();//碼錶停止
                   MessageBox.Show(sw.Elapsed.TotalMilliseconds.ToString());*/
+              
             }
         }
         public void Pixel_Operate(colorFunction fun)
@@ -85,7 +87,7 @@ namespace photoegg4._1
                 else if (func == (int)colorFunction.brightness)
                     Pixel_C.brightness((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
                 else if (func == (int)colorFunction.blurry)
-                    Pixel_C.blurry3((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
+                    Pixel_C.blurry3((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 30);
                 else if (func == (int)colorFunction.HSV)
                     Pixel_C.ConvertHSV((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, value_int_1, value_int_2, value_int_3, 4, value_bool_1, value_int_4);
                 else if (func == (int)colorFunction.pasteImage)
@@ -102,7 +104,10 @@ namespace photoegg4._1
                     Pixel_C.tile((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 20, 10);
                 else if (func == (int)colorFunction.ToneSeparation)
                     Pixel_C.ToneSeparation((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 150);
-
+                else if (func == (int)colorFunction.Overexposed)
+                    Pixel_C.Overexposed((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
+                else if (func == (int)colorFunction.oilPaint)
+                    Pixel_C.oilpaint((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 8, 0.5);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -137,6 +142,8 @@ namespace photoegg4._1
                     Pixel_C.tile((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
                 else if (func == (int)colorFunction.ToneSeparation)
                     Pixel_C.ToneSeparation((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
+                else if (func == (int)colorFunction.oilPaint)
+                    Pixel_C.oilpaint((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_double_2);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -271,6 +278,19 @@ namespace photoegg4._1
                 Pixel_Operate_Temp(colorFunction.ToneSeparation);
             }
         }
+        public void oilPaint(bool istemp)
+        {
+            if (Now_Bitmap < 0) return;
+            if (istemp == false)
+            {
+                Pixel_Operate(colorFunction.oilPaint);
+                pictureBox1.Image = originBitmap[Now_Bitmap];
+            }
+            else
+            {
+                Pixel_Operate_Temp(colorFunction.oilPaint);
+            }
+        }
         private void 亮度ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             brightnessForm form = new brightnessForm(this);
@@ -321,6 +341,13 @@ namespace photoegg4._1
         {
             ToneSeparationForm form = new ToneSeparationForm(this);
             form.Show();
+        }
+
+        private void 曝光過度ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Now_Bitmap < 0) return;
+            Pixel_Operate(colorFunction.Overexposed);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
         }
     }
 }

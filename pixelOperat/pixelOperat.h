@@ -8,6 +8,8 @@
 #define BGR2BRG 5
 #include <thread>
 #include <iostream>  
+#include<cmath>
+#include<algorithm>
 using namespace System;
 using namespace std;
 namespace pix {
@@ -17,9 +19,6 @@ namespace pix {
 		const double PI = 3.141592653589793238463;
 		// TODO: 請在此新增此類別的方法。
 	public:
-		/*	void colorTo255(unsigned char*, int, int, int);
-			void BGRToHSV(unsigned char, unsigned char, unsigned char);
-			void  HSVToBGR(double, double, double, unsigned char, unsigned char, unsigned char);*/
 		void inline colorTo255(unsigned char* ptr, int width, int height, int channel)
 		{
 			unsigned char** fp = new unsigned char* [height];
@@ -38,7 +37,23 @@ namespace pix {
 			delete[] fp;
 
 		}
-
+		void Overexposed(unsigned char* ptr, int width, int height, int channel)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					fp[y][x] = abs(128 - abs(128 - fp[y][x]));
+					fp[y][x + 1] = abs(128 - abs(128 - fp[y][x + 1]));
+					fp[y][x + 2] = abs(128 - abs(128 - fp[y][x + 2]));
+				}
+			}
+			delete[] fp;
+		}
 		void  inline colorToGray(unsigned char* ptr, int width, int height, int channel)
 		{
 			unsigned char** fp = new unsigned char* [height];
@@ -69,9 +84,9 @@ namespace pix {
 			{
 				for (x = 0; x < Stride; x += channel)
 				{
-					fp[y][x] = fp2[y][Stride - x];
-					fp[y][x + 1] = fp2[y][Stride - x + 1];
-					fp[y][x + 2] = fp2[y][Stride - x + 2];
+					fp[y][x] = fp2[y][Stride-channel - x];
+					fp[y][x + 1] = fp2[y][Stride - channel - x + 1];
+					fp[y][x + 2] = fp2[y][Stride - channel - x + 2];
 				}
 			}
 		}
@@ -161,6 +176,130 @@ namespace pix {
 				}
 			}
 			delete[] fp;
+		}
+		void oilpaint(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value, double value2)
+		{
+			thread ThreadB1(oilpaintThread, ptr, ptr2, width, height, channel, value, value2,0,0);
+			thread ThreadG1(oilpaintThread, ptr, ptr2, width, height, channel, value, value2,1,0);
+			thread ThreadR1(oilpaintThread, ptr, ptr2, width, height, channel, value, value2,2,0);
+			thread ThreadB2(oilpaintThread, ptr, ptr2, width, height, channel, value, value2, 0, 1);
+			thread ThreadG2(oilpaintThread, ptr, ptr2, width, height, channel, value, value2, 1, 1);
+			thread ThreadR2(oilpaintThread, ptr, ptr2, width, height, channel, value, value2, 2, 1);
+			ThreadB1.join();
+			ThreadG1.join();
+			ThreadR1.join();
+			ThreadB2.join();
+			ThreadG2.join();
+			ThreadR2.join();
+		}
+		static void oilpaintThread(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value, double value2,int bgr,int half)
+		{
+			int adopt = (int)((double)(value * value) * value2);
+			if (adopt > value * value - 1)adopt = value * value - 1;
+			if (adopt < 0)adopt = 0;
+			unsigned char** fp = new unsigned char* [height];
+			unsigned char** fp2 = new unsigned char* [height];
+			unsigned char* colorListB = new unsigned char[value * value];
+			unsigned char* colorListG = new unsigned char[value * value];
+			unsigned char* colorListR = new unsigned char[value * value];
+			for (int i = 0; i < value * value; i++)
+				colorListB[i] = colorListG[i] = colorListR[i] = 0;
+			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
+			const int recWidth = value * channel;
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			for (int j = 0; j < height; j++)
+				fp2[j] = ptr2 + (Stride * j);
+			int x2 = 0; int y2 = 0;
+			int countB = 0;
+			int countG = 0;
+			int countR = 0;
+			int count = 0;
+			int heightBegin = 0;
+			int heightEnd = height;
+			if (half == 0)heightBegin = 0; else heightBegin = height / 2;
+			if (half == 0)heightEnd = height / 2; else heightEnd = height;
+			if (bgr == 0)
+			{
+				for (y = heightBegin; y < heightEnd; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						count = 0;
+						for (y2 = 0; y2 < value; y2++)
+						{
+							for (x2 = 0; x2 < recWidth; x2 += channel)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									colorListB[count] = 0;
+									count++;
+									continue;
+								}
+								colorListB[count] = fp2[y + y2][x + x2];
+								count++;
+							}
+						}
+						sort(colorListB, colorListB + value * value);
+						fp[y][x] = colorListB[adopt];
+					}
+				}
+			}
+			if (bgr == 1)
+			{
+				for (y = heightBegin; y < heightEnd; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						count = 0;
+						for (y2 = 0; y2 < value; y2++)
+						{
+							for (x2 = 0; x2 < recWidth; x2 += channel)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									colorListG[count] = 0;
+									count++;
+									continue;
+								}
+								colorListG[count] = fp2[y + y2][x + x2 + 1];
+								count++;
+							}
+						}
+						sort(colorListG, colorListG + value * value);
+						fp[y][x + 1] = colorListG[adopt];
+					}
+				}
+			}
+			if (bgr ==2)
+			{
+				for (y = heightBegin; y < heightEnd; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						count = 0;
+						for (y2 = 0; y2 < value; y2++)
+						{
+							for (x2 = 0; x2 < recWidth; x2 += channel)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									colorListR[count] = 0;
+									count++;
+									continue;
+								}
+								colorListR[count] = fp2[y + y2][x + x2 + 2];
+								count++;
+							}
+						}
+						sort(colorListR, colorListR + value * value);
+						fp[y][x + 2] = colorListR[adopt];
+					}
+				}
+			}
+			delete[] fp;
+			delete[] fp2;
 		}
 		void pasteImage(unsigned char* ptr, unsigned char* ptr2, int width, int height, int width2, int height2, int pasteX, int pasteY, int channel)
 		{
@@ -406,24 +545,24 @@ namespace pix {
 			int* colorList = new int[256];
 			for (int i = 0; i < 256; i++)
 				colorList[i] = i;
-			int newValue = 255 / (61-value);
+			int newValue = 255 / (61 - value);
 			for (int i = 0; i < 128; i++)
 			{
-				for (int j = 0; j < 256; j+= newValue)
+				for (int j = 0; j < 256; j += newValue)
 				{
 					//for (int k = 0; k < newValue; k++)
 					{
-						if (i >= j )
+						if (i >= j)
 							colorList[i] = j;
 					}
 				}
 			}
 			for (int i = 128; i < 256; i++)
 			{
-				for (int j = 255; j >=0; j -= newValue)
+				for (int j = 255; j >= 0; j -= newValue)
 				{
-						if (i <= j)
-							colorList[i] = j ;
+					if (i <= j)
+						colorList[i] = j;
 				}
 			}
 			unsigned char** fp = new unsigned char* [height];
@@ -521,7 +660,7 @@ namespace pix {
 			}
 			delete[] fp;
 		}
-		static void blurry3B(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value)
+		static void blurry3B(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value, int half)
 		{
 			int Stride = width * channel;
 			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
@@ -535,7 +674,11 @@ namespace pix {
 			int reduceRecSize1 = 0;
 			int reduceRecSize2 = 0;
 			int boxSize = 0;
-			for (y = 0; y < height; y++)
+			int heightBegin = 0;
+			int heightEnd = height;
+			if (half == 0)heightBegin = 0; else heightBegin = height / 2;
+			if (half == 0)heightEnd = height / 2; else heightEnd = height;
+			for (y = heightBegin; y < heightEnd; y++)
 			{
 				for (x = 0; x < Stride; x += channel)
 				{
@@ -585,7 +728,7 @@ namespace pix {
 				reduceRecSize2 = 0;
 			}
 		}
-		static void blurry3G(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value)
+		static void blurry3G(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value,int half)
 		{
 			int Stride = width * channel;
 			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
@@ -599,7 +742,11 @@ namespace pix {
 			int reduceRecSize1 = 0;
 			int reduceRecSize2 = 0;
 			int boxSize = 0;
-			for (y = 0; y < height; y++)
+			int heightBegin = 0;
+			int heightEnd = height;
+			if (half == 0)heightBegin = 0; else heightBegin = height / 2;
+			if (half == 0)heightEnd = height / 2; else heightEnd = height;
+			for (y = heightBegin; y < heightEnd; y++)
 			{
 				for (x = 0; x < Stride; x += channel)
 				{
@@ -649,7 +796,7 @@ namespace pix {
 				reduceRecSize2 = 0;
 			}
 		}
-		static void blurry3R(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value)
+		static void blurry3R(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value,int half)
 		{
 			int Stride = width * channel;
 			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
@@ -663,7 +810,11 @@ namespace pix {
 			int reduceRecSize1 = 0;
 			int reduceRecSize2 = 0;
 			int boxSize = 0;
-			for (y = 0; y < height; y++)
+			int heightBegin = 0;
+			int heightEnd = height;
+			if (half == 0)heightBegin = 0; else heightBegin = height / 2;
+			if (half == 0)heightEnd = height / 2; else heightEnd = height;
+			for (y = heightBegin; y < heightEnd; y++)
 			{
 				for (x = 0; x < Stride; x += channel)
 				{
@@ -713,6 +864,181 @@ namespace pix {
 				reduceRecSize2 = 0;
 			}
 		}
+		static void blurry3BGR(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value,int bgr, int half)
+		{
+			int Stride = width * channel;
+			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
+			const int recWidth = value * channel;
+			int x = 0; int y = 0;
+			int x2 = 0; int y2 = 0;
+			int countB = 0;
+			int countG = 0;
+			int countR = 0;
+			int reduceRecSize = 0;
+			int reduceRecSize1 = 0;
+			int reduceRecSize2 = 0;
+			int boxSize = 0;
+			int heightBegin = 0;
+			int heightEnd = height;
+			if (half == 0)heightBegin = 0; else heightBegin = height / 2;
+			if (half == 0)heightEnd = height / 2; else heightEnd = height;
+			if (bgr == 0)
+			{
+				for (y = heightBegin; y < heightEnd; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						if (x == 0)
+						{
+							for (y2 = -value; y2 <= value; y2++)
+							{
+								for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+								{
+									if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+									{
+										reduceRecSize2++;
+										continue;
+									}
+									countB += fp2[y + y2][x + x2];
+								}
+							}
+							fp[y][x] = countB / (recSize - reduceRecSize2);
+							reduceRecSize2 = 0;
+						}
+						else
+						{
+							for (y2 = -value, x2 = -recWidth - channel; y2 <= value; y2++)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize1++;
+									continue;
+								}
+								countB -= fp2[y + y2][x + x2];
+							}
+							for (y2 = -value, x2 = recWidth; y2 <= value; y2++)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize++;
+									continue;
+								}
+								countB += fp2[y + y2][x + x2];
+							}
+							fp[y][x] = countB / (recSize + reduceRecSize - reduceRecSize1);
+						}
+						reduceRecSize = 0;
+						reduceRecSize1 = 0;
+					}
+					countB = countG = countR = 0;
+					reduceRecSize2 = 0;
+				}
+			}
+			if (bgr == 1)
+			{
+				for (y = heightBegin; y < heightEnd; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						if (x == 0)
+						{
+							for (y2 = -value; y2 <= value; y2++)
+							{
+								for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+								{
+									if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+									{
+										reduceRecSize2++;
+										continue;
+									}
+									countG += fp2[y + y2][x + x2 + 1];
+								}
+							}
+							fp[y][x + 1] = countG / (recSize - reduceRecSize2);
+							reduceRecSize2 = 0;
+						}
+						else
+						{
+							for (y2 = -value, x2 = -recWidth - channel; y2 <= value; y2++)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize1++;
+									continue;
+								}
+								countG -= fp2[y + y2][x + x2 + 1];
+							}
+							for (y2 = -value, x2 = recWidth; y2 <= value; y2++)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize++;
+									continue;
+								}
+								countG += fp2[y + y2][x + x2 + 1];
+							}
+							fp[y][x + 1] = countG / (recSize + reduceRecSize - reduceRecSize1);
+						}
+						reduceRecSize = 0;
+						reduceRecSize1 = 0;
+					}
+					countB = countG = countR = 0;
+					reduceRecSize2 = 0;
+				}
+			}
+			if (bgr == 2)
+			{
+				for (y = heightBegin; y < heightEnd; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						if (x == 0)
+						{
+							for (y2 = -value; y2 <= value; y2++)
+							{
+								for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+								{
+									if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+									{
+										reduceRecSize2++;
+										continue;
+									}
+									countR += fp2[y + y2][x + x2 + 2];
+								}
+							}
+							fp[y][x + 2] = countR / (recSize - reduceRecSize2);
+							reduceRecSize2 = 0;
+						}
+						else
+						{
+							for (y2 = -value, x2 = -recWidth - channel; y2 <= value; y2++)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize1++;
+									continue;
+								}
+								countR -= fp2[y + y2][x + x2 + 2];
+							}
+							for (y2 = -value, x2 = recWidth; y2 <= value; y2++)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize++;
+									continue;
+								}
+								countR += fp2[y + y2][x + x2 + 2];
+							}
+							fp[y][x + 2] = countR / (recSize + reduceRecSize - reduceRecSize1);
+						}
+						reduceRecSize = 0;
+						reduceRecSize1 = 0;
+					}
+					countB = countG = countR = 0;
+					reduceRecSize2 = 0;
+				}
+			}
+		}
 		void  inline blurry3(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value)
 		{
 
@@ -733,16 +1059,22 @@ namespace pix {
 			int reduceRecSize1 = 0;
 			int reduceRecSize2 = 0;
 			int boxSize = 0;
-			thread ThreadB(blurry3B, fp, fp2, width, height, channel, value);
-			thread ThreadG(blurry3G, fp, fp2, width, height, channel, value);
-			thread ThreadR(blurry3R, fp, fp2, width, height, channel, value);
-			ThreadB.join();
-			ThreadG.join();
-			ThreadR.join();
+			thread ThreadB1(blurry3BGR, fp, fp2, width, height, channel, value,0,0);
+			thread ThreadG1(blurry3BGR, fp, fp2, width, height, channel, value,1,0);
+			thread ThreadR1(blurry3BGR, fp, fp2, width, height, channel, value,2,0);
+			thread ThreadB2(blurry3BGR, fp, fp2, width, height, channel, value,0,1);
+			thread ThreadG2(blurry3BGR, fp, fp2, width, height, channel, value,1,1);
+			thread ThreadR2(blurry3BGR, fp, fp2, width, height, channel, value,2,1);
+			ThreadB1.join();
+			ThreadG1.join();
+			ThreadR1.join();
+			ThreadB2.join();
+			ThreadG2.join();
+			ThreadR2.join();
 			delete[] fp;
 			delete[] fp2;
 		}
-		void colorOrder(unsigned char& b, unsigned char& g, unsigned char& r, int order)
+		static void colorOrder(unsigned char& b, unsigned char& g, unsigned char& r, int order)
 		{
 			unsigned char temp;
 			if (order == BGR2BGR)
@@ -786,15 +1118,23 @@ namespace pix {
 				g = temp;
 			}
 		}
-		void ConvertHSV(unsigned char* ptr, int width, int height, int H, int S, int V, int channel, bool fix, int order)
+		static void ConvertHSV_(unsigned char* ptr, int width, int height, int H, int S, int V, int channel, bool fix, int order,int halfheight,int halfwidth)
 		{
 			unsigned char** fp = new unsigned char* [height];
 			int Stride = width * channel, x = 0, y = 0;
 			for (int j = 0; j < height; j++)
 				fp[j] = ptr + (Stride * j);
-			for (y = 0; y < height; y++)
+			int heightBegin = 0;
+			int heightEnd = height;
+			if (halfheight == 0)heightBegin = 0; else heightBegin = height / 2;
+			if (halfheight == 0)heightEnd = height / 2; else heightEnd = height;
+			int widthBegin = 0;
+			int widthEnd = Stride;
+			if (halfwidth == 0)widthBegin = 0; else widthBegin = Stride / 2;
+			if (halfwidth == 0)widthEnd = Stride / 2; else widthEnd = Stride;
+			for (y = heightBegin; y < heightEnd; y++)
 			{
-				for (x = 0; x < Stride; x += channel)
+				for (x = widthBegin; x < widthEnd; x += channel)
 				{
 					colorOrder(fp[y][x], fp[y][x + 1], fp[y][x + 2], order);
 					BGRToHSV(H, S, V, fp[y][x], fp[y][x + 1], fp[y][x + 2], fix);
@@ -802,18 +1142,29 @@ namespace pix {
 			}
 			delete[] fp;
 		}
+		void ConvertHSV(unsigned char* ptr, int width, int height, int H, int S, int V, int channel, bool fix, int order)
+		{
+			thread ThreadW0H0(ConvertHSV_,ptr,width, height, H, S,  V,  channel,fix, order,0,0);
+			thread ThreadW0H1(ConvertHSV_,ptr,width, height, H, S,  V,  channel,fix, order,0,1);
+			thread ThreadW1H0(ConvertHSV_,ptr,width, height, H, S,  V,  channel,fix, order,1,0);
+			thread ThreadW1H1(ConvertHSV_,ptr,width, height, H, S,  V,  channel,fix, order,1,1);
+			ThreadW0H0.join();
+			ThreadW0H1.join();
+			ThreadW1H0.join();
+			ThreadW1H1.join();
+		}
 		/////////////////////////////
 		//////////////////////////////
 
-		static double HSVMin(double a, double b) {
+		static inline double HSVMin(double a, double b) {
 			return a <= b ? a : b;
 		}
 
-		static double HSVMax(double a, double b) {
+		static inline double HSVMax(double a, double b) {
 			return a >= b ? a : b;
 		}
 
-		void BGRToHSV(int H, int S, int V, unsigned char& colorB, unsigned char& colorG, unsigned char& colorR, bool fix)
+		static inline void BGRToHSV(int H, int S, int V, unsigned char& colorB, unsigned char& colorG, unsigned char& colorR, bool fix)
 		{
 			double delta, min;
 			double h = 0, s, v;
@@ -855,7 +1206,7 @@ namespace pix {
 			HSVToBGR(h, s, v, colorB, colorG, colorR);
 		}
 
-		void  HSVToBGR(double H, double S, double V, unsigned char& colorB, unsigned char& colorG, unsigned char& colorR)
+		static inline void  HSVToBGR(double H, double S, double V, unsigned char& colorB, unsigned char& colorG, unsigned char& colorR)
 		{
 			if (S == 0)
 			{
