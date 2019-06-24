@@ -35,7 +35,6 @@ namespace pix {
 				}
 			}
 			delete[] fp;
-
 		}
 		void Overexposed(unsigned char* ptr, int width, int height, int channel)
 		{
@@ -84,7 +83,7 @@ namespace pix {
 			{
 				for (x = 0; x < Stride; x += channel)
 				{
-					fp[y][x] = fp2[y][Stride-channel - x];
+					fp[y][x] = fp2[y][Stride - channel - x];
 					fp[y][x + 1] = fp2[y][Stride - channel - x + 1];
 					fp[y][x + 2] = fp2[y][Stride - channel - x + 2];
 				}
@@ -177,11 +176,62 @@ namespace pix {
 			}
 			delete[] fp;
 		}
+		void ColorNoise(unsigned char* ptr, const int width, const int height, const int channel, const double value)
+		{
+			srand(time(NULL));
+			thread ThreadW0H0(ColorNoiseThread, ptr, width, height, channel, value, 0, 0);
+			thread ThreadW1H0(ColorNoiseThread, ptr, width, height, channel, value, 1, 0);
+			thread ThreadW0H1(ColorNoiseThread, ptr, width, height, channel, value, 0, 1);
+			thread ThreadW1H1(ColorNoiseThread, ptr, width, height, channel, value, 1, 1);
+			ThreadW0H0.join();
+			ThreadW1H0.join();
+			ThreadW0H1.join();
+			ThreadW1H1.join();
+		}
+		static void ColorNoiseThread(unsigned char* ptr, const int width, const int height, const int channel, const double value, int halfwidth, int halfheight)
+		{
+			int Stride = width * channel, x = 0, y = 0;
+			int heightBegin = 0;
+			int heightEnd = height;
+			if (halfheight == 0)heightBegin = 0; else heightBegin = height / 2;
+			if (halfheight == 0)heightEnd = height / 2; else heightEnd = height;
+			int widthBegin = 0;
+			int widthEnd = Stride;
+			int halfStride = Stride / 2;
+			if (halfStride%4!=0)
+			{
+				for (int i = 0; i < 10; i++)
+				{
+					if (i == 9)return;
+					if((halfStride-i)%4==0)
+					{
+						halfStride -= i;
+						break;
+					}
+				}
+			}
+			if (halfwidth == 0)widthBegin = 0; else widthBegin = halfStride;
+			if (halfwidth == 0)widthEnd = halfStride; else widthEnd = Stride;
+			unsigned char** fp = new unsigned char* [height];	
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			const double unValue = 1 - value;
+			for (y = heightBegin; y < heightEnd; y++)
+			{
+				for (x = widthBegin; x < widthEnd; x += channel)
+				{
+					fp[y][x] = (std::rand() % 256)* value + (fp[y][x]) * unValue;
+					fp[y][x + 1] = (std::rand() % 256) * value + (fp[y][x + 1]) * unValue;
+					fp[y][x + 2] = (std::rand() % 256) * value + (fp[y][x + 2]) * unValue;
+				}
+			}
+			delete[] fp;
+		}
 		void oilpaint(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value, double value2)
 		{
-			thread ThreadB1(oilpaintThread, ptr, ptr2, width, height, channel, value, value2,0,0);
-			thread ThreadG1(oilpaintThread, ptr, ptr2, width, height, channel, value, value2,1,0);
-			thread ThreadR1(oilpaintThread, ptr, ptr2, width, height, channel, value, value2,2,0);
+			thread ThreadB1(oilpaintThread, ptr, ptr2, width, height, channel, value, value2, 0, 0);
+			thread ThreadG1(oilpaintThread, ptr, ptr2, width, height, channel, value, value2, 1, 0);
+			thread ThreadR1(oilpaintThread, ptr, ptr2, width, height, channel, value, value2, 2, 0);
 			thread ThreadB2(oilpaintThread, ptr, ptr2, width, height, channel, value, value2, 0, 1);
 			thread ThreadG2(oilpaintThread, ptr, ptr2, width, height, channel, value, value2, 1, 1);
 			thread ThreadR2(oilpaintThread, ptr, ptr2, width, height, channel, value, value2, 2, 1);
@@ -192,7 +242,7 @@ namespace pix {
 			ThreadG2.join();
 			ThreadR2.join();
 		}
-		static void oilpaintThread(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value, double value2,int bgr,int half)
+		static void oilpaintThread(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value, double value2, int bgr, int half)
 		{
 			int adopt = (int)((double)(value * value) * value2);
 			if (adopt > value * value - 1)adopt = value * value - 1;
@@ -272,7 +322,7 @@ namespace pix {
 					}
 				}
 			}
-			if (bgr ==2)
+			if (bgr == 2)
 			{
 				for (y = heightBegin; y < heightEnd; y++)
 				{
@@ -728,7 +778,7 @@ namespace pix {
 				reduceRecSize2 = 0;
 			}
 		}
-		static void blurry3G(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value,int half)
+		static void blurry3G(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value, int half)
 		{
 			int Stride = width * channel;
 			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
@@ -796,7 +846,7 @@ namespace pix {
 				reduceRecSize2 = 0;
 			}
 		}
-		static void blurry3R(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value,int half)
+		static void blurry3R(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value, int half)
 		{
 			int Stride = width * channel;
 			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
@@ -864,7 +914,7 @@ namespace pix {
 				reduceRecSize2 = 0;
 			}
 		}
-		static void blurry3BGR(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value,int bgr, int half)
+		static void blurry3BGR(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value, int bgr, int half)
 		{
 			int Stride = width * channel;
 			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
@@ -1059,12 +1109,12 @@ namespace pix {
 			int reduceRecSize1 = 0;
 			int reduceRecSize2 = 0;
 			int boxSize = 0;
-			thread ThreadB1(blurry3BGR, fp, fp2, width, height, channel, value,0,0);
-			thread ThreadG1(blurry3BGR, fp, fp2, width, height, channel, value,1,0);
-			thread ThreadR1(blurry3BGR, fp, fp2, width, height, channel, value,2,0);
-			thread ThreadB2(blurry3BGR, fp, fp2, width, height, channel, value,0,1);
-			thread ThreadG2(blurry3BGR, fp, fp2, width, height, channel, value,1,1);
-			thread ThreadR2(blurry3BGR, fp, fp2, width, height, channel, value,2,1);
+			thread ThreadB1(blurry3BGR, fp, fp2, width, height, channel, value, 0, 0);
+			thread ThreadG1(blurry3BGR, fp, fp2, width, height, channel, value, 1, 0);
+			thread ThreadR1(blurry3BGR, fp, fp2, width, height, channel, value, 2, 0);
+			thread ThreadB2(blurry3BGR, fp, fp2, width, height, channel, value, 0, 1);
+			thread ThreadG2(blurry3BGR, fp, fp2, width, height, channel, value, 1, 1);
+			thread ThreadR2(blurry3BGR, fp, fp2, width, height, channel, value, 2, 1);
 			ThreadB1.join();
 			ThreadG1.join();
 			ThreadR1.join();
@@ -1118,7 +1168,7 @@ namespace pix {
 				g = temp;
 			}
 		}
-		static void ConvertHSV_(unsigned char* ptr, int width, int height, int H, int S, int V, int channel, bool fix, int order,int halfheight,int halfwidth)
+		static void ConvertHSV_(unsigned char* ptr, int width, int height, int H, int S, int V, int channel, bool fix, int order, int halfheight, int halfwidth)
 		{
 			unsigned char** fp = new unsigned char* [height];
 			int Stride = width * channel, x = 0, y = 0;
@@ -1130,8 +1180,21 @@ namespace pix {
 			if (halfheight == 0)heightEnd = height / 2; else heightEnd = height;
 			int widthBegin = 0;
 			int widthEnd = Stride;
-			if (halfwidth == 0)widthBegin = 0; else widthBegin = Stride / 2;
-			if (halfwidth == 0)widthEnd = Stride / 2; else widthEnd = Stride;
+			int halfStride = Stride / 2;
+			if (halfStride % 4 != 0)
+			{
+				for (int i = 0; i < 10; i++)
+				{
+					if (i == 9)return;
+					if ((halfStride - i) % 4 == 0)
+					{
+						halfStride -= i;
+						break;
+					}
+				}
+			}
+			if (halfwidth == 0)widthBegin = 0; else widthBegin = halfStride;
+			if (halfwidth == 0)widthEnd = halfStride; else widthEnd = Stride;
 			for (y = heightBegin; y < heightEnd; y++)
 			{
 				for (x = widthBegin; x < widthEnd; x += channel)
@@ -1144,10 +1207,10 @@ namespace pix {
 		}
 		void ConvertHSV(unsigned char* ptr, int width, int height, int H, int S, int V, int channel, bool fix, int order)
 		{
-			thread ThreadW0H0(ConvertHSV_,ptr,width, height, H, S,  V,  channel,fix, order,0,0);
-			thread ThreadW0H1(ConvertHSV_,ptr,width, height, H, S,  V,  channel,fix, order,0,1);
-			thread ThreadW1H0(ConvertHSV_,ptr,width, height, H, S,  V,  channel,fix, order,1,0);
-			thread ThreadW1H1(ConvertHSV_,ptr,width, height, H, S,  V,  channel,fix, order,1,1);
+			thread ThreadW0H0(ConvertHSV_, ptr, width, height, H, S, V, channel, fix, order, 0, 0);
+			thread ThreadW0H1(ConvertHSV_, ptr, width, height, H, S, V, channel, fix, order, 0, 1);
+			thread ThreadW1H0(ConvertHSV_, ptr, width, height, H, S, V, channel, fix, order, 1, 0);
+			thread ThreadW1H1(ConvertHSV_, ptr, width, height, H, S, V, channel, fix, order, 1, 1);
 			ThreadW0H0.join();
 			ThreadW0H1.join();
 			ThreadW1H0.join();

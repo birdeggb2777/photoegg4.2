@@ -42,6 +42,7 @@
             this.磁磚ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.馬賽克ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.色調分離ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.曝光過度ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.色彩ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.亮度ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +51,8 @@
             this.垂直翻轉ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.曝光過度ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.彩色雜點ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.油畫ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -99,7 +101,8 @@
             this.風格化ToolStripMenuItem,
             this.馬賽克ToolStripMenuItem,
             this.色調分離ToolStripMenuItem,
-            this.曝光過度ToolStripMenuItem});
+            this.曝光過度ToolStripMenuItem,
+            this.彩色雜點ToolStripMenuItem});
             this.濾鏡ToolStripMenuItem.Name = "濾鏡ToolStripMenuItem";
             this.濾鏡ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.濾鏡ToolStripMenuItem.Text = "濾鏡";
@@ -129,7 +132,8 @@
             // 
             this.風格化ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.浮雕ToolStripMenuItem,
-            this.磁磚ToolStripMenuItem});
+            this.磁磚ToolStripMenuItem,
+            this.油畫ToolStripMenuItem});
             this.風格化ToolStripMenuItem.Name = "風格化ToolStripMenuItem";
             this.風格化ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.風格化ToolStripMenuItem.Text = "風格化";
@@ -161,6 +165,13 @@
             this.色調分離ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.色調分離ToolStripMenuItem.Text = "色調分離";
             this.色調分離ToolStripMenuItem.Click += new System.EventHandler(this.色調分離ToolStripMenuItem_Click);
+            // 
+            // 曝光過度ToolStripMenuItem
+            // 
+            this.曝光過度ToolStripMenuItem.Name = "曝光過度ToolStripMenuItem";
+            this.曝光過度ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.曝光過度ToolStripMenuItem.Text = "曝光過度";
+            this.曝光過度ToolStripMenuItem.Click += new System.EventHandler(this.曝光過度ToolStripMenuItem_Click);
             // 
             // 色彩ToolStripMenuItem
             // 
@@ -229,12 +240,19 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // 曝光過度ToolStripMenuItem
+            // 彩色雜點ToolStripMenuItem
             // 
-            this.曝光過度ToolStripMenuItem.Name = "曝光過度ToolStripMenuItem";
-            this.曝光過度ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.曝光過度ToolStripMenuItem.Text = "曝光過度";
-            this.曝光過度ToolStripMenuItem.Click += new System.EventHandler(this.曝光過度ToolStripMenuItem_Click);
+            this.彩色雜點ToolStripMenuItem.Name = "彩色雜點ToolStripMenuItem";
+            this.彩色雜點ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.彩色雜點ToolStripMenuItem.Text = "彩色雜點";
+            this.彩色雜點ToolStripMenuItem.Click += new System.EventHandler(this.彩色雜點ToolStripMenuItem_Click);
+            // 
+            // 油畫ToolStripMenuItem
+            // 
+            this.油畫ToolStripMenuItem.Name = "油畫ToolStripMenuItem";
+            this.油畫ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.油畫ToolStripMenuItem.Text = "油畫";
+            this.油畫ToolStripMenuItem.Click += new System.EventHandler(this.油畫ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -281,6 +299,8 @@
         private System.Windows.Forms.ToolStripMenuItem 垂直翻轉ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 色調分離ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 曝光過度ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 彩色雜點ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 油畫ToolStripMenuItem;
     }
 }
 

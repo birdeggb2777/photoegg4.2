@@ -19,6 +19,8 @@ Class pix.pixelOperate: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     verticalFlip(Byte*, Byte*, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     brightness(Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     blurry(Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    ColorNoise(Byte*, Int32 IsConst, Int32 IsConst, Int32 IsConst, Double IsConst): PrivateScope, Public, HideBySig
+    ColorNoiseThread(Byte*, Int32 IsConst, Int32 IsConst, Int32 IsConst, Double IsConst, Int32, Int32): PrivateScope, Public, Static, HideBySig
     oilpaint(Byte*, Byte*, Int32, Int32, Int32, Int32, Double): PrivateScope, Public, HideBySig
     oilpaintThread(Byte*, Byte*, Int32, Int32, Int32, Int32, Double, Int32, Int32): PrivateScope, Public, Static, HideBySig
     pasteImage(Byte*, Byte*, Int32, Int32, Int32, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig

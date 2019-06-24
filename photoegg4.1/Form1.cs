@@ -43,7 +43,7 @@ namespace photoegg4._1
         /// 
         /// </summary>
         public bool isTemp = false;
-        public enum colorFunction { colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss, mosaic, horizontalFlip, verticalFlip,tile , ToneSeparation, Overexposed, oilPaint };
+        public enum colorFunction { colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss, mosaic, horizontalFlip, verticalFlip,tile , ToneSeparation, Overexposed, oilPaint, ColorNoise};
         public Form1()
         {
             InitializeComponent();
@@ -58,15 +58,17 @@ namespace photoegg4._1
                 originBitmap.Add(a);
                 pictureBox1.Image = a;
                 Now_Bitmap++;
+               // ColorNoise(false);
+                //oilPaint(false);
                 /*  System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();//引用stopwatch物件
                   sw.Reset();//碼表歸零
                   sw.Start();//碼表開始計時
                   value_int_1 = 50;
                 blurry(false);
-                  //oilPaint(false);
+                  //
                   sw.Stop();//碼錶停止
                   MessageBox.Show(sw.Elapsed.TotalMilliseconds.ToString());*/
-              
+
             }
         }
         public void Pixel_Operate(colorFunction fun)
@@ -108,6 +110,8 @@ namespace photoegg4._1
                     Pixel_C.Overexposed((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
                 else if (func == (int)colorFunction.oilPaint)
                     Pixel_C.oilpaint((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 8, 0.5);
+                else if (func == (int)colorFunction.ColorNoise)
+                    Pixel_C.ColorNoise((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 0.5);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -143,7 +147,9 @@ namespace photoegg4._1
                 else if (func == (int)colorFunction.ToneSeparation)
                     Pixel_C.ToneSeparation((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
                 else if (func == (int)colorFunction.oilPaint)
-                    Pixel_C.oilpaint((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_double_2);
+                    Pixel_C.oilpaint((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_double_1);
+                else if (func == (int)colorFunction.ColorNoise)
+                    Pixel_C.ColorNoise((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_double_1); ;
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -291,6 +297,19 @@ namespace photoegg4._1
                 Pixel_Operate_Temp(colorFunction.oilPaint);
             }
         }
+        public void ColorNoise(bool istemp)
+        {
+            if (Now_Bitmap < 0) return;
+            if (istemp == false)
+            {
+                Pixel_Operate(colorFunction.ColorNoise);
+                pictureBox1.Image = originBitmap[Now_Bitmap];
+            }
+            else
+            {
+                Pixel_Operate_Temp(colorFunction.ColorNoise);
+            }
+        }
         private void 亮度ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             brightnessForm form = new brightnessForm(this);
@@ -348,6 +367,18 @@ namespace photoegg4._1
             if (Now_Bitmap < 0) return;
             Pixel_Operate(colorFunction.Overexposed);
             pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
+
+        private void 彩色雜點ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorNoiseForm form = new ColorNoiseForm(this);
+            form.Show();
+        }
+
+        private void 油畫ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OilPaintForm form = new OilPaintForm(this);
+            form.Show();
         }
     }
 }
