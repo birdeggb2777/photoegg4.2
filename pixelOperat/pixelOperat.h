@@ -630,290 +630,7 @@ namespace pix {
 			}
 			delete[] fp;
 		}
-		void  inline blurry2(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value)
-		{
-			unsigned char** fp = new unsigned char* [height];
-			unsigned char** fp2 = new unsigned char* [height];
-			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
-			const int recWidth = value * channel;
-			int Stride = width * channel, x = 0, y = 0;
-			for (int j = 0; j < height; j++)
-				fp2[j] = ptr2 + (Stride * j);
-			for (int j = 0; j < height; j++)
-				fp[j] = ptr + (Stride * j);
-			int x2 = 0; int y2 = 0;
-			int countB = 0;
-			int countG = 0;
-			int countR = 0;
-			int reduceRecSize = 0;
-			int reduceRecSize1 = 0;
-			int reduceRecSize2 = 0;
-			int boxSize = 0;
-			for (y = 0; y < height; y++)
-			{
-				for (x = 0; x < Stride; x += channel)
-				{
-					if (x == 0)
-					{
-						for (y2 = -value; y2 <= value; y2++)
-						{
-							for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
-							{
-								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
-								{
-									reduceRecSize2++;
-									continue;
-								}
-								countB += fp2[y + y2][x + x2];
-								countG += fp2[y + y2][x + x2 + 1];
-								countR += fp2[y + y2][x + x2 + 2];
-							}
-						}
-						fp[y][x] = countB / (recSize - reduceRecSize2);
-						fp[y][x + 1] = countG / (recSize - reduceRecSize2);
-						fp[y][x + 2] = countR / (recSize - reduceRecSize2);
-						reduceRecSize2 = 0;
-					}
-					else
-					{
-						for (y2 = -value, x2 = -recWidth - channel; y2 <= value; y2++)
-						{
-							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
-							{
-								reduceRecSize1++;
-								continue;
-							}
-							countB -= fp2[y + y2][x + x2];
-							countG -= fp2[y + y2][x + x2 + 1];
-							countR -= fp2[y + y2][x + x2 + 2];
-						}
-						for (y2 = -value, x2 = recWidth; y2 <= value; y2++)
-						{
-							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
-							{
-								reduceRecSize++;
-								continue;
-							}
-							countB += fp2[y + y2][x + x2];
-							countG += fp2[y + y2][x + x2 + 1];
-							countR += fp2[y + y2][x + x2 + 2];
-						}
-						fp[y][x] = countB / (recSize + reduceRecSize - reduceRecSize1);
-						fp[y][x + 1] = countG / (recSize + reduceRecSize - reduceRecSize1);
-						fp[y][x + 2] = countR / (recSize + reduceRecSize - reduceRecSize1);
-					}
-					reduceRecSize = 0;
-					reduceRecSize1 = 0;
-				}
-				countB = countG = countR = 0;
-				reduceRecSize2 = 0;
-			}
-			delete[] fp;
-		}
-		static void blurry3B(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value, int half)
-		{
-			int Stride = width * channel;
-			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
-			const int recWidth = value * channel;
-			int x = 0; int y = 0;
-			int x2 = 0; int y2 = 0;
-			int countB = 0;
-			int countG = 0;
-			int countR = 0;
-			int reduceRecSize = 0;
-			int reduceRecSize1 = 0;
-			int reduceRecSize2 = 0;
-			int boxSize = 0;
-			int heightBegin = 0;
-			int heightEnd = height;
-			if (half == 0)heightBegin = 0; else heightBegin = height / 2;
-			if (half == 0)heightEnd = height / 2; else heightEnd = height;
-			for (y = heightBegin; y < heightEnd; y++)
-			{
-				for (x = 0; x < Stride; x += channel)
-				{
-					if (x == 0)
-					{
-						for (y2 = -value; y2 <= value; y2++)
-						{
-							for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
-							{
-								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
-								{
-									reduceRecSize2++;
-									continue;
-								}
-								countB += fp2[y + y2][x + x2];
-							}
-						}
-						fp[y][x] = countB / (recSize - reduceRecSize2);
-						reduceRecSize2 = 0;
-					}
-					else
-					{
-						for (y2 = -value, x2 = -recWidth - channel; y2 <= value; y2++)
-						{
-							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
-							{
-								reduceRecSize1++;
-								continue;
-							}
-							countB -= fp2[y + y2][x + x2];
-						}
-						for (y2 = -value, x2 = recWidth; y2 <= value; y2++)
-						{
-							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
-							{
-								reduceRecSize++;
-								continue;
-							}
-							countB += fp2[y + y2][x + x2];
-						}
-						fp[y][x] = countB / (recSize + reduceRecSize - reduceRecSize1);
-					}
-					reduceRecSize = 0;
-					reduceRecSize1 = 0;
-				}
-				countB = countG = countR = 0;
-				reduceRecSize2 = 0;
-			}
-		}
-		static void blurry3G(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value, int half)
-		{
-			int Stride = width * channel;
-			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
-			const int recWidth = value * channel;
-			int x = 0; int y = 0;
-			int x2 = 0; int y2 = 0;
-			int countB = 0;
-			int countG = 0;
-			int countR = 0;
-			int reduceRecSize = 0;
-			int reduceRecSize1 = 0;
-			int reduceRecSize2 = 0;
-			int boxSize = 0;
-			int heightBegin = 0;
-			int heightEnd = height;
-			if (half == 0)heightBegin = 0; else heightBegin = height / 2;
-			if (half == 0)heightEnd = height / 2; else heightEnd = height;
-			for (y = heightBegin; y < heightEnd; y++)
-			{
-				for (x = 0; x < Stride; x += channel)
-				{
-					if (x == 0)
-					{
-						for (y2 = -value; y2 <= value; y2++)
-						{
-							for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
-							{
-								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
-								{
-									reduceRecSize2++;
-									continue;
-								}
-								countG += fp2[y + y2][x + x2 + 1];
-							}
-						}
-						fp[y][x + 1] = countG / (recSize - reduceRecSize2);
-						reduceRecSize2 = 0;
-					}
-					else
-					{
-						for (y2 = -value, x2 = -recWidth - channel; y2 <= value; y2++)
-						{
-							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
-							{
-								reduceRecSize1++;
-								continue;
-							}
-							countG -= fp2[y + y2][x + x2 + 1];
-						}
-						for (y2 = -value, x2 = recWidth; y2 <= value; y2++)
-						{
-							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
-							{
-								reduceRecSize++;
-								continue;
-							}
-							countG += fp2[y + y2][x + x2 + 1];
-						}
-						fp[y][x + 1] = countG / (recSize + reduceRecSize - reduceRecSize1);
-					}
-					reduceRecSize = 0;
-					reduceRecSize1 = 0;
-				}
-				countB = countG = countR = 0;
-				reduceRecSize2 = 0;
-			}
-		}
-		static void blurry3R(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value, int half)
-		{
-			int Stride = width * channel;
-			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
-			const int recWidth = value * channel;
-			int x = 0; int y = 0;
-			int x2 = 0; int y2 = 0;
-			int countB = 0;
-			int countG = 0;
-			int countR = 0;
-			int reduceRecSize = 0;
-			int reduceRecSize1 = 0;
-			int reduceRecSize2 = 0;
-			int boxSize = 0;
-			int heightBegin = 0;
-			int heightEnd = height;
-			if (half == 0)heightBegin = 0; else heightBegin = height / 2;
-			if (half == 0)heightEnd = height / 2; else heightEnd = height;
-			for (y = heightBegin; y < heightEnd; y++)
-			{
-				for (x = 0; x < Stride; x += channel)
-				{
-					if (x == 0)
-					{
-						for (y2 = -value; y2 <= value; y2++)
-						{
-							for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
-							{
-								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
-								{
-									reduceRecSize2++;
-									continue;
-								}
-								countR += fp2[y + y2][x + x2 + 2];
-							}
-						}
-						fp[y][x + 2] = countR / (recSize - reduceRecSize2);
-						reduceRecSize2 = 0;
-					}
-					else
-					{
-						for (y2 = -value, x2 = -recWidth - channel; y2 <= value; y2++)
-						{
-							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
-							{
-								reduceRecSize1++;
-								continue;
-							}
-							countR -= fp2[y + y2][x + x2 + 2];
-						}
-						for (y2 = -value, x2 = recWidth; y2 <= value; y2++)
-						{
-							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
-							{
-								reduceRecSize++;
-								continue;
-							}
-							countR += fp2[y + y2][x + x2 + 2];
-						}
-						fp[y][x + 2] = countR / (recSize + reduceRecSize - reduceRecSize1);
-					}
-					reduceRecSize = 0;
-					reduceRecSize1 = 0;
-				}
-				countB = countG = countR = 0;
-				reduceRecSize2 = 0;
-			}
-		}
+		
 		static void blurry3BGR(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value, int bgr, int half)
 		{
 			int Stride = width * channel;
@@ -1458,3 +1175,287 @@ void tile(unsigned char* ptr, unsigned char* ptr2, int width, int height, int ch
 			}
 		}
 	}*/
+	/*void  inline blurry2(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value)
+			{
+				unsigned char** fp = new unsigned char* [height];
+				unsigned char** fp2 = new unsigned char* [height];
+				const int recSize = ((value * 2 + 1) * (value * 2 + 1));
+				const int recWidth = value * channel;
+				int Stride = width * channel, x = 0, y = 0;
+				for (int j = 0; j < height; j++)
+					fp2[j] = ptr2 + (Stride * j);
+				for (int j = 0; j < height; j++)
+					fp[j] = ptr + (Stride * j);
+				int x2 = 0; int y2 = 0;
+				int countB = 0;
+				int countG = 0;
+				int countR = 0;
+				int reduceRecSize = 0;
+				int reduceRecSize1 = 0;
+				int reduceRecSize2 = 0;
+				int boxSize = 0;
+				for (y = 0; y < height; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						if (x == 0)
+						{
+							for (y2 = -value; y2 <= value; y2++)
+							{
+								for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+								{
+									if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+									{
+										reduceRecSize2++;
+										continue;
+									}
+									countB += fp2[y + y2][x + x2];
+									countG += fp2[y + y2][x + x2 + 1];
+									countR += fp2[y + y2][x + x2 + 2];
+								}
+							}
+							fp[y][x] = countB / (recSize - reduceRecSize2);
+							fp[y][x + 1] = countG / (recSize - reduceRecSize2);
+							fp[y][x + 2] = countR / (recSize - reduceRecSize2);
+							reduceRecSize2 = 0;
+						}
+						else
+						{
+							for (y2 = -value, x2 = -recWidth - channel; y2 <= value; y2++)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize1++;
+									continue;
+								}
+								countB -= fp2[y + y2][x + x2];
+								countG -= fp2[y + y2][x + x2 + 1];
+								countR -= fp2[y + y2][x + x2 + 2];
+							}
+							for (y2 = -value, x2 = recWidth; y2 <= value; y2++)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize++;
+									continue;
+								}
+								countB += fp2[y + y2][x + x2];
+								countG += fp2[y + y2][x + x2 + 1];
+								countR += fp2[y + y2][x + x2 + 2];
+							}
+							fp[y][x] = countB / (recSize + reduceRecSize - reduceRecSize1);
+							fp[y][x + 1] = countG / (recSize + reduceRecSize - reduceRecSize1);
+							fp[y][x + 2] = countR / (recSize + reduceRecSize - reduceRecSize1);
+						}
+						reduceRecSize = 0;
+						reduceRecSize1 = 0;
+					}
+					countB = countG = countR = 0;
+					reduceRecSize2 = 0;
+				}
+				delete[] fp;
+			}
+			static void blurry3B(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value, int half)
+			{
+				int Stride = width * channel;
+				const int recSize = ((value * 2 + 1) * (value * 2 + 1));
+				const int recWidth = value * channel;
+				int x = 0; int y = 0;
+				int x2 = 0; int y2 = 0;
+				int countB = 0;
+				int countG = 0;
+				int countR = 0;
+				int reduceRecSize = 0;
+				int reduceRecSize1 = 0;
+				int reduceRecSize2 = 0;
+				int boxSize = 0;
+				int heightBegin = 0;
+				int heightEnd = height;
+				if (half == 0)heightBegin = 0; else heightBegin = height / 2;
+				if (half == 0)heightEnd = height / 2; else heightEnd = height;
+				for (y = heightBegin; y < heightEnd; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						if (x == 0)
+						{
+							for (y2 = -value; y2 <= value; y2++)
+							{
+								for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+								{
+									if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+									{
+										reduceRecSize2++;
+										continue;
+									}
+									countB += fp2[y + y2][x + x2];
+								}
+							}
+							fp[y][x] = countB / (recSize - reduceRecSize2);
+							reduceRecSize2 = 0;
+						}
+						else
+						{
+							for (y2 = -value, x2 = -recWidth - channel; y2 <= value; y2++)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize1++;
+									continue;
+								}
+								countB -= fp2[y + y2][x + x2];
+							}
+							for (y2 = -value, x2 = recWidth; y2 <= value; y2++)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize++;
+									continue;
+								}
+								countB += fp2[y + y2][x + x2];
+							}
+							fp[y][x] = countB / (recSize + reduceRecSize - reduceRecSize1);
+						}
+						reduceRecSize = 0;
+						reduceRecSize1 = 0;
+					}
+					countB = countG = countR = 0;
+					reduceRecSize2 = 0;
+				}
+			}
+			static void blurry3G(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value, int half)
+			{
+				int Stride = width * channel;
+				const int recSize = ((value * 2 + 1) * (value * 2 + 1));
+				const int recWidth = value * channel;
+				int x = 0; int y = 0;
+				int x2 = 0; int y2 = 0;
+				int countB = 0;
+				int countG = 0;
+				int countR = 0;
+				int reduceRecSize = 0;
+				int reduceRecSize1 = 0;
+				int reduceRecSize2 = 0;
+				int boxSize = 0;
+				int heightBegin = 0;
+				int heightEnd = height;
+				if (half == 0)heightBegin = 0; else heightBegin = height / 2;
+				if (half == 0)heightEnd = height / 2; else heightEnd = height;
+				for (y = heightBegin; y < heightEnd; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						if (x == 0)
+						{
+							for (y2 = -value; y2 <= value; y2++)
+							{
+								for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+								{
+									if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+									{
+										reduceRecSize2++;
+										continue;
+									}
+									countG += fp2[y + y2][x + x2 + 1];
+								}
+							}
+							fp[y][x + 1] = countG / (recSize - reduceRecSize2);
+							reduceRecSize2 = 0;
+						}
+						else
+						{
+							for (y2 = -value, x2 = -recWidth - channel; y2 <= value; y2++)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize1++;
+									continue;
+								}
+								countG -= fp2[y + y2][x + x2 + 1];
+							}
+							for (y2 = -value, x2 = recWidth; y2 <= value; y2++)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize++;
+									continue;
+								}
+								countG += fp2[y + y2][x + x2 + 1];
+							}
+							fp[y][x + 1] = countG / (recSize + reduceRecSize - reduceRecSize1);
+						}
+						reduceRecSize = 0;
+						reduceRecSize1 = 0;
+					}
+					countB = countG = countR = 0;
+					reduceRecSize2 = 0;
+				}
+			}
+			static void blurry3R(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value, int half)
+			{
+				int Stride = width * channel;
+				const int recSize = ((value * 2 + 1) * (value * 2 + 1));
+				const int recWidth = value * channel;
+				int x = 0; int y = 0;
+				int x2 = 0; int y2 = 0;
+				int countB = 0;
+				int countG = 0;
+				int countR = 0;
+				int reduceRecSize = 0;
+				int reduceRecSize1 = 0;
+				int reduceRecSize2 = 0;
+				int boxSize = 0;
+				int heightBegin = 0;
+				int heightEnd = height;
+				if (half == 0)heightBegin = 0; else heightBegin = height / 2;
+				if (half == 0)heightEnd = height / 2; else heightEnd = height;
+				for (y = heightBegin; y < heightEnd; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						if (x == 0)
+						{
+							for (y2 = -value; y2 <= value; y2++)
+							{
+								for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+								{
+									if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+									{
+										reduceRecSize2++;
+										continue;
+									}
+									countR += fp2[y + y2][x + x2 + 2];
+								}
+							}
+							fp[y][x + 2] = countR / (recSize - reduceRecSize2);
+							reduceRecSize2 = 0;
+						}
+						else
+						{
+							for (y2 = -value, x2 = -recWidth - channel; y2 <= value; y2++)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize1++;
+									continue;
+								}
+								countR -= fp2[y + y2][x + x2 + 2];
+							}
+							for (y2 = -value, x2 = recWidth; y2 <= value; y2++)
+							{
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize++;
+									continue;
+								}
+								countR += fp2[y + y2][x + x2 + 2];
+							}
+							fp[y][x + 2] = countR / (recSize + reduceRecSize - reduceRecSize1);
+						}
+						reduceRecSize = 0;
+						reduceRecSize1 = 0;
+					}
+					countB = countG = countR = 0;
+					reduceRecSize2 = 0;
+				}
+			}*/

@@ -40,9 +40,11 @@
             this.風格化ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.浮雕ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.磁磚ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.油畫ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.馬賽克ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.色調分離ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.曝光過度ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.彩色雜點ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.色彩ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.亮度ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,8 +53,6 @@
             this.垂直翻轉ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.彩色雜點ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.油畫ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -141,16 +141,23 @@
             // 浮雕ToolStripMenuItem
             // 
             this.浮雕ToolStripMenuItem.Name = "浮雕ToolStripMenuItem";
-            this.浮雕ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.浮雕ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.浮雕ToolStripMenuItem.Text = "浮雕";
             this.浮雕ToolStripMenuItem.Click += new System.EventHandler(this.浮雕ToolStripMenuItem_Click);
             // 
             // 磁磚ToolStripMenuItem
             // 
             this.磁磚ToolStripMenuItem.Name = "磁磚ToolStripMenuItem";
-            this.磁磚ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.磁磚ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.磁磚ToolStripMenuItem.Text = "磁磚";
             this.磁磚ToolStripMenuItem.Click += new System.EventHandler(this.磁磚ToolStripMenuItem_Click);
+            // 
+            // 油畫ToolStripMenuItem
+            // 
+            this.油畫ToolStripMenuItem.Name = "油畫ToolStripMenuItem";
+            this.油畫ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.油畫ToolStripMenuItem.Text = "油畫";
+            this.油畫ToolStripMenuItem.Click += new System.EventHandler(this.油畫ToolStripMenuItem_Click);
             // 
             // 馬賽克ToolStripMenuItem
             // 
@@ -173,6 +180,13 @@
             this.曝光過度ToolStripMenuItem.Text = "曝光過度";
             this.曝光過度ToolStripMenuItem.Click += new System.EventHandler(this.曝光過度ToolStripMenuItem_Click);
             // 
+            // 彩色雜點ToolStripMenuItem
+            // 
+            this.彩色雜點ToolStripMenuItem.Name = "彩色雜點ToolStripMenuItem";
+            this.彩色雜點ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.彩色雜點ToolStripMenuItem.Text = "彩色雜點";
+            this.彩色雜點ToolStripMenuItem.Click += new System.EventHandler(this.彩色雜點ToolStripMenuItem_Click);
+            // 
             // 色彩ToolStripMenuItem
             // 
             this.色彩ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -185,14 +199,14 @@
             // 亮度ToolStripMenuItem
             // 
             this.亮度ToolStripMenuItem.Name = "亮度ToolStripMenuItem";
-            this.亮度ToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.亮度ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.亮度ToolStripMenuItem.Text = "亮度";
             this.亮度ToolStripMenuItem.Click += new System.EventHandler(this.亮度ToolStripMenuItem_Click);
             // 
             // hSVToolStripMenuItem
             // 
             this.hSVToolStripMenuItem.Name = "hSVToolStripMenuItem";
-            this.hSVToolStripMenuItem.Size = new System.Drawing.Size(98, 22);
+            this.hSVToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hSVToolStripMenuItem.Text = "HSV";
             this.hSVToolStripMenuItem.Click += new System.EventHandler(this.HSVToolStripMenuItem_Click);
             // 
@@ -240,20 +254,6 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // 彩色雜點ToolStripMenuItem
-            // 
-            this.彩色雜點ToolStripMenuItem.Name = "彩色雜點ToolStripMenuItem";
-            this.彩色雜點ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.彩色雜點ToolStripMenuItem.Text = "彩色雜點";
-            this.彩色雜點ToolStripMenuItem.Click += new System.EventHandler(this.彩色雜點ToolStripMenuItem_Click);
-            // 
-            // 油畫ToolStripMenuItem
-            // 
-            this.油畫ToolStripMenuItem.Name = "油畫ToolStripMenuItem";
-            this.油畫ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.油畫ToolStripMenuItem.Text = "油畫";
-            this.油畫ToolStripMenuItem.Click += new System.EventHandler(this.油畫ToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -265,6 +265,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);

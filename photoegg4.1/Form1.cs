@@ -380,6 +380,11 @@ namespace photoegg4._1
             OilPaintForm form = new OilPaintForm(this);
             form.Show();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Maximized;
+        }
     }
 }
 

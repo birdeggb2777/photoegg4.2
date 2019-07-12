@@ -28,10 +28,6 @@ Class pix.pixelOperate: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     mosaic(Byte*, Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     emboss(Byte*, Byte*, Int32, Int32, Int32, Int32, Int32, Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig
     ToneSeparation(Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
-    blurry2(Byte*, Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
-    blurry3B(Byte**, Byte**, Int32, Int32, Int32, Int32, Int32): PrivateScope, Public, Static, HideBySig
-    blurry3G(Byte**, Byte**, Int32, Int32, Int32, Int32, Int32): PrivateScope, Public, Static, HideBySig
-    blurry3R(Byte**, Byte**, Int32, Int32, Int32, Int32, Int32): PrivateScope, Public, Static, HideBySig
     blurry3BGR(Byte**, Byte**, Int32, Int32, Int32, Int32, Int32, Int32): PrivateScope, Public, Static, HideBySig
     blurry3(Byte*, Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     colorOrder(Byte* IsImplicitlyDereferenced, Byte* IsImplicitlyDereferenced, Byte* IsImplicitlyDereferenced, Int32): PrivateScope, Public, Static, HideBySig
