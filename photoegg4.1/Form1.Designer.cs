@@ -55,6 +55,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.二值化ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.掃描線ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -100,11 +102,13 @@
             this.反向ToolStripMenuItem,
             this.詼諧ToolStripMenuItem,
             this.模糊ToolStripMenuItem,
+            this.二值化ToolStripMenuItem,
             this.風格化ToolStripMenuItem,
             this.馬賽克ToolStripMenuItem,
             this.色調分離ToolStripMenuItem,
             this.曝光過度ToolStripMenuItem,
-            this.彩色雜點ToolStripMenuItem});
+            this.彩色雜點ToolStripMenuItem,
+            this.掃描線ToolStripMenuItem});
             this.濾鏡ToolStripMenuItem.Name = "濾鏡ToolStripMenuItem";
             this.濾鏡ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.濾鏡ToolStripMenuItem.Text = "濾鏡";
@@ -112,21 +116,21 @@
             // 反向ToolStripMenuItem
             // 
             this.反向ToolStripMenuItem.Name = "反向ToolStripMenuItem";
-            this.反向ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.反向ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.反向ToolStripMenuItem.Text = "反向";
             this.反向ToolStripMenuItem.Click += new System.EventHandler(this.反向ToolStripMenuItem_Click);
             // 
             // 詼諧ToolStripMenuItem
             // 
             this.詼諧ToolStripMenuItem.Name = "詼諧ToolStripMenuItem";
-            this.詼諧ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.詼諧ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.詼諧ToolStripMenuItem.Text = "詼諧";
             this.詼諧ToolStripMenuItem.Click += new System.EventHandler(this.詼諧ToolStripMenuItem_Click);
             // 
             // 模糊ToolStripMenuItem
             // 
             this.模糊ToolStripMenuItem.Name = "模糊ToolStripMenuItem";
-            this.模糊ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.模糊ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.模糊ToolStripMenuItem.Text = "模糊";
             this.模糊ToolStripMenuItem.Click += new System.EventHandler(this.模糊ToolStripMenuItem_Click);
             // 
@@ -137,7 +141,7 @@
             this.磁磚ToolStripMenuItem,
             this.油畫ToolStripMenuItem});
             this.風格化ToolStripMenuItem.Name = "風格化ToolStripMenuItem";
-            this.風格化ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.風格化ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.風格化ToolStripMenuItem.Text = "風格化";
             // 
             // 浮雕ToolStripMenuItem
@@ -164,28 +168,28 @@
             // 馬賽克ToolStripMenuItem
             // 
             this.馬賽克ToolStripMenuItem.Name = "馬賽克ToolStripMenuItem";
-            this.馬賽克ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.馬賽克ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.馬賽克ToolStripMenuItem.Text = "馬賽克";
             this.馬賽克ToolStripMenuItem.Click += new System.EventHandler(this.馬賽克ToolStripMenuItem_Click);
             // 
             // 色調分離ToolStripMenuItem
             // 
             this.色調分離ToolStripMenuItem.Name = "色調分離ToolStripMenuItem";
-            this.色調分離ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.色調分離ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.色調分離ToolStripMenuItem.Text = "色調分離";
             this.色調分離ToolStripMenuItem.Click += new System.EventHandler(this.色調分離ToolStripMenuItem_Click);
             // 
             // 曝光過度ToolStripMenuItem
             // 
             this.曝光過度ToolStripMenuItem.Name = "曝光過度ToolStripMenuItem";
-            this.曝光過度ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.曝光過度ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.曝光過度ToolStripMenuItem.Text = "曝光過度";
             this.曝光過度ToolStripMenuItem.Click += new System.EventHandler(this.曝光過度ToolStripMenuItem_Click);
             // 
             // 彩色雜點ToolStripMenuItem
             // 
             this.彩色雜點ToolStripMenuItem.Name = "彩色雜點ToolStripMenuItem";
-            this.彩色雜點ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.彩色雜點ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.彩色雜點ToolStripMenuItem.Text = "彩色雜點";
             this.彩色雜點ToolStripMenuItem.Click += new System.EventHandler(this.彩色雜點ToolStripMenuItem_Click);
             // 
@@ -261,6 +265,20 @@
             this.timer1.Interval = 128;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
+            // 二值化ToolStripMenuItem
+            // 
+            this.二值化ToolStripMenuItem.Name = "二值化ToolStripMenuItem";
+            this.二值化ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.二值化ToolStripMenuItem.Text = "二值化";
+            this.二值化ToolStripMenuItem.Click += new System.EventHandler(this.二值化ToolStripMenuItem_Click);
+            // 
+            // 掃描線ToolStripMenuItem
+            // 
+            this.掃描線ToolStripMenuItem.Name = "掃描線ToolStripMenuItem";
+            this.掃描線ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.掃描線ToolStripMenuItem.Text = "掃描線";
+            this.掃描線ToolStripMenuItem.Click += new System.EventHandler(this.掃描線ToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -310,6 +328,8 @@
         private System.Windows.Forms.ToolStripMenuItem 彩色雜點ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 油畫ToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ToolStripMenuItem 二值化ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 掃描線ToolStripMenuItem;
     }
 }
 

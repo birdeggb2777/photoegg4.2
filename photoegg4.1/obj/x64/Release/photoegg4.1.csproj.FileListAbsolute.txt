@@ -79,3 +79,5 @@ C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Release\
 C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Release\photoegg4._1.ToneSeparationForm.resources
 C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Release\photoegg4._1.ColorNoiseForm.resources
 C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Release\photoegg4._1.OilPaintForm.resources
+C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Release\photoegg4._1.BinarizationForm.resources
+C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Release\photoegg4._1.ScanningLineForm.resources

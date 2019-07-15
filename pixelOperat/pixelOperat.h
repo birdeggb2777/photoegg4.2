@@ -19,7 +19,7 @@ namespace pix {
 		const double PI = 3.141592653589793238463;
 		// TODO: 請在此新增此類別的方法。
 	public:
-		void inline colorTo255(unsigned char* ptr, int width, int height, int channel)
+		void colorTo255(unsigned char* ptr, int width, int height, int channel)
 		{
 			unsigned char** fp = new unsigned char* [height];
 			int Stride = width * channel, x = 0, y = 0;
@@ -53,7 +53,34 @@ namespace pix {
 			}
 			delete[] fp;
 		}
-		void  inline colorToGray(unsigned char* ptr, int width, int height, int channel)
+		void Binarization(unsigned char* ptr, int width, int height, int channel, int value)
+		{
+			const int value2 = value * 3;
+			unsigned char** fp = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					if (fp[y][x] + fp[y][x + 1] + fp[y][x + 2] >= value2)
+					{
+						fp[y][x] = 255;
+						fp[y][x + 1] = 255;
+						fp[y][x + 2] = 255;
+					}
+					else
+					{
+						fp[y][x] = 0;
+						fp[y][x + 1] = 0;
+						fp[y][x + 2] = 0;
+					}
+				}
+			}
+			delete[] fp;
+		}
+		void  colorToGray(unsigned char* ptr, int width, int height, int channel)
 		{
 			unsigned char** fp = new unsigned char* [height];
 			int Stride = width * channel, x = 0, y = 0;
@@ -107,7 +134,6 @@ namespace pix {
 					fp[y][x + 2] = fp2[(height - 1) - y][x + 2];
 				}
 			}
-
 		}
 		void  inline brightness(unsigned char* ptr, int width, int height, int channel, int value)
 		{
@@ -141,7 +167,38 @@ namespace pix {
 			}
 			delete[] fp;
 		}
-		void  inline blurry(unsigned char* ptr, int width, int height, int channel, int value)
+		void ScanningLine(unsigned char* ptr, int width, int height, int channel, int value,int value2)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			if (value == 0 || value ==2)
+			{
+				for (y = 0; y < height; y++)
+				{
+					for (x = 0; x < Stride; x += channel * value2)
+					{
+						fp[y][x] = 0;
+						fp[y][x + 1] = 0;
+						fp[y][x + 2] = 0;
+					}
+				}
+			}
+			if (value == 1 || value == 2)
+			{
+				for (y = 0; y < height; y+=value2)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						fp[y][x] = 0;
+						fp[y][x + 1] = 0;
+						fp[y][x + 2] = 0;
+					}
+				}
+			}
+		}
+		void  blurry(unsigned char* ptr, int width, int height, int channel, int value)
 		{
 			unsigned char** fp = new unsigned char* [height];
 			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
@@ -198,12 +255,12 @@ namespace pix {
 			int widthBegin = 0;
 			int widthEnd = Stride;
 			int halfStride = Stride / 2;
-			if (halfStride%4!=0)
+			if (halfStride % 4 != 0)
 			{
 				for (int i = 0; i < 10; i++)
 				{
 					if (i == 9)return;
-					if((halfStride-i)%4==0)
+					if ((halfStride - i) % 4 == 0)
 					{
 						halfStride -= i;
 						break;
@@ -212,7 +269,7 @@ namespace pix {
 			}
 			if (halfwidth == 0)widthBegin = 0; else widthBegin = halfStride;
 			if (halfwidth == 0)widthEnd = halfStride; else widthEnd = Stride;
-			unsigned char** fp = new unsigned char* [height];	
+			unsigned char** fp = new unsigned char* [height];
 			for (int j = 0; j < height; j++)
 				fp[j] = ptr + (Stride * j);
 			const double unValue = 1 - value;
@@ -220,7 +277,7 @@ namespace pix {
 			{
 				for (x = widthBegin; x < widthEnd; x += channel)
 				{
-					fp[y][x] = (std::rand() % 256)* value + (fp[y][x]) * unValue;
+					fp[y][x] = (std::rand() % 256) * value + (fp[y][x]) * unValue;
 					fp[y][x + 1] = (std::rand() % 256) * value + (fp[y][x + 1]) * unValue;
 					fp[y][x + 2] = (std::rand() % 256) * value + (fp[y][x + 2]) * unValue;
 				}
@@ -630,7 +687,7 @@ namespace pix {
 			}
 			delete[] fp;
 		}
-		
+
 		static void blurry3BGR(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value, int bgr, int half)
 		{
 			int Stride = width * channel;

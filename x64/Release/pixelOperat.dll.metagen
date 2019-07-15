@@ -14,10 +14,12 @@ Class pix.pixelOperate: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   Methods:
     colorTo255(Byte*, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     Overexposed(Byte*, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    Binarization(Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     colorToGray(Byte*, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     horizontalFlip(Byte*, Byte*, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     verticalFlip(Byte*, Byte*, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     brightness(Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    ScanningLine(Byte*, Int32, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     blurry(Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     ColorNoise(Byte*, Int32 IsConst, Int32 IsConst, Int32 IsConst, Double IsConst): PrivateScope, Public, HideBySig
     ColorNoiseThread(Byte*, Int32 IsConst, Int32 IsConst, Int32 IsConst, Double IsConst, Int32, Int32): PrivateScope, Public, Static, HideBySig

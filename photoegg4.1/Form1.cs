@@ -45,7 +45,10 @@ namespace photoegg4._1
         /// 
         /// </summary>
         public bool isTemp = false;
-        public enum colorFunction { NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss, mosaic, horizontalFlip, verticalFlip, tile, ToneSeparation, Overexposed, oilPaint, ColorNoise };
+        public enum colorFunction { NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss,
+            mosaic, horizontalFlip, verticalFlip, tile, ToneSeparation, Overexposed, oilPaint, ColorNoise, Binarization,
+            ScanningLine
+        };
         public colorFunction tempOperate = colorFunction.NULL;
         public Form1()
         {
@@ -61,6 +64,7 @@ namespace photoegg4._1
                 originBitmap.Add(a);
                 pictureBox1.Image = a;
                 Now_Bitmap++;
+                //ScanningLine(false);
                 // ColorNoise(false);
                 //oilPaint(false);
                 /*  System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();//引用stopwatch物件
@@ -116,6 +120,10 @@ namespace photoegg4._1
                     Pixel_C.oilpaint((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 8, 0.5);
                 else if (func == (int)colorFunction.ColorNoise)
                     Pixel_C.ColorNoise((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 0.5);
+                else if (func == (int)colorFunction.Binarization)
+                    Pixel_C.Binarization((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 127);
+                else if (func == (int)colorFunction.ScanningLine)
+                    Pixel_C.ScanningLine((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 2,2);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -157,6 +165,10 @@ namespace photoegg4._1
                     Pixel_C.oilpaint((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_double_1);
                 else if (func == (int)colorFunction.ColorNoise)
                     Pixel_C.ColorNoise((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_double_1);
+                else if (func == (int)colorFunction.Binarization)
+                    Pixel_C.Binarization((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
+                else if (func == (int)colorFunction.ScanningLine)
+                    Pixel_C.ScanningLine((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -193,9 +205,39 @@ namespace photoegg4._1
             Pixel_Operate(colorFunction.verticalFlip);
             pictureBox1.Image = originBitmap[Now_Bitmap];
         }
+        public void ScanningLine(bool istemp)
+        {
+          if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            if (istemp == false)
+            {
+                Pixel_Operate(colorFunction.ScanningLine);
+                pictureBox1.Image = originBitmap[Now_Bitmap];
+            }
+            else
+            {
+                Pixel_Operate_Temp(colorFunction.ScanningLine);
+            }
+        }
+        public void Binarization(bool istemp)
+        {
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            if (istemp == false)
+            {
+                Pixel_Operate(colorFunction.Binarization);
+                pictureBox1.Image = originBitmap[Now_Bitmap];
+            }
+            else
+            {
+                Pixel_Operate_Temp(colorFunction.Binarization);
+            }
+        }
         public void tile(bool istemp)
         {
-            if (open_temp_perate == false) return; 
+            if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
             open_temp_perate = false;
             if (istemp == false)
@@ -508,17 +550,31 @@ namespace photoegg4._1
                 if (checkTimerValue() == false && open_temp_perate == true)
                 {
                     resetTimerValue();
-                    if (tempOperate==colorFunction.oilPaint) oilPaint(true);
+                    if (tempOperate == colorFunction.oilPaint) oilPaint(true);
                     if (tempOperate == colorFunction.blurry) blurry(true);
                     //Thread thread2 = new Thread(new ThreadStart(TimerOperate));
                     //thread2.Start();
                 }
-                else if (checkTimerValue() == true&&open_temp_perate == true)
+                else if (checkTimerValue() == true && open_temp_perate == true)
                 {
                     tempOperate = colorFunction.NULL;
                     timer1.Stop();
                 }
             }
+        }
+
+        private void 二值化ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            resetTimerValue();
+            BinarizationForm form = new BinarizationForm(this);
+            form.Show();
+        }
+
+        private void 掃描線ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            resetTimerValue();
+            ScanningLineForm form = new ScanningLineForm(this);
+            form.Show();
         }
     }
 }
