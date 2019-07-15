@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using pix;
@@ -23,6 +24,7 @@ namespace photoegg4._1
         /// <summary>
         /// 影像操作的參數
         /// </summary>
+        public bool open_temp_perate = true;
         public int value_int_1 = 0;
         public int value_int_2 = 0;
         public int value_int_3 = 0;
@@ -43,7 +45,8 @@ namespace photoegg4._1
         /// 
         /// </summary>
         public bool isTemp = false;
-        public enum colorFunction { colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss, mosaic, horizontalFlip, verticalFlip,tile , ToneSeparation, Overexposed, oilPaint, ColorNoise};
+        public enum colorFunction { NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss, mosaic, horizontalFlip, verticalFlip, tile, ToneSeparation, Overexposed, oilPaint, ColorNoise };
+        public colorFunction tempOperate = colorFunction.NULL;
         public Form1()
         {
             InitializeComponent();
@@ -58,7 +61,7 @@ namespace photoegg4._1
                 originBitmap.Add(a);
                 pictureBox1.Image = a;
                 Now_Bitmap++;
-               // ColorNoise(false);
+                // ColorNoise(false);
                 //oilPaint(false);
                 /*  System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();//引用stopwatch物件
                   sw.Reset();//碼表歸零
@@ -74,6 +77,7 @@ namespace photoegg4._1
         public void Pixel_Operate(colorFunction fun)
         {
             int func = (int)fun;
+            open_temp_perate = false;
             Bitmap MyNewBmp = (Bitmap)originBitmap[Now_Bitmap];
             Bitmap MyNewBmp2 = (Bitmap)originBitmap[Now_Bitmap].Clone();
             Rectangle MyRec = new Rectangle(0, 0, MyNewBmp.Width, MyNewBmp.Height);
@@ -115,9 +119,12 @@ namespace photoegg4._1
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
+            open_temp_perate = true;
         }
         public void Pixel_Operate_Temp(colorFunction fun)
         {
+            bool check = open_temp_perate;
+            open_temp_perate = false;
             int func = (int)fun;
             Bitmap MyNewBmp = (Bitmap)originBitmap[Now_Bitmap];
             Bitmap MyNewBmp2 = (Bitmap)MyNewBmp.Clone();
@@ -149,34 +156,48 @@ namespace photoegg4._1
                 else if (func == (int)colorFunction.oilPaint)
                     Pixel_C.oilpaint((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_double_1);
                 else if (func == (int)colorFunction.ColorNoise)
-                    Pixel_C.ColorNoise((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_double_1); ;
+                    Pixel_C.ColorNoise((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_double_1);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
             TempBmp.UnlockBits(MyBmpData3);
-            pictureBox1.Image = TempBmp;
+            if (check != true)
+                pictureBox1.Image = TempBmp;
+            else
+                TimerBitmap = (Bitmap)TempBmp.Clone();
+            open_temp_perate = true;
+
+            //tempOperate = colorFunction.NULL;
         }
         private void 反向ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
             Pixel_Operate(colorFunction.colorTo255);
             pictureBox1.Image = originBitmap[Now_Bitmap];
         }
         private void flipX()
         {
+            if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
             Pixel_Operate(colorFunction.horizontalFlip);
             pictureBox1.Image = originBitmap[Now_Bitmap];
         }
         private void flipY()
         {
+            if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
             Pixel_Operate(colorFunction.verticalFlip);
             pictureBox1.Image = originBitmap[Now_Bitmap];
         }
         public void tile(bool istemp)
         {
+            if (open_temp_perate == false) return; 
             if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
             if (istemp == false)
             {
                 Pixel_Operate(colorFunction.tile);
@@ -189,13 +210,17 @@ namespace photoegg4._1
         }
         private void 詼諧ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
             Pixel_Operate(colorFunction.colorToGray);
             pictureBox1.Image = originBitmap[Now_Bitmap];
         }
         public void mosaic(bool istemp)
         {
+            if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
             if (istemp == false)
             {
                 Pixel_Operate(colorFunction.mosaic);
@@ -208,7 +233,9 @@ namespace photoegg4._1
         }
         public void brightness(bool istemp)
         {
+            if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
             if (istemp == false)
             {
                 Pixel_Operate(colorFunction.brightness);
@@ -221,7 +248,9 @@ namespace photoegg4._1
         }
         public void pasteImage(bool istemp)
         {
+            if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
             if (istemp == false)
             {
                 Pixel_Operate(colorFunction.pasteImage);
@@ -242,12 +271,22 @@ namespace photoegg4._1
             }
             else
             {
-                Pixel_Operate_Temp(colorFunction.blurry);
+                tempOperate = colorFunction.blurry;
+                if (open_temp_perate == true)
+                {
+                    timer_int_1 = value_int_1;
+                    Thread thread2 = new Thread(new ThreadStart(TimerOperate));
+                    thread2.Start();
+                    timer1.Start();
+                }
+
             }
         }
         public void HSV(bool istemp)
         {
+            if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
             if (istemp == false)
             {
                 Pixel_Operate(colorFunction.HSV);
@@ -260,7 +299,9 @@ namespace photoegg4._1
         }
         public void emboss(bool istemp)
         {
+            if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
             if (istemp == false)
             {
                 Pixel_Operate(colorFunction.emboss);
@@ -273,7 +314,9 @@ namespace photoegg4._1
         }
         public void ToneSeparation(bool istemp)
         {
+            if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
             if (istemp == false)
             {
                 Pixel_Operate(colorFunction.ToneSeparation);
@@ -294,12 +337,23 @@ namespace photoegg4._1
             }
             else
             {
-                Pixel_Operate_Temp(colorFunction.oilPaint);
+                tempOperate = colorFunction.oilPaint;
+                if (open_temp_perate == true)
+                {
+                    timer_int_1 = value_int_1;
+                    timer_double_1 = value_double_1;
+                    Thread thread2 = new Thread(new ThreadStart(TimerOperate));
+                    thread2.Start();
+                    timer1.Start();
+                }
+
             }
         }
         public void ColorNoise(bool istemp)
         {
+            if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
             if (istemp == false)
             {
                 Pixel_Operate(colorFunction.ColorNoise);
@@ -318,6 +372,7 @@ namespace photoegg4._1
 
         private void 模糊ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            resetTimerValue();
             blurryForm form = new blurryForm(this);
             form.Show();
         }
@@ -377,6 +432,7 @@ namespace photoegg4._1
 
         private void 油畫ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            resetTimerValue();
             OilPaintForm form = new OilPaintForm(this);
             form.Show();
         }
@@ -384,6 +440,85 @@ namespace photoegg4._1
         private void Form1_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+        }
+        private void TimerOperate()
+        {
+            Pixel_Operate_Temp(tempOperate);
+        }
+        private bool checkTimerValue()
+        {
+            if (timer_int_1 != value_int_1) return false;
+            if (timer_int_2 != value_int_2) return false;
+            if (timer_int_3 != value_int_3) return false;
+            if (timer_int_4 != value_int_4) return false;
+            if (timer_int_5 != value_int_5) return false;
+            if (timer_double_1 != value_double_1) return false;
+            if (timer_double_2 != value_double_2) return false;
+            if (timer_double_3 != value_double_3) return false;
+            if (timer_double_4 != value_double_4) return false;
+            if (timer_double_5 != value_double_5) return false;
+            if (timer_bool_1 != value_bool_1) return false;
+            if (timer_bool_2 != value_bool_2) return false;
+            if (timer_bool_3 != value_bool_3) return false;
+            if (timer_bool_4 != value_bool_4) return false;
+            if (timer_bool_5 != value_bool_5) return false;
+            return true;
+        }
+        private void resetTimerValue()
+        {
+            timer_int_1 = value_int_1;
+            timer_int_2 = value_int_2;
+            timer_int_3 = value_int_3;
+            timer_int_4 = value_int_4;
+            timer_int_5 = value_int_5;
+            timer_double_1 = value_double_1;
+            timer_double_2 = value_double_2;
+            timer_double_3 = value_double_3;
+            timer_double_4 = value_double_4;
+            timer_double_5 = value_double_5;
+            timer_bool_1 = value_bool_1;
+            timer_bool_2 = value_bool_2;
+            timer_bool_3 = value_bool_3;
+            timer_bool_4 = value_bool_4;
+            timer_bool_5 = value_bool_5;
+        }
+        Bitmap TimerBitmap = null;
+        public int timer_int_1 = 0;
+        public int timer_int_2 = 0;
+        public int timer_int_3 = 0;
+        public int timer_int_4 = 0;
+        public int timer_int_5 = 0;
+        public double timer_double_1 = 0;
+        public double timer_double_2 = 0;
+        public double timer_double_3 = 0;
+        public double timer_double_4 = 0;
+        public double timer_double_5 = 0;
+        public bool timer_bool_1 = false;
+        public bool timer_bool_2 = false;
+        public bool timer_bool_3 = false;
+        public bool timer_bool_4 = false;
+        public bool timer_bool_5 = false;
+        private void Timer1_Tick(object sender, EventArgs e)
+        {
+            //if (open_temp_perate == false) return;
+            if (TimerBitmap != null)
+            {
+                pictureBox1.Image = TimerBitmap;
+                TimerBitmap = null;
+                if (checkTimerValue() == false && open_temp_perate == true)
+                {
+                    resetTimerValue();
+                    if (tempOperate==colorFunction.oilPaint) oilPaint(true);
+                    if (tempOperate == colorFunction.blurry) blurry(true);
+                    //Thread thread2 = new Thread(new ThreadStart(TimerOperate));
+                    //thread2.Start();
+                }
+                else if (checkTimerValue() == true&&open_temp_perate == true)
+                {
+                    tempOperate = colorFunction.NULL;
+                    timer1.Stop();
+                }
+            }
         }
     }
 }

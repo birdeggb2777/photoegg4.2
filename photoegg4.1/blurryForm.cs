@@ -22,7 +22,9 @@ namespace photoegg4._1
         private void TrackBar1_Scroll(object sender, EventArgs e)
         {
             form1.value_int_1 = trackBar1.Value;
+            
             form1.blurry(true);
         }
+
     }
 }

@@ -31,7 +31,7 @@ namespace photoegg4._1
         private void OilPaint()
         {
             form1.value_int_1 = trackBar1.Value;
-            form1.value_double_1 = (double)(trackBar2.Value) / 10;
+            form1.value_double_1 = (double)(trackBar2.Value) / 10;        
             form1.oilPaint(true);
         }
     }
