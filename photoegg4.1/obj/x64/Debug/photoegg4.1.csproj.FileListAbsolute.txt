@@ -53,3 +53,8 @@ C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Debug\ph
 C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Debug\photoegg4.1.csproj.CopyComplete
 C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Debug\photoegg4.1.exe
 C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Debug\photoegg4.1.pdb
+C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Debug\photoegg4._1.airbrushForm.resources
+C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Debug\photoegg4._1.BinarizationForm.resources
+C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Debug\photoegg4._1.ColorNoiseForm.resources
+C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Debug\photoegg4._1.OilPaintForm.resources
+C:\Users\user\Desktop\陳增澤\gitegg2\photoegg4.1\photoegg4.1\obj\x64\Debug\photoegg4._1.ScanningLineForm.resources

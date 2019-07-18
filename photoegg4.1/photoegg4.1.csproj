@@ -69,6 +69,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="airbrushForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="airbrushForm.Designer.cs">
+      <DependentUpon>airbrushForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="BinarizationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +149,9 @@
     <Compile Include="ToneSeparationForm.Designer.cs">
       <DependentUpon>ToneSeparationForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="airbrushForm.resx">
+      <DependentUpon>airbrushForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BinarizationForm.resx">
       <DependentUpon>BinarizationForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -167,13 +167,13 @@ namespace pix {
 			}
 			delete[] fp;
 		}
-		void ScanningLine(unsigned char* ptr, int width, int height, int channel, int value,int value2)
+		void ScanningLine(unsigned char* ptr, int width, int height, int channel, int value, int value2)
 		{
 			unsigned char** fp = new unsigned char* [height];
 			int Stride = width * channel, x = 0, y = 0;
 			for (int j = 0; j < height; j++)
 				fp[j] = ptr + (Stride * j);
-			if (value == 0 || value ==2)
+			if (value == 0 || value == 2)
 			{
 				for (y = 0; y < height; y++)
 				{
@@ -187,13 +187,62 @@ namespace pix {
 			}
 			if (value == 1 || value == 2)
 			{
-				for (y = 0; y < height; y+=value2)
+				for (y = 0; y < height; y += value2)
 				{
 					for (x = 0; x < Stride; x += channel)
 					{
 						fp[y][x] = 0;
 						fp[y][x + 1] = 0;
 						fp[y][x + 2] = 0;
+					}
+				}
+			}
+		}
+		void airbrush(unsigned char* ptr, unsigned char* ptr2, int width, int height, const int channel, bool iscolor, const int value)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			unsigned char** fp2 = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0, x2 = 0, y2 = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			for (int j = 0; j < height; j++)
+				fp2[j] = ptr2 + (Stride * j);
+			if (iscolor == false) {
+				for (y = 0; y < height; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						x2 = std::rand() % value * channel - ((value / 2) * channel);
+						y2 = (std::rand() % value - ((value / 2)));
+						if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+							x2 = y2 = 0;
+						fp[y][x] = fp2[y + y2][x + x2];
+						fp[y][x + 1] = fp2[y + y2][x + x2 + 1];
+						fp[y][x + 2] = fp2[y + y2][x + x2 + 2];
+					}
+				}
+			}
+			else
+			{
+				for (y = 0; y < height; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						x2 = std::rand() % value * channel - ((value / 2) * channel);
+						y2 = (std::rand() % value - ((value / 2)));
+						if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+							x2 = y2 = 0;
+						fp[y][x] = fp2[y + y2][x + x2];
+						x2 = std::rand() % value * channel - ((value / 2) * channel);
+						y2 = (std::rand() % value - ((value / 2)));
+						if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+							x2 = y2 = 0;
+						fp[y][x + 1] = fp2[y + y2][x + x2 + 1];
+						x2 = std::rand() % value * channel - ((value / 2) * channel);
+						y2 = (std::rand() % value - ((value / 2)));
+						if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+							x2 = y2 = 0;
+						fp[y][x + 2] = fp2[y + y2][x + x2 + 2];
 					}
 				}
 			}

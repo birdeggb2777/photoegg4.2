@@ -47,7 +47,7 @@ namespace photoegg4._1
         public bool isTemp = false;
         public enum colorFunction { NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss,
             mosaic, horizontalFlip, verticalFlip, tile, ToneSeparation, Overexposed, oilPaint, ColorNoise, Binarization,
-            ScanningLine
+            ScanningLine, airbrush
         };
         public colorFunction tempOperate = colorFunction.NULL;
         public Form1()
@@ -64,6 +64,7 @@ namespace photoegg4._1
                 originBitmap.Add(a);
                 pictureBox1.Image = a;
                 Now_Bitmap++;
+                //airbrush(false);
                 //ScanningLine(false);
                 // ColorNoise(false);
                 //oilPaint(false);
@@ -124,6 +125,8 @@ namespace photoegg4._1
                     Pixel_C.Binarization((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 127);
                 else if (func == (int)colorFunction.ScanningLine)
                     Pixel_C.ScanningLine((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 2,2);
+                else if (func==(int)colorFunction.airbrush)
+                    Pixel_C.airbrush((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, true,35);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -169,6 +172,8 @@ namespace photoegg4._1
                     Pixel_C.Binarization((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
                 else if (func == (int)colorFunction.ScanningLine)
                     Pixel_C.ScanningLine((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
+                else if (func == (int)colorFunction.airbrush)
+                    Pixel_C.airbrush((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_bool_1, value_int_1);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -218,6 +223,21 @@ namespace photoegg4._1
             else
             {
                 Pixel_Operate_Temp(colorFunction.ScanningLine);
+            }
+        }
+        public void airbrush(bool istemp)
+        {
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            if (istemp == false)
+            {
+                Pixel_Operate(colorFunction.airbrush);
+                pictureBox1.Image = originBitmap[Now_Bitmap];
+            }
+            else
+            {
+                Pixel_Operate_Temp(colorFunction.airbrush);
             }
         }
         public void Binarization(bool istemp)
@@ -574,6 +594,13 @@ namespace photoegg4._1
         {
             resetTimerValue();
             ScanningLineForm form = new ScanningLineForm(this);
+            form.Show();
+        }
+
+        private void 噴槍ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            resetTimerValue();
+            airbrushForm form = new airbrushForm(this);
             form.Show();
         }
     }
