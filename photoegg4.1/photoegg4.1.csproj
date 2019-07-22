@@ -87,6 +87,12 @@
     <Compile Include="blurryForm.Designer.cs">
       <DependentUpon>blurryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="BrightnessContrastForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrightnessContrastForm.Designer.cs">
+      <DependentUpon>BrightnessContrastForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="brightnessForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,6 +163,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="blurryForm.resx">
       <DependentUpon>blurryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BrightnessContrastForm.resx">
+      <DependentUpon>BrightnessContrastForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="brightnessForm.resx">
       <DependentUpon>brightnessForm.cs</DependentUpon>

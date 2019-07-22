@@ -192,9 +192,9 @@ namespace pix {
 				{
 					for (x = 0; x < Stride; x += channel)
 					{
-						fp[y][x] = 255-fp2[y][x];
-						fp[y][x + 1] = 255-fp2[y][x + 1];
-						fp[y][x + 2] = 255-fp2[y][x + 2];
+						fp[y][x] = 255 - fp2[y][x];
+						fp[y][x + 1] = 255 - fp2[y][x + 1];
+						fp[y][x + 2] = 255 - fp2[y][x + 2];
 					}
 				}
 			}
@@ -230,6 +230,101 @@ namespace pix {
 				}
 			}
 			delete[] fp;
+		}
+		void contrast(unsigned char* ptr, int width, int height, int channel, int value)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0;
+			unsigned char* colorList = new unsigned char[256];
+			for (int i = 0; i < 256; i++)
+			{
+				colorList[i] = unsigned char((double)i * ((double)(255 - value * 1) / 255.0));
+			}
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			double color = 0;
+			int colorB = 0, colorG = 0, colorR = 0;
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					color = (double)colorList[(int)((double)(fp[y][x] + fp[y][x + 1] + fp[y][x + 2]) / 3.0)] / (double)((double)(fp[y][x] + fp[y][x + 1] + fp[y][x + 2]) / 3.0);
+					colorB = (fp[y][x] * color);
+					colorG = (fp[y][x + 1] * color);
+					colorR = (fp[y][x + 2] * color);
+					if (colorB > 255)colorB = 255;
+					if (colorG > 255)colorG = 255;
+					if (colorR > 255)colorR = 255;
+					fp[y][x] = colorB;
+					fp[y][x + 1] = colorG;
+					fp[y][x + 2] = colorR;
+				}
+			}
+		}
+		/*0-100 100
+		20-80  60
+			1*(60/100)=1*0.6=0.6
+			20*(60/100)=20*0.6=12+20=32
+			80*(60/100)=80*0.6=48+20=68
+			100*(60/100)=100*0.6=60*/
+		void BrightnessContrast(unsigned char* ptr, int width, int height, int channel, int value, int value2)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0;
+			unsigned char* colorList = new unsigned char[256];
+			double color = 0;
+			int c = 0;
+			int colorB = 0, colorG = 0, colorR = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			for (int i = 0; i < 256; i++)
+			{
+				if (value2 > 0)
+				{
+					c = int((double)(i+value) * ((double)(255 - value2 * 1) / 255.0));
+					if (c > 255)c = 255;
+					if (c < 0)c = 0;
+					colorList[i] = c;
+				}
+				else if (value2 == -255)
+				{
+					if (i > 127)
+						colorList[i] = 255;
+					else
+						colorList[i] = 0;
+				}
+				else
+				{
+					int TempValue = 255 - (-value2);
+					if (TempValue < 3)colorList[i] = 0;
+					double temp = (double)(255.0 / (double)TempValue);
+					if (i > 127)
+						c = 127 + (int)(temp * (double)(i - 127)) + value;
+					else
+						c = 127 - (int)(temp * (double)(127 - i)) + value;
+					if (c > 255)c = 255;
+					if (c < 0)c = 0;
+					colorList[i] = c;
+				}
+			}
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					color = (double)colorList[(int)((double)(fp[y][x] + fp[y][x + 1] + fp[y][x + 2]) / 3.0)] / (double)((double)(fp[y][x] + fp[y][x + 1] + fp[y][x + 2]) / 3.0);
+					colorB = (fp[y][x] * color);
+					colorG = (fp[y][x + 1] * color);
+					colorR = (fp[y][x + 2] * color);
+					if (colorB > 255)colorB = 255;
+					if (colorG > 255)colorG = 255;
+					if (colorR > 255)colorR = 255;
+					fp[y][x] = colorList[fp[y][x]];
+					fp[y][x + 1] = colorList[fp[y][x + 1]];
+					fp[y][x + 2] = colorList[fp[y][x + 2]];
+				}
+			}
+			delete[] fp;
+			delete[] colorList;
 		}
 		void ScanningLine(unsigned char* ptr, int width, int height, int channel, int value, int value2)
 		{

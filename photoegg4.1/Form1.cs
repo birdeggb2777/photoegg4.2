@@ -45,9 +45,11 @@ namespace photoegg4._1
         /// 
         /// </summary>
         public bool isTemp = false;
-        public enum colorFunction { NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss,
+        public enum colorFunction
+        {
+            NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss,
             mosaic, horizontalFlip, verticalFlip, tile, ToneSeparation, Overexposed, oilPaint, ColorNoise, Binarization,
-            ScanningLine, airbrush, kaleidoscope
+            ScanningLine, airbrush, kaleidoscope, contrast, BrightnessContrast
         };
         public colorFunction tempOperate = colorFunction.NULL;
         public Form1()
@@ -64,6 +66,7 @@ namespace photoegg4._1
                 originBitmap.Add(a);
                 pictureBox1.Image = a;
                 Now_Bitmap++;
+              //  BrightnessContrast(false);
                 //airbrush(false);
                 //ScanningLine(false);
                 // ColorNoise(false);
@@ -124,11 +127,15 @@ namespace photoegg4._1
                 else if (func == (int)colorFunction.Binarization)
                     Pixel_C.Binarization((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 127);
                 else if (func == (int)colorFunction.ScanningLine)
-                    Pixel_C.ScanningLine((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 2,2);
-                else if (func==(int)colorFunction.airbrush)
-                    Pixel_C.airbrush((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, true,35);
+                    Pixel_C.ScanningLine((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 2, 2);
+                else if (func == (int)colorFunction.airbrush)
+                    Pixel_C.airbrush((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, true, 35);
                 else if (func == (int)colorFunction.kaleidoscope)
                     Pixel_C.kaleidoscope((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
+                else if (func == (int)colorFunction.contrast)
+                    Pixel_C.contrast((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 50);
+                else if (func == (int)colorFunction.BrightnessContrast)
+                    Pixel_C.BrightnessContrast((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 50, 50);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -176,6 +183,8 @@ namespace photoegg4._1
                     Pixel_C.ScanningLine((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
                 else if (func == (int)colorFunction.airbrush)
                     Pixel_C.airbrush((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_bool_1, value_int_1);
+                else if (func == (int)colorFunction.BrightnessContrast)
+                    Pixel_C.BrightnessContrast((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -214,7 +223,7 @@ namespace photoegg4._1
         }
         public void ScanningLine(bool istemp)
         {
-          if (open_temp_perate == false) return;
+            if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
             open_temp_perate = false;
             if (istemp == false)
@@ -301,6 +310,36 @@ namespace photoegg4._1
             else
             {
                 Pixel_Operate_Temp(colorFunction.mosaic);
+            }
+        }
+        public void BrightnessContrast(bool istemp)
+        {
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            if (istemp == false)
+            {
+                Pixel_Operate(colorFunction.BrightnessContrast);
+                pictureBox1.Image = originBitmap[Now_Bitmap];
+            }
+            else
+            {
+                Pixel_Operate_Temp(colorFunction.BrightnessContrast);
+            }
+        }
+        public void contrast(bool istemp)
+        {
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            if (istemp == false)
+            {
+                Pixel_Operate(colorFunction.contrast);
+                pictureBox1.Image = originBitmap[Now_Bitmap];
+            }
+            else
+            {
+                Pixel_Operate_Temp(colorFunction.contrast);
             }
         }
         public void brightness(bool istemp)
@@ -614,6 +653,12 @@ namespace photoegg4._1
             form.Show();
         }
 
+        private void 亮度對比ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            resetTimerValue();
+            BrightnessContrastForm form = new BrightnessContrastForm(this);
+            form.Show();
+        }
     }
 }
 
