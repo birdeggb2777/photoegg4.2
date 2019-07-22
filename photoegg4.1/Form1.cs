@@ -47,7 +47,7 @@ namespace photoegg4._1
         public bool isTemp = false;
         public enum colorFunction { NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss,
             mosaic, horizontalFlip, verticalFlip, tile, ToneSeparation, Overexposed, oilPaint, ColorNoise, Binarization,
-            ScanningLine, airbrush
+            ScanningLine, airbrush, kaleidoscope
         };
         public colorFunction tempOperate = colorFunction.NULL;
         public Form1()
@@ -127,6 +127,8 @@ namespace photoegg4._1
                     Pixel_C.ScanningLine((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 2,2);
                 else if (func==(int)colorFunction.airbrush)
                     Pixel_C.airbrush((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, true,35);
+                else if (func == (int)colorFunction.kaleidoscope)
+                    Pixel_C.kaleidoscope((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -276,6 +278,14 @@ namespace photoegg4._1
             if (Now_Bitmap < 0) return;
             open_temp_perate = false;
             Pixel_Operate(colorFunction.colorToGray);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
+        private void 萬花筒ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.kaleidoscope);
             pictureBox1.Image = originBitmap[Now_Bitmap];
         }
         public void mosaic(bool istemp)
@@ -603,6 +613,7 @@ namespace photoegg4._1
             airbrushForm form = new airbrushForm(this);
             form.Show();
         }
+
     }
 }
 

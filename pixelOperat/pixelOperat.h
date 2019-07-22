@@ -135,7 +135,71 @@ namespace pix {
 				}
 			}
 		}
-		void  inline brightness(unsigned char* ptr, int width, int height, int channel, int value)
+		void kaleidoscope(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			unsigned char** fp2 = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0;
+			unsigned long int up = 0;
+			unsigned long int down = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			for (int j = 0; j < height; j++)
+				fp2[j] = ptr2 + (Stride * j);
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					fp[y][x] = abs(fp2[(height - 1) - y][x] - fp2[y][x]);
+					fp[y][x + 1] = abs(fp2[(height - 1) - y][x + 1] - fp2[y][x + 1]);
+					fp[y][x + 2] = abs(fp2[(height - 1) - y][x + 2] - fp2[y][x + 2]);
+				}
+			}
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					if (fp2[y][x] + fp2[y][x + 1] + fp2[y][x + 2] >= 127 * 3)
+						up++;
+					else
+						down++;
+				}
+			}
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					fp2[y][x] = abs(fp[y][Stride - channel - x] - fp[y][x]);
+					fp2[y][x + 1] = abs(fp[y][Stride - channel - x + 1] - fp[y][x + 1]);
+					fp2[y][x + 2] = abs(fp[y][Stride - channel - x + 2] - fp[y][x + 2]);
+				}
+			}
+			if (up < down)
+			{
+				for (y = 0; y < height; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						fp[y][x] = fp2[y][x];
+						fp[y][x + 1] = fp2[y][x + 1];
+						fp[y][x + 2] = fp2[y][x + 2];
+					}
+				}
+			}
+			else
+			{
+				for (y = 0; y < height; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						fp[y][x] = 255-fp2[y][x];
+						fp[y][x + 1] = 255-fp2[y][x + 1];
+						fp[y][x + 2] = 255-fp2[y][x + 2];
+					}
+				}
+			}
+		}
+		void  brightness(unsigned char* ptr, int width, int height, int channel, int value)
 		{
 			unsigned char** fp = new unsigned char* [height];
 			int Stride = width * channel, x = 0, y = 0;

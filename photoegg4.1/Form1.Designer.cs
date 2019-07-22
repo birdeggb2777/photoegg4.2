@@ -43,6 +43,7 @@
             this.浮雕ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.磁磚ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.油畫ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.噴槍ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.馬賽克ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.色調分離ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.曝光過度ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,7 +58,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.噴槍ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.萬花筒ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -148,7 +149,8 @@
             this.浮雕ToolStripMenuItem,
             this.磁磚ToolStripMenuItem,
             this.油畫ToolStripMenuItem,
-            this.噴槍ToolStripMenuItem});
+            this.噴槍ToolStripMenuItem,
+            this.萬花筒ToolStripMenuItem});
             this.風格化ToolStripMenuItem.Name = "風格化ToolStripMenuItem";
             this.風格化ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.風格化ToolStripMenuItem.Text = "風格化";
@@ -173,6 +175,13 @@
             this.油畫ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.油畫ToolStripMenuItem.Text = "油畫";
             this.油畫ToolStripMenuItem.Click += new System.EventHandler(this.油畫ToolStripMenuItem_Click);
+            // 
+            // 噴槍ToolStripMenuItem
+            // 
+            this.噴槍ToolStripMenuItem.Name = "噴槍ToolStripMenuItem";
+            this.噴槍ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.噴槍ToolStripMenuItem.Text = "噴槍";
+            this.噴槍ToolStripMenuItem.Click += new System.EventHandler(this.噴槍ToolStripMenuItem_Click);
             // 
             // 馬賽克ToolStripMenuItem
             // 
@@ -281,12 +290,12 @@
             this.timer1.Interval = 128;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
-            // 噴槍ToolStripMenuItem
+            // 萬花筒ToolStripMenuItem
             // 
-            this.噴槍ToolStripMenuItem.Name = "噴槍ToolStripMenuItem";
-            this.噴槍ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.噴槍ToolStripMenuItem.Text = "噴槍";
-            this.噴槍ToolStripMenuItem.Click += new System.EventHandler(this.噴槍ToolStripMenuItem_Click);
+            this.萬花筒ToolStripMenuItem.Name = "萬花筒ToolStripMenuItem";
+            this.萬花筒ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.萬花筒ToolStripMenuItem.Text = "萬花筒";
+            this.萬花筒ToolStripMenuItem.Click += new System.EventHandler(this.萬花筒ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -340,6 +349,7 @@
         private System.Windows.Forms.ToolStripMenuItem 二值化ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 掃描線ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 噴槍ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 萬花筒ToolStripMenuItem;
     }
 }
 
