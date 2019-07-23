@@ -30,5 +30,11 @@ namespace photoegg4._1
             form1.value_int_1 = trackBar1.Value;
             form1.Binarization(true);
         }
+        public bool define = false;
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            define = true;
+            this.Close();
+        }
     }
 }

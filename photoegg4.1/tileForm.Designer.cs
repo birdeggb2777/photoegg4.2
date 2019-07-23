@@ -30,6 +30,7 @@
         {
             this.trackBar2 = new System.Windows.Forms.TrackBar();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
@@ -56,11 +57,22 @@
             this.trackBar1.Value = 10;
             this.trackBar1.Scroll += new System.EventHandler(this.TrackBar1_Scroll);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(647, 178);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(115, 56);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "確定";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            // 
             // tileForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(796, 241);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.trackBar2);
             this.Controls.Add(this.trackBar1);
             this.Name = "tileForm";
@@ -76,5 +88,6 @@
 
         private System.Windows.Forms.TrackBar trackBar2;
         private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.Button button1;
     }
 }

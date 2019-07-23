@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,11 +43,22 @@
             this.trackBar1.Value = 127;
             this.trackBar1.Scroll += new System.EventHandler(this.TrackBar1_Scroll);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1025, 118);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 42);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "確定";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
+            // 
             // BinarizationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1161, 167);
+            this.ClientSize = new System.Drawing.Size(1161, 182);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.trackBar1);
             this.Name = "BinarizationForm";
             this.Text = "BinarizationForm";
@@ -60,5 +72,6 @@
         #endregion
 
         private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.Button button1;
     }
 }

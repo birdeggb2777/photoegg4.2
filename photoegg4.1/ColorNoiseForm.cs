@@ -24,5 +24,11 @@ namespace photoegg4._1
             form1.value_double_1 = (double)(trackBar1.Value)/20;
             form1.ColorNoise(true);
         }
+        public bool define = false;
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            define = true;
+            this.Close();
+        }
     }
 }

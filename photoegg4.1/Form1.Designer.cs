@@ -51,15 +51,14 @@
             this.彩色雜點ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.掃描線ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.色彩ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.亮度ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.亮度對比ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.翻轉ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.水平翻轉ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.垂直翻轉ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.亮度對比ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -229,19 +228,11 @@
             // 色彩ToolStripMenuItem
             // 
             this.色彩ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.亮度ToolStripMenuItem,
-            this.hSVToolStripMenuItem,
-            this.亮度對比ToolStripMenuItem});
+            this.亮度對比ToolStripMenuItem,
+            this.hSVToolStripMenuItem});
             this.色彩ToolStripMenuItem.Name = "色彩ToolStripMenuItem";
             this.色彩ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.色彩ToolStripMenuItem.Text = "色彩";
-            // 
-            // 亮度ToolStripMenuItem
-            // 
-            this.亮度ToolStripMenuItem.Name = "亮度ToolStripMenuItem";
-            this.亮度ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.亮度ToolStripMenuItem.Text = "亮度";
-            this.亮度ToolStripMenuItem.Click += new System.EventHandler(this.亮度ToolStripMenuItem_Click);
             // 
             // hSVToolStripMenuItem
             // 
@@ -249,6 +240,13 @@
             this.hSVToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hSVToolStripMenuItem.Text = "HSV";
             this.hSVToolStripMenuItem.Click += new System.EventHandler(this.HSVToolStripMenuItem_Click);
+            // 
+            // 亮度對比ToolStripMenuItem
+            // 
+            this.亮度對比ToolStripMenuItem.Name = "亮度對比ToolStripMenuItem";
+            this.亮度對比ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.亮度對比ToolStripMenuItem.Text = "亮度、對比";
+            this.亮度對比ToolStripMenuItem.Click += new System.EventHandler(this.亮度對比ToolStripMenuItem_Click);
             // 
             // 翻轉ToolStripMenuItem
             // 
@@ -262,14 +260,14 @@
             // 水平翻轉ToolStripMenuItem
             // 
             this.水平翻轉ToolStripMenuItem.Name = "水平翻轉ToolStripMenuItem";
-            this.水平翻轉ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.水平翻轉ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.水平翻轉ToolStripMenuItem.Text = "水平翻轉";
             this.水平翻轉ToolStripMenuItem.Click += new System.EventHandler(this.水平翻轉ToolStripMenuItem_Click);
             // 
             // 垂直翻轉ToolStripMenuItem
             // 
             this.垂直翻轉ToolStripMenuItem.Name = "垂直翻轉ToolStripMenuItem";
-            this.垂直翻轉ToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.垂直翻轉ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.垂直翻轉ToolStripMenuItem.Text = "垂直翻轉";
             this.垂直翻轉ToolStripMenuItem.Click += new System.EventHandler(this.垂直翻轉ToolStripMenuItem_Click);
             // 
@@ -298,13 +296,6 @@
             // 
             this.timer1.Interval = 128;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
-            // 
-            // 亮度對比ToolStripMenuItem
-            // 
-            this.亮度對比ToolStripMenuItem.Name = "亮度對比ToolStripMenuItem";
-            this.亮度對比ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.亮度對比ToolStripMenuItem.Text = "亮度、對比";
-            this.亮度對比ToolStripMenuItem.Click += new System.EventHandler(this.亮度對比ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -340,7 +331,6 @@
         private System.Windows.Forms.ToolStripMenuItem 反向ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 詼諧ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 色彩ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 亮度ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 模糊ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hSVToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 風格化ToolStripMenuItem;

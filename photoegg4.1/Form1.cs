@@ -66,7 +66,7 @@ namespace photoegg4._1
                 originBitmap.Add(a);
                 pictureBox1.Image = a;
                 Now_Bitmap++;
-              //  BrightnessContrast(false);
+                //  BrightnessContrast(false);
                 //airbrush(false);
                 //ScanningLine(false);
                 // ColorNoise(false);
@@ -101,13 +101,13 @@ namespace photoegg4._1
                 else if (func == (int)colorFunction.brightness)
                     Pixel_C.brightness((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
                 else if (func == (int)colorFunction.blurry)
-                    Pixel_C.blurry3((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 30);
+                    Pixel_C.blurry3((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
                 else if (func == (int)colorFunction.HSV)
                     Pixel_C.ConvertHSV((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, value_int_1, value_int_2, value_int_3, 4, value_bool_1, value_int_4);
                 else if (func == (int)colorFunction.pasteImage)
                     Pixel_C.pasteImage((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, MyNewBmp2.Width, MyNewBmp2.Height, 300, 300, 4);
                 else if (func == (int)colorFunction.emboss)
-                    Pixel_C.emboss((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, -5, 5, false);
+                    Pixel_C.emboss((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2, value_bool_1);
                 else if (func == (int)colorFunction.mosaic)
                     Pixel_C.mosaic((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
                 else if (func == (int)colorFunction.horizontalFlip)
@@ -115,27 +115,27 @@ namespace photoegg4._1
                 else if (func == (int)colorFunction.verticalFlip)
                     Pixel_C.verticalFlip((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
                 else if (func == (int)colorFunction.tile)
-                    Pixel_C.tile((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 20, 10);
+                    Pixel_C.tile((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
                 else if (func == (int)colorFunction.ToneSeparation)
-                    Pixel_C.ToneSeparation((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 150);
+                    Pixel_C.ToneSeparation((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
                 else if (func == (int)colorFunction.Overexposed)
                     Pixel_C.Overexposed((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
                 else if (func == (int)colorFunction.oilPaint)
-                    Pixel_C.oilpaint((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 8, 0.5);
+                    Pixel_C.oilpaint((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_double_1);
                 else if (func == (int)colorFunction.ColorNoise)
-                    Pixel_C.ColorNoise((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 0.5);
+                    Pixel_C.ColorNoise((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_double_1);
                 else if (func == (int)colorFunction.Binarization)
-                    Pixel_C.Binarization((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 127);
+                    Pixel_C.Binarization((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
                 else if (func == (int)colorFunction.ScanningLine)
-                    Pixel_C.ScanningLine((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 2, 2);
+                    Pixel_C.ScanningLine((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
                 else if (func == (int)colorFunction.airbrush)
-                    Pixel_C.airbrush((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, true, 35);
+                    Pixel_C.airbrush((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_bool_1, value_int_1);
                 else if (func == (int)colorFunction.kaleidoscope)
                     Pixel_C.kaleidoscope((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
                 else if (func == (int)colorFunction.contrast)
                     Pixel_C.contrast((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 50);
                 else if (func == (int)colorFunction.BrightnessContrast)
-                    Pixel_C.BrightnessContrast((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 50, 50);
+                    Pixel_C.BrightnessContrast((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -150,7 +150,7 @@ namespace photoegg4._1
             Bitmap MyNewBmp2 = (Bitmap)MyNewBmp.Clone();
             Bitmap TempBmp = (Bitmap)MyNewBmp.Clone();
             Rectangle MyRec = new Rectangle(0, 0, MyNewBmp.Width, MyNewBmp.Height);
-            BitmapData MyBmpData = MyNewBmp.LockBits(MyRec, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            //BitmapData MyBmpData = MyNewBmp.LockBits(MyRec, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
             BitmapData MyBmpData2 = MyNewBmp2.LockBits(MyRec, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
             BitmapData MyBmpData3 = TempBmp.LockBits(MyRec, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
             unsafe
@@ -186,7 +186,7 @@ namespace photoegg4._1
                 else if (func == (int)colorFunction.BrightnessContrast)
                     Pixel_C.BrightnessContrast((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
             }
-            MyNewBmp.UnlockBits(MyBmpData);
+            //MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
             TempBmp.UnlockBits(MyBmpData3);
             if (check != true)
@@ -485,31 +485,50 @@ namespace photoegg4._1
         {
             resetTimerValue();
             blurryForm form = new blurryForm(this);
-            form.Show();
+            form.ShowDialog();
+            if (form.define == false)
+            {
+                value_int_1 = 0;
+                blurry(true);
+            }
+            else blurry(false);
+            form.Dispose();
         }
 
         private void HSVToolStripMenuItem_Click(object sender, EventArgs e)
         {
             HSVForm form = new HSVForm(this);
-            form.Show();
+            form.ShowDialog();
+            if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
+            else HSV(false);
+            form.Dispose();
         }
 
         private void 浮雕ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             embossForm form = new embossForm(this);
-            form.Show();
+            form.ShowDialog();
+            if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
+            else emboss(false);
+            form.Dispose();
         }
 
         private void 馬賽克ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             mosaicForm form = new mosaicForm(this);
-            form.Show();
+            form.ShowDialog();
+            if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
+            else mosaic(false);
+            form.Dispose();
         }
 
         private void 磁磚ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             tileForm form = new tileForm(this);
-            form.Show();
+            form.ShowDialog();
+            if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
+            else tile(false);
+            form.Dispose();
         }
 
         private void 水平翻轉ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -525,7 +544,10 @@ namespace photoegg4._1
         private void 色調分離ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ToneSeparationForm form = new ToneSeparationForm(this);
-            form.Show();
+            form.ShowDialog();
+            if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
+            else ToneSeparation(false);
+            form.Dispose();
         }
 
         private void 曝光過度ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -538,14 +560,25 @@ namespace photoegg4._1
         private void 彩色雜點ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorNoiseForm form = new ColorNoiseForm(this);
-            form.Show();
+            form.ShowDialog();
+            if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
+            else ColorNoise(false);
+            form.Dispose();
         }
 
         private void 油畫ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             resetTimerValue();
             OilPaintForm form = new OilPaintForm(this);
-            form.Show();
+            form.ShowDialog();
+            if (form.define == false)
+            {
+                value_int_1 = 0;
+                value_double_1 = 0;
+                oilPaint(true);
+            }
+            else oilPaint(false);
+            form.Dispose();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -636,28 +669,40 @@ namespace photoegg4._1
         {
             resetTimerValue();
             BinarizationForm form = new BinarizationForm(this);
-            form.Show();
+            form.ShowDialog();
+            if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
+            else Binarization(false);
+            form.Dispose();
         }
 
         private void 掃描線ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             resetTimerValue();
             ScanningLineForm form = new ScanningLineForm(this);
-            form.Show();
+            form.ShowDialog();
+            if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
+            else ScanningLine(false);
+            form.Dispose();
         }
 
         private void 噴槍ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             resetTimerValue();
             airbrushForm form = new airbrushForm(this);
-            form.Show();
+            form.ShowDialog();
+            if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
+            else airbrush(false);
+            form.Dispose();
         }
 
         private void 亮度對比ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             resetTimerValue();
             BrightnessContrastForm form = new BrightnessContrastForm(this);
-            form.Show();
+            form.ShowDialog();
+            if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
+            else BrightnessContrast(false);
+            form.Dispose();
         }
     }
 }

@@ -41,5 +41,11 @@ namespace photoegg4._1
         {
             ScanningLine();
         }
+        public bool define = false;
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            define = true;
+            this.Close();
+        }
     }
 }
