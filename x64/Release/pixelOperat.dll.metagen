@@ -31,10 +31,11 @@ Class pix.pixelOperate: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     oilpaintThread(Byte*, Byte*, Int32, Int32, Int32, Int32, Double, Int32, Int32): PrivateScope, Public, Static, HideBySig
     pasteImage(Byte*, Byte*, Int32, Int32, Int32, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     tile(Byte*, Int32, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
-    mosaic(Byte*, Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
+    mosaic(Byte*, Byte*, Int32 IsConst, Int32 IsConst, Int32 IsConst, Int32 IsConst): PrivateScope, Public, HideBySig
     emboss(Byte*, Byte*, Int32, Int32, Int32, Int32, Int32, Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig
     ToneSeparation(Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     blurry3BGR(Byte**, Byte**, Int32, Int32, Int32, Int32, Int32, Int32): PrivateScope, Public, Static, HideBySig
+    blurry4BGR(Byte**, Byte**, Int32, Int32, Int32, Int32, Int32, Int32): PrivateScope, Public, Static, HideBySig
     blurry3(Byte*, Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     colorOrder(Byte* IsImplicitlyDereferenced, Byte* IsImplicitlyDereferenced, Byte* IsImplicitlyDereferenced, Int32): PrivateScope, Public, Static, HideBySig
     ConvertHSV_(Byte*, Int32, Int32, Int32, Int32, Int32, Int32, Boolean(HasFieldMarshal), Int32, Int32, Int32): PrivateScope, Public, Static, HideBySig

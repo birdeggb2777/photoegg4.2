@@ -281,7 +281,7 @@ namespace pix {
 			{
 				if (value2 > 0)
 				{
-					c = int((double)(i+value) * ((double)(255 - value2 * 1) / 255.0));
+					c = int((double)(i + value) * ((double)(255 - value2 * 1) / 255.0));
 					if (c > 255)c = 255;
 					if (c < 0)c = 0;
 					colorList[i] = c;
@@ -744,7 +744,7 @@ namespace pix {
 				}
 			}
 		}
-		void mosaic(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value)
+		void mosaic(unsigned char* ptr, unsigned char* ptr2,const int width,const int height,const int channel,const int value)
 		{
 			unsigned char** fp = new unsigned char* [height];
 			unsigned char** fp2 = new unsigned char* [height];
@@ -759,6 +759,7 @@ namespace pix {
 			int countB = 0;
 			int countG = 0;
 			int countR = 0;
+			int count = 0;
 			for (y = 0; y < height; y += value)
 			{
 				for (x = 0; x < Stride; x += channel * value)
@@ -768,15 +769,19 @@ namespace pix {
 						for (x2 = 0; x2 < value * channel; x2 += channel)
 						{
 							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+							{
+								count++;
 								continue;
+							}
 							countB += fp2[y + y2][x + x2];
 							countG += fp2[y + y2][x + x2 + 1];
 							countR += fp2[y + y2][x + x2 + 2];
 						}
 					}
-					countB /= recSize;
-					countG /= recSize;
-					countR /= recSize;
+					countB /= recSize - count;
+					countG /= recSize - count;
+					countR /= recSize - count;
+					count = 0;
 					for (y2 = 0; y2 < value; y2++)
 					{
 						for (x2 = 0; x2 < value * channel; x2 += channel)
@@ -857,19 +862,18 @@ namespace pix {
 		}
 		void ToneSeparation(unsigned char* ptr, int width, int height, int channel, int value)
 		{
-			int* colorList = new int[256];
+			unsigned char* colorList = new unsigned char[256];
 			for (int i = 0; i < 256; i++)
 				colorList[i] = i;
-			int newValue = 255 / (61 - value);
+			value = 75 - value;
+			if (value <= 0)value = 1;
+			int newValue = 255 / (value);
 			for (int i = 0; i < 128; i++)
 			{
 				for (int j = 0; j < 256; j += newValue)
 				{
-					//for (int k = 0; k < newValue; k++)
-					{
-						if (i >= j)
-							colorList[i] = j;
-					}
+					if (i >= j)
+						colorList[i] = j;
 				}
 			}
 			for (int i = 128; i < 256; i++)
@@ -1071,9 +1075,203 @@ namespace pix {
 				}
 			}
 		}
+		static void blurry4BGR(unsigned char** fp, unsigned char** fp2, int width, int height, int channel, int value, int bgr, int half)
+		{
+			int Stride = width * channel;
+			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
+			const int recWidth = value * channel;
+			int x = 0; int y = 0;
+			int x2 = 0; int y2 = 0;
+			int countB = 0;
+			int countG = 0;
+			int countR = 0;
+			int reduceRecSize = 0;
+			int reduceRecSize1 = 0;
+			int reduceRecSize2 = 0;
+			int boxSize = 0;
+			int heightBegin = 0;
+			int heightEnd = height;
+			unsigned char* pointY;
+			unsigned char* pointRec;
+			if (half == 0)heightBegin = 0; else heightBegin = height / 2;
+			if (half == 0)heightEnd = height / 2; else heightEnd = height;
+			if (bgr == 0)
+			{
+				for (y = heightBegin; y < heightEnd; y++)
+				{
+					pointY = &fp[y][0];
+					for (x = 0; x < Stride; x += channel)
+					{
+						if (x == 0)
+						{
+							for (y2 = -value; y2 <= value; y2++)
+							{
+								pointRec = &fp2[y + y2][0];
+								for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+								{
+									if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+									{
+										reduceRecSize2++;
+										continue;
+									}
+									countB += *(pointRec + x + x2);
+								}
+							}
+							*(pointY + x) = countB / (recSize - reduceRecSize2);
+							//fp[y][x] = countB / (recSize - reduceRecSize2);
+							reduceRecSize2 = 0;
+						}
+						else
+						{
+							for (y2 = -value, x2 = -recWidth - channel; y2 <= value; y2++)
+							{
+								pointRec = &fp2[y + y2][0];
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize1++;
+									continue;
+								}
+								countB -= *(pointRec + x + x2);
+							}
+							for (y2 = -value, x2 = recWidth; y2 <= value; y2++)
+							{
+								pointRec = &fp2[y + y2][0];
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize++;
+									continue;
+								}
+								countB += *(pointRec + x + x2);
+							}
+							*(pointY + x) = countB / (recSize + reduceRecSize - reduceRecSize1);
+							//fp[y][x] = countB / (recSize + reduceRecSize - reduceRecSize1);
+						}
+						reduceRecSize = 0;
+						reduceRecSize1 = 0;
+					}
+					countB = countG = countR = 0;
+					reduceRecSize2 = 0;
+				}
+			}
+			if (bgr == 1)
+			{
+				for (y = heightBegin; y < heightEnd; y++)
+				{
+					pointY = &fp[y][0];
+					for (x = 0; x < Stride; x += channel)
+					{
+						if (x == 0)
+						{
+							for (y2 = -value; y2 <= value; y2++)
+							{
+								pointRec = &fp2[y + y2][0];
+								for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+								{
+									if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+									{
+										reduceRecSize2++;
+										continue;
+									}
+									countG += *(pointRec + x + x2 + 1);
+								}
+							}
+							*(pointY + x + 1) = countG / (recSize - reduceRecSize2);
+							//fp[y][x + 1] = countG / (recSize - reduceRecSize2);
+							reduceRecSize2 = 0;
+						}
+						else
+						{
+							for (y2 = -value, x2 = -recWidth - channel; y2 <= value; y2++)
+							{
+								pointRec = &fp2[y + y2][0];
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize1++;
+									continue;
+								}
+								countG -= *(pointRec + x + x2 + 1);
+							}
+							for (y2 = -value, x2 = recWidth; y2 <= value; y2++)
+							{
+								pointRec = &fp2[y + y2][0];
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize++;
+									continue;
+								}
+								countG += *(pointRec + x + x2 + 1);
+							}
+							*(pointY + x + 1) = countG / (recSize + reduceRecSize - reduceRecSize1);
+							//fp[y][x + 1] = countG / (recSize + reduceRecSize - reduceRecSize1);
+						}
+						reduceRecSize = 0;
+						reduceRecSize1 = 0;
+					}
+					countB = countG = countR = 0;
+					reduceRecSize2 = 0;
+				}
+			}
+			if (bgr == 2)
+			{
+				for (y = heightBegin; y < heightEnd; y++)
+				{
+					pointY = &fp[y][0];
+					for (x = 0; x < Stride; x += channel)
+					{
+						if (x == 0)
+						{
+							for (y2 = -value; y2 <= value; y2++)
+							{
+								pointRec = &fp2[y + y2][0];
+								for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+								{
+									if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+									{
+										reduceRecSize2++;
+										continue;
+									}
+									countR += *(pointRec + x + x2 + 2);
+								}
+							}
+							*(pointY + x + 2) = countR / (recSize - reduceRecSize2);
+							//fp[y][x + 2] = countR / (recSize - reduceRecSize2);
+							reduceRecSize2 = 0;
+						}
+						else
+						{
+							for (y2 = -value, x2 = -recWidth - channel; y2 <= value; y2++)
+							{
+								pointRec = &fp2[y + y2][0];
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize1++;
+									continue;
+								}
+								countR -= *(pointRec + x + x2 + 2);
+							}
+							for (y2 = -value, x2 = recWidth; y2 <= value; y2++)
+							{
+								pointRec = &fp2[y + y2][0];
+								if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								{
+									reduceRecSize++;
+									continue;
+								}
+								countR += *(pointRec + x + x2 + 2);
+							}
+							*(pointY + x + 2) = countR / (recSize + reduceRecSize - reduceRecSize1);
+							//fp[y][x + 2] = countR / (recSize + reduceRecSize - reduceRecSize1);
+						}
+						reduceRecSize = 0;
+						reduceRecSize1 = 0;
+					}
+					countB = countG = countR = 0;
+					reduceRecSize2 = 0;
+				}
+			}
+		}
 		void  inline blurry3(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value)
 		{
-
 			unsigned char** fp = new unsigned char* [height];
 			unsigned char** fp2 = new unsigned char* [height];
 			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
