@@ -573,8 +573,8 @@ namespace photoegg4._1
             form.ShowDialog();
             if (form.define == false)
             {
-                value_int_1 = 0;
-                value_double_1 = 0;
+                value_int_1 = 1;
+                value_double_1 = 0.5;
                 oilPaint(true);
             }
             else oilPaint(false);
@@ -703,6 +703,33 @@ namespace photoegg4._1
             if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
             else BrightnessContrast(false);
             form.Dispose();
+        }
+
+        private void 貼上ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Bitmap a = new Bitmap(Clipboard.GetImage());
+                originBitmap.Add(a);
+                pictureBox1.Image = a;
+                Now_Bitmap++;
+            }
+            catch
+            {
+                MessageBox.Show("貼上圖片失敗，請確認剪貼簿中是否有圖片");
+            }
+        }
+
+        private void 複製ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Clipboard.SetImage(originBitmap[Now_Bitmap]);
+            }
+            catch
+            {
+                MessageBox.Show("複製圖片失敗，請確認影像有被正確開啟");
+            }
         }
     }
 }
