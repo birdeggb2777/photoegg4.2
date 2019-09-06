@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using photoegg4._1.Properties;
 using pix;
 namespace photoegg4._1
 {
@@ -49,7 +50,7 @@ namespace photoegg4._1
         {
             NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss,
             mosaic, horizontalFlip, verticalFlip, tile, ToneSeparation, Overexposed, oilPaint, ColorNoise, Binarization,
-            ScanningLine, airbrush, kaleidoscope, contrast, BrightnessContrast
+            ScanningLine, airbrush, kaleidoscope, contrast, BrightnessContrast, brightness2, allFlip
         };
         public colorFunction tempOperate = colorFunction.NULL;
         public Form1()
@@ -100,6 +101,8 @@ namespace photoegg4._1
                     Pixel_C.colorToGray((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
                 else if (func == (int)colorFunction.brightness)
                     Pixel_C.brightness((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
+                else if (func == (int)colorFunction.brightness2)
+                    Pixel_C.brightness2((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_double_1);
                 else if (func == (int)colorFunction.blurry)
                     Pixel_C.blurry3((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
                 else if (func == (int)colorFunction.HSV)
@@ -112,6 +115,8 @@ namespace photoegg4._1
                     Pixel_C.mosaic((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
                 else if (func == (int)colorFunction.horizontalFlip)
                     Pixel_C.horizontalFlip((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
+                else if (func == (int)colorFunction.allFlip)
+                    Pixel_C.AllFlip((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
                 else if (func == (int)colorFunction.verticalFlip)
                     Pixel_C.verticalFlip((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
                 else if (func == (int)colorFunction.tile)
@@ -153,38 +158,47 @@ namespace photoegg4._1
             //BitmapData MyBmpData = MyNewBmp.LockBits(MyRec, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
             BitmapData MyBmpData2 = MyNewBmp2.LockBits(MyRec, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
             BitmapData MyBmpData3 = TempBmp.LockBits(MyRec, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            unsafe
+            try
             {
-                if (func == (int)colorFunction.colorTo255)
-                    Pixel_C.colorTo255((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
-                else if (func == (int)colorFunction.colorToGray)
-                    Pixel_C.colorToGray((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
-                else if (func == (int)colorFunction.brightness)
-                    Pixel_C.brightness((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
-                else if (func == (int)colorFunction.blurry)
-                    Pixel_C.blurry3((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
-                else if (func == (int)colorFunction.HSV)
-                    Pixel_C.ConvertHSV((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, value_int_1, value_int_2, value_int_3, 4, value_bool_1, value_int_4);
-                else if (func == (int)colorFunction.emboss)
-                    Pixel_C.emboss((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2, value_bool_1);
-                else if (func == (int)colorFunction.mosaic)
-                    Pixel_C.mosaic((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
-                else if (func == (int)colorFunction.tile)
-                    Pixel_C.tile((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
-                else if (func == (int)colorFunction.ToneSeparation)
-                    Pixel_C.ToneSeparation((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
-                else if (func == (int)colorFunction.oilPaint)
-                    Pixel_C.oilpaint((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_double_1);
-                else if (func == (int)colorFunction.ColorNoise)
-                    Pixel_C.ColorNoise((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_double_1);
-                else if (func == (int)colorFunction.Binarization)
-                    Pixel_C.Binarization((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
-                else if (func == (int)colorFunction.ScanningLine)
-                    Pixel_C.ScanningLine((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
-                else if (func == (int)colorFunction.airbrush)
-                    Pixel_C.airbrush((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_bool_1, value_int_1);
-                else if (func == (int)colorFunction.BrightnessContrast)
-                    Pixel_C.BrightnessContrast((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
+                unsafe
+                {
+                    if (func == (int)colorFunction.colorTo255)
+                        Pixel_C.colorTo255((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
+                    else if (func == (int)colorFunction.colorToGray)
+                        Pixel_C.colorToGray((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
+                    else if (func == (int)colorFunction.brightness)
+                        Pixel_C.brightness((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
+                    else if (func == (int)colorFunction.brightness2)
+                        Pixel_C.brightness2((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_double_1);
+                    else if (func == (int)colorFunction.blurry)
+                        Pixel_C.blurry3((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
+                    else if (func == (int)colorFunction.HSV)
+                        Pixel_C.ConvertHSV((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, value_int_1, value_int_2, value_int_3, 4, value_bool_1, value_int_4);
+                    else if (func == (int)colorFunction.emboss)
+                        Pixel_C.emboss((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2, value_bool_1);
+                    else if (func == (int)colorFunction.mosaic)
+                        Pixel_C.mosaic((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
+                    else if (func == (int)colorFunction.tile)
+                        Pixel_C.tile((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
+                    else if (func == (int)colorFunction.ToneSeparation)
+                        Pixel_C.ToneSeparation((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
+                    else if (func == (int)colorFunction.oilPaint)
+                        Pixel_C.oilpaint((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_double_1);
+                    else if (func == (int)colorFunction.ColorNoise)
+                        Pixel_C.ColorNoise((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_double_1);
+                    else if (func == (int)colorFunction.Binarization)
+                        Pixel_C.Binarization((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
+                    else if (func == (int)colorFunction.ScanningLine)
+                        Pixel_C.ScanningLine((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
+                    else if (func == (int)colorFunction.airbrush)
+                        Pixel_C.airbrush((byte*)MyBmpData3.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_bool_1, value_int_1);
+                    else if (func == (int)colorFunction.BrightnessContrast)
+                        Pixel_C.BrightnessContrast((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
+                }
+            }
+            catch 
+            {
+                MessageBox.Show("ERROR：程式內部發生錯誤");
             }
             //MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -211,6 +225,14 @@ namespace photoegg4._1
             if (Now_Bitmap < 0) return;
             open_temp_perate = false;
             Pixel_Operate(colorFunction.horizontalFlip);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
+        private void AllFlip()
+        {
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.allFlip);
             pictureBox1.Image = originBitmap[Now_Bitmap];
         }
         private void flipY()
@@ -355,6 +377,21 @@ namespace photoegg4._1
             else
             {
                 Pixel_Operate_Temp(colorFunction.brightness);
+            }
+        }
+        public void brightness2(bool istemp)
+        {
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            if (istemp == false)
+            {
+                Pixel_Operate(colorFunction.brightness2);
+                pictureBox1.Image = originBitmap[Now_Bitmap];
+            }
+            else
+            {
+                Pixel_Operate_Temp(colorFunction.brightness2);
             }
         }
         public void pasteImage(bool istemp)
@@ -584,6 +621,14 @@ namespace photoegg4._1
         private void Form1_Load(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+            Bitmap a = new Bitmap(Resources.house);
+            originBitmap.Add(a);
+            pictureBox1.Image = a;
+            Now_Bitmap++;
+            // value_double_1 = 2;
+            // brightness2(false);
+           //AllFlip();
+            // flipX();
         }
         private void TimerOperate()
         {
@@ -730,6 +775,21 @@ namespace photoegg4._1
             {
                 MessageBox.Show("複製圖片失敗，請確認影像有被正確開啟");
             }
+        }
+
+        private void 明暗度ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            resetTimerValue();
+            brightness2Form form = new brightness2Form(this);
+            form.ShowDialog();
+            if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
+            else brightness2(false);
+            form.Dispose();
+        }
+
+        private void 旋轉180度ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AllFlip();
         }
     }
 }

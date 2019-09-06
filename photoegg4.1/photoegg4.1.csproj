@@ -87,6 +87,12 @@
     <Compile Include="blurryForm.Designer.cs">
       <DependentUpon>blurryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="brightness2Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="brightness2Form.Designer.cs">
+      <DependentUpon>brightness2Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="BrightnessContrastForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,6 +170,9 @@
     <EmbeddedResource Include="blurryForm.resx">
       <DependentUpon>blurryForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="brightness2Form.resx">
+      <DependentUpon>brightness2Form.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BrightnessContrastForm.resx">
       <DependentUpon>BrightnessContrastForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -196,6 +205,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="ScanningLineForm.resx">
       <DependentUpon>ScanningLineForm.cs</DependentUpon>
@@ -224,6 +234,9 @@
       <Project>{83a3d6a5-13ea-486b-8056-a384d7decebc}</Project>
       <Name>pixelOperat</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\house.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

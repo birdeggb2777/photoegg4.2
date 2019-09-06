@@ -116,6 +116,25 @@ namespace pix {
 				}
 			}
 		}
+		void AllFlip(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			unsigned char** fp2 = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			for (int j = 0; j < height; j++)
+				fp2[j] = ptr2 + (Stride * j);
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					fp[y][x] = fp2[height-y-1][Stride-x- channel];
+					fp[y][x + 1] = fp2[height-y-1][Stride-x - channel+1];
+					fp[y][x + 2] = fp2[height-y-1][Stride-x - channel+2];
+				}
+			}
+		}
 		void verticalFlip(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel)
 		{
 			unsigned char** fp = new unsigned char* [height];
@@ -226,6 +245,38 @@ namespace pix {
 						fp[y][x] = fp[y][x] + value < 0 ? 0 : fp[y][x] + value;
 						fp[y][x + 1] = fp[y][x + 1] + value < 0 ? 0 : fp[y][x + 1] + value;
 						fp[y][x + 2] = fp[y][x + 2] + value < 0 ? 0 : fp[y][x + 2] + value;
+					}
+				}
+			}
+			delete[] fp;
+		}
+		void  brightness2(unsigned char* ptr, int width, int height, int channel, double value)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			if (value > 0)
+			{
+				for (y = 0; y < height; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						fp[y][x] = fp[y][x] * value > 255 ? 255 : fp[y][x] * value;
+						fp[y][x + 1] = fp[y][x + 1] * value > 255 ? 255 : fp[y][x + 1] * value;
+						fp[y][x + 2] = fp[y][x + 2] * value > 255 ? 255 : fp[y][x + 2] * value;
+					}
+				}
+			}
+			else
+			{
+				for (y = 0; y < height; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						fp[y][x] = fp[y][x] * value < 0 ? 0 : fp[y][x] * value;
+						fp[y][x + 1] = fp[y][x + 1] * value < 0 ? 0 : fp[y][x + 1] * value;
+						fp[y][x + 2] = fp[y][x + 2] * value < 0 ? 0 : fp[y][x + 2] * value;
 					}
 				}
 			}
