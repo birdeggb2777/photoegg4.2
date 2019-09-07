@@ -141,8 +141,20 @@
     <Compile Include="OilPaintForm.Designer.cs">
       <DependentUpon>OilPaintForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="OilPaintForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="OilPaintForm2.Designer.cs">
+      <DependentUpon>OilPaintForm2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="rgbNormalForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="rgbNormalForm.Designer.cs">
+      <DependentUpon>rgbNormalForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ScanningLineForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -197,6 +209,9 @@
     <EmbeddedResource Include="OilPaintForm.resx">
       <DependentUpon>OilPaintForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="OilPaintForm2.resx">
+      <DependentUpon>OilPaintForm2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -207,6 +222,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="rgbNormalForm.resx">
+      <DependentUpon>rgbNormalForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ScanningLineForm.resx">
       <DependentUpon>ScanningLineForm.cs</DependentUpon>
     </EmbeddedResource>

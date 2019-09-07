@@ -53,6 +53,31 @@ namespace pix {
 			}
 			delete[] fp;
 		}
+		void rgbNormal(unsigned char* ptr, int width, int height, int channel, int valueR, int valueG, int valueB)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					if (fp[y][x] + valueB >= 255)fp[y][x] = 255;
+					else if (fp[y][x] + valueB < 0)fp[y][x] = 0;
+					else fp[y][x] = fp[y][x] + valueB;
+
+					if (fp[y][x+1] + valueG >= 255)fp[y][x+1] = 255;
+					else if (fp[y][x+1] + valueG < 0)fp[y][x+1] = 0;
+					else fp[y][x+1] = fp[y][x+1] + valueG;
+
+					if (fp[y][x+2] + valueR >= 255)fp[y][x+2] = 255;
+					else if (fp[y][x+2] + valueR < 0)fp[y][x+2] = 0;
+					else fp[y][x+2] = fp[y][x+2] + valueR;
+				}
+			}
+			delete[] fp;
+		}
 		void Binarization(unsigned char* ptr, int width, int height, int channel, int value)
 		{
 			const int value2 = value * 3;
@@ -129,9 +154,9 @@ namespace pix {
 			{
 				for (x = 0; x < Stride; x += channel)
 				{
-					fp[y][x] = fp2[height-y-1][Stride-x- channel];
-					fp[y][x + 1] = fp2[height-y-1][Stride-x - channel+1];
-					fp[y][x + 2] = fp2[height-y-1][Stride-x - channel+2];
+					fp[y][x] = fp2[height - y - 1][Stride - x - channel];
+					fp[y][x + 1] = fp2[height - y - 1][Stride - x - channel + 1];
+					fp[y][x + 2] = fp2[height - y - 1][Stride - x - channel + 2];
 				}
 			}
 		}
@@ -795,7 +820,7 @@ namespace pix {
 				}
 			}
 		}
-		void mosaic(unsigned char* ptr, unsigned char* ptr2,const int width,const int height,const int channel,const int value)
+		void mosaic(unsigned char* ptr, unsigned char* ptr2, const int width, const int height, const int channel, const int value)
 		{
 			unsigned char** fp = new unsigned char* [height];
 			unsigned char** fp2 = new unsigned char* [height];
