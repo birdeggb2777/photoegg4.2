@@ -50,7 +50,8 @@ namespace photoegg4._1
         {
             NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss,
             mosaic, horizontalFlip, verticalFlip, tile, ToneSeparation, Overexposed, oilPaint, ColorNoise, Binarization,
-            ScanningLine, airbrush, kaleidoscope, contrast, BrightnessContrast, brightness2, allFlip,rgbNormal,oilPaint2
+            ScanningLine, airbrush, kaleidoscope, contrast, BrightnessContrast, brightness2, allFlip, rgbNormal, oilPaint2,
+            blurry2, sharp, ColorPencil, glassBlurry
         };
         public colorFunction tempOperate = colorFunction.NULL;
         public Form1()
@@ -67,8 +68,13 @@ namespace photoegg4._1
                 originBitmap.Add(a);
                 pictureBox1.Image = a;
                 Now_Bitmap++;
-               // BitmapResize(originBitmap[Now_Bitmap],5);
-               // BitmapResize(originBitmap[Now_Bitmap], 0.2);
+                /* for (int i = 15; i >0; i-=7)
+                 {
+                     value_int_1 = i;
+                     Pixel_Operate(colorFunction.mosaic);
+                 }*/
+                // BitmapResize(originBitmap[Now_Bitmap],5);
+                // BitmapResize(originBitmap[Now_Bitmap], 0.2);
                 //  BrightnessContrast(false);
                 //airbrush(false);
                 //ScanningLine(false);
@@ -158,11 +164,43 @@ namespace photoegg4._1
                     Pixel_C.rgbNormal((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2, value_int_3);
                 else if (func == (int)colorFunction.oilPaint2)
                     Pixel_C.ToneSeparation((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
-
-
+                else if (func == (int)colorFunction.sharp)
+                    Pixel_C.sharp((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
+                else if (func == (int)colorFunction.ColorPencil)
+                    Pixel_C.sharp((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 5);
+                else if (func == (int)colorFunction.glassBlurry)
+                    Pixel_C.mosaic((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
+            /*if (func == (int)colorFunction.glassBlurry)
+            {
+                Bitmap MyNewBmp_ = (Bitmap)MyNewBmp.Clone();
+                for (int i = value_int_1; i > 0; i -= value_int_2)
+                {
+                    Bitmap MyNewBmp1_ = (Bitmap)MyNewBmp_.Clone();
+                    Bitmap MyNewBmp2_ = (Bitmap)MyNewBmp_.Clone();
+                    BitmapData MyBmpData1_ = MyNewBmp1_.LockBits(MyRec, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                    BitmapData MyBmpData2_ = MyNewBmp2_.LockBits(MyRec, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                    try
+                    {
+                        unsafe
+                        {
+                            Pixel_C.mosaic((byte*)MyBmpData3_.Scan0, (byte*)MyBmpData2_.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, i);
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("ERROR：程式內部發生錯誤");
+                    }
+                    MyNewBmp2_.UnlockBits(MyBmpData2_);
+                    MyNewBmp1_.UnlockBits(MyBmpData1_);
+                    MyNewBmp_ = (Bitmap)TempBmp_.Clone();
+                    MyNewBmp2_.Dispose();
+                    TempBmp_.Dispose();
+                }
+                TempBmp = (Bitmap)MyNewBmp_.Clone();
+            }*/
             open_temp_perate = true;
         }
         public void Pixel_Operate_Temp(colorFunction fun)
@@ -220,6 +258,9 @@ namespace photoegg4._1
                         Pixel_C.rgbNormal((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2, value_int_3);
                     else if (func == (int)colorFunction.oilPaint2)
                         Pixel_C.ToneSeparation((byte*)MyBmpData3.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
+                    //else if (func == (int)colorFunction.glassBlurry)
+                    //   ;
+
                 }
             }
             catch
@@ -229,6 +270,34 @@ namespace photoegg4._1
             //MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
             TempBmp.UnlockBits(MyBmpData3);
+            if (func == (int)colorFunction.glassBlurry)
+            {
+                Bitmap MyNewBmp_ = (Bitmap)MyNewBmp.Clone();
+                for (int i = value_int_1; i > 0; i -= value_int_2)
+                {
+                    Bitmap MyNewBmp2_ = (Bitmap)MyNewBmp_.Clone();
+                    Bitmap TempBmp_ = (Bitmap)MyNewBmp_.Clone();
+                    BitmapData MyBmpData2_ = MyNewBmp2_.LockBits(MyRec, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                    BitmapData MyBmpData3_ = TempBmp_.LockBits(MyRec, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                    try
+                    {
+                        unsafe
+                        {
+                            Pixel_C.mosaic((byte*)MyBmpData3_.Scan0, (byte*)MyBmpData2_.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, i);
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("ERROR：程式內部發生錯誤");
+                    }
+                    MyNewBmp2_.UnlockBits(MyBmpData2_);
+                    TempBmp_.UnlockBits(MyBmpData3_);
+                    MyNewBmp_ = (Bitmap)TempBmp_.Clone();
+                    MyNewBmp2_.Dispose();
+                    TempBmp_.Dispose();
+                }
+                TempBmp = (Bitmap)MyNewBmp_.Clone();
+            }
 
             if (check != true)
                 pictureBox1.Image = TempBmp;
@@ -238,21 +307,14 @@ namespace photoegg4._1
 
             //tempOperate = colorFunction.NULL;
         }
-        private void 反向ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (open_temp_perate == false) return;
-            if (Now_Bitmap < 0) return;
-            open_temp_perate = false;
-            Pixel_Operate(colorFunction.colorTo255);
-            pictureBox1.Image = originBitmap[Now_Bitmap];
-        }
-        private void BitmapResize(Bitmap b,double size=0.5)
+
+        private void BitmapResize(Bitmap b, double size = 0.5)
         {
             Graphics g = Graphics.FromImage(b);
             g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             //g.Clear(Color.Transparent);
-            g.DrawImage(b, new Rectangle(0, 0, (int)(b.Width* size), (int)(b.Height* size)), new Rectangle(0, 0, b.Width, b.Height), GraphicsUnit.Pixel);
+            g.DrawImage(b, new Rectangle(0, 0, (int)(b.Width * size), (int)(b.Height * size)), new Rectangle(0, 0, b.Width, b.Height), GraphicsUnit.Pixel);
         }
         private void flipX()
         {
@@ -308,6 +370,21 @@ namespace photoegg4._1
                 Pixel_Operate_Temp(colorFunction.airbrush);
             }
         }
+        public void glassBlurry(bool istemp)
+        {
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            if (istemp == false)
+            {
+                Pixel_Operate(colorFunction.glassBlurry);
+                pictureBox1.Image = originBitmap[Now_Bitmap];
+            }
+            else
+            {
+                Pixel_Operate_Temp(colorFunction.glassBlurry);
+            }
+        }
         public void RGBNormal(bool istemp)
         {
             if (open_temp_perate == false) return;
@@ -352,6 +429,14 @@ namespace photoegg4._1
             {
                 Pixel_Operate_Temp(colorFunction.tile);
             }
+        }
+        private void 反向ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.colorTo255);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
         }
         private void 詼諧ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -866,7 +951,7 @@ namespace photoegg4._1
             else RGBNormal(false);
             form.Dispose();
         }
-
+        /*
         private void 倍ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             BitmapResize(originBitmap[Now_Bitmap],0.5);
@@ -901,7 +986,7 @@ namespace photoegg4._1
             BitmapResize(originBitmap[Now_Bitmap], 50);
             pictureBox1.Image = originBitmap[Now_Bitmap];
         }
-
+        */
         private void 高效油畫ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             resetTimerValue();
@@ -910,11 +995,67 @@ namespace photoegg4._1
             if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
             else oilPaint2(false);
             form.Dispose();
-           /* BitmapResize(originBitmap[Now_Bitmap], 0.1);
-            
-            BitmapResize(originBitmap[Now_Bitmap],10);
-            value_int_1 = 65;
-            ToneSeparation(false);*/
+            /* BitmapResize(originBitmap[Now_Bitmap], 0.1);
+
+             BitmapResize(originBitmap[Now_Bitmap],10);
+             value_int_1 = 65;
+             ToneSeparation(false);*/
+        }
+
+        private void 高效模糊ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            resetTimerValue();
+            blurryForm2 form = new blurryForm2(this);
+            form.ShowDialog();
+            if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
+            else oilPaint2(false);
+            form.Dispose();
+        }
+
+        private void 色鉛筆ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.ColorPencil);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
+
+        private void 銳利化ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            value_int_1 = 1;
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.sharp);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
+
+        private void 更銳利化ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            value_int_1 = 2;
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.sharp);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
+
+        private void 玻璃模糊ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            resetTimerValue();
+            glassBlurryForm form = new glassBlurryForm(this);
+            form.ShowDialog();
+            if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
+            else
+            {
+                for (var i = value_int_1; i > 0; i -= value_int_2)
+                {
+                    value_int_1 = i;
+                    glassBlurry(false);
+                }
+             }
+            form.Dispose();
         }
     }
 }

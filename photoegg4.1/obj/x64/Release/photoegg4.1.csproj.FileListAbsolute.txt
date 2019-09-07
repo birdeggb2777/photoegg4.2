@@ -113,3 +113,5 @@ E:\桌面碟\專案資料夾\photoegg4.1\newphotoegg4.1\photoegg4.2\photoegg4.2\
 E:\桌面碟\專案資料夾\photoegg4.1\newphotoegg4.1\photoegg4.2\photoegg4.2\photoegg4.1\obj\x64\Release\photoegg4.1.pdb
 E:\桌面碟\專案資料夾\photoegg4.1\newphotoegg4.1\photoegg4.2\photoegg4.2\photoegg4.1\obj\x64\Release\photoegg4._1.rgbNormalForm.resources
 E:\桌面碟\專案資料夾\photoegg4.1\newphotoegg4.1\photoegg4.2\photoegg4.2\photoegg4.1\obj\x64\Release\photoegg4._1.OilPaintForm2.resources
+E:\桌面碟\專案資料夾\photoegg4.1\newphotoegg4.1\photoegg4.2\photoegg4.2\photoegg4.1\obj\x64\Release\photoegg4._1.blurryForm2.resources
+E:\桌面碟\專案資料夾\photoegg4.1\newphotoegg4.1\photoegg4.2\photoegg4.2\photoegg4.1\obj\x64\Release\photoegg4._1.glassBlurryForm.resources

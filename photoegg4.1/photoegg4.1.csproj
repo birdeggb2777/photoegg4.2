@@ -87,6 +87,12 @@
     <Compile Include="blurryForm.Designer.cs">
       <DependentUpon>blurryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="blurryForm2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="blurryForm2.Designer.cs">
+      <DependentUpon>blurryForm2.cs</DependentUpon>
+    </Compile>
     <Compile Include="brightness2Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +128,12 @@
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="glassBlurryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="glassBlurryForm.Designer.cs">
+      <DependentUpon>glassBlurryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HSVForm.cs">
       <SubType>Form</SubType>
@@ -182,6 +194,9 @@
     <EmbeddedResource Include="blurryForm.resx">
       <DependentUpon>blurryForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="blurryForm2.resx">
+      <DependentUpon>blurryForm2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="brightness2Form.resx">
       <DependentUpon>brightness2Form.cs</DependentUpon>
     </EmbeddedResource>
@@ -199,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="glassBlurryForm.resx">
+      <DependentUpon>glassBlurryForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HSVForm.resx">
       <DependentUpon>HSVForm.cs</DependentUpon>
