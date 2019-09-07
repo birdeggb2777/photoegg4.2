@@ -48,4 +48,5 @@ Class pix.pixelOperate: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     HSVMax(Double, Double): PrivateScope, Public, Static, HideBySig
     BGRToHSV(Int32, Int32, Int32, Byte* IsImplicitlyDereferenced, Byte* IsImplicitlyDereferenced, Byte* IsImplicitlyDereferenced, Boolean(HasFieldMarshal)): PrivateScope, Public, Static, HideBySig
     HSVToBGR(Double, Double, Double, Byte* IsImplicitlyDereferenced, Byte* IsImplicitlyDereferenced, Byte* IsImplicitlyDereferenced): PrivateScope, Public, Static, HideBySig
+    Fluorescent(Byte*, Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     sharp2222(Byte*, Byte*, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig

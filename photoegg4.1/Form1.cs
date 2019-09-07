@@ -51,7 +51,7 @@ namespace photoegg4._1
             NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss,
             mosaic, horizontalFlip, verticalFlip, tile, ToneSeparation, Overexposed, oilPaint, ColorNoise, Binarization,
             ScanningLine, airbrush, kaleidoscope, contrast, BrightnessContrast, brightness2, allFlip, rgbNormal, oilPaint2,
-            blurry2, sharp, ColorPencil, glassBlurry
+            blurry2, sharp, ColorPencil, glassBlurry, Fluorescent
         };
         public colorFunction tempOperate = colorFunction.NULL;
         public Form1()
@@ -68,6 +68,7 @@ namespace photoegg4._1
                 originBitmap.Add(a);
                 pictureBox1.Image = a;
                 Now_Bitmap++;
+                panel1.Size = pictureBox1.Size;
                 /* for (int i = 15; i >0; i-=7)
                  {
                      value_int_1 = i;
@@ -170,6 +171,8 @@ namespace photoegg4._1
                     Pixel_C.sharp((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, 5);
                 else if (func == (int)colorFunction.glassBlurry)
                     Pixel_C.mosaic((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
+                else if (func == (int)colorFunction.Fluorescent)
+                    Pixel_C.Fluorescent((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -775,6 +778,7 @@ namespace photoegg4._1
             originBitmap.Add(a);
             pictureBox1.Image = a;
             Now_Bitmap++;
+            panel1.Size = pictureBox1.Size;
             // value_double_1 = 2;
             // brightness2(false);
             //AllFlip();
@@ -908,6 +912,7 @@ namespace photoegg4._1
                 originBitmap.Add(a);
                 pictureBox1.Image = a;
                 Now_Bitmap++;
+                panel1.Size = pictureBox1.Size;
             }
             catch
             {
@@ -1054,8 +1059,41 @@ namespace photoegg4._1
                     value_int_1 = i;
                     glassBlurry(false);
                 }
-             }
+            }
             form.Dispose();
+        }
+
+        private void 自動縮放ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panel1.Dock = DockStyle.Fill;
+            pictureBox1.Dock = DockStyle.Fill;
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+        }
+
+        private void 原始大小ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panel1.Dock = DockStyle.None;
+            pictureBox1.Dock = DockStyle.None;
+            pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+            panel1.Size = pictureBox1.Size;
+        }
+
+        private void 拉伸ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panel1.Dock = DockStyle.Fill;
+            pictureBox1.Dock = DockStyle.Fill;
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            //panel1.Size = pictureBox1.Size;
+        }
+
+        private void 螢光邊緣ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            value_int_1 = 1;
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.Fluorescent);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
         }
     }
 }

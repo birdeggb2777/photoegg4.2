@@ -1638,6 +1638,55 @@ namespace pix {
 				}
 			}
 		}
+		void Fluorescent(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			unsigned char** fp2 = new unsigned char* [height];
+			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
+			const int recWidth = value * channel;
+			const int rec = (value * 2 + 1) * (value * 2 + 1);
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			for (int j = 0; j < height; j++)
+				fp2[j] = ptr2 + (Stride * j);
+			int x2 = 0; int y2 = 0;
+			int countB = 0;
+			int countG = 0;
+			int countR = 0;
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					for (y2 = -value; y2 <= value; y2++)
+					{
+						for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+						{
+							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								continue;
+							countB += fp2[y + y2][x + x2];
+							countG += fp2[y + y2][x + x2 + 1];
+							countR += fp2[y + y2][x + x2 + 2];
+						}
+					}
+					countB = countB * -1 + fp[y][x] * rec;
+					countG = countG * -1 + fp[y][x + 1] * rec;
+					countR = countR * -1 + fp[y][x + 2] * rec;
+					if (countB > 255)countB = 255;
+					if (countG > 255)countG = 255;
+					if (countR > 255)countR = 255;
+					if (countB < 0)countB = 0;
+					if (countG < 0)countG = 0;
+					if (countR < 0)countR = 0;
+					fp[y][x] = countB;
+					fp[y][x + 1] = countG;
+					fp[y][x + 2] = countR;
+					countB = countG = countR = 0;
+				}
+			}
+			delete[] fp;
+			delete[] fp2;
+		}
 		void sharp2222(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value)
 		{
 			unsigned char** fp = new unsigned char* [height];
