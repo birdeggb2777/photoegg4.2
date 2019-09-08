@@ -51,14 +51,23 @@ namespace photoegg4._1
             NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss,
             mosaic, horizontalFlip, verticalFlip, tile, ToneSeparation, Overexposed, oilPaint, ColorNoise, Binarization,
             ScanningLine, airbrush, kaleidoscope, contrast, BrightnessContrast, brightness2, allFlip, rgbNormal, oilPaint2,
-            blurry2, sharp, ColorPencil, glassBlurry, Fluorescent
+            blurry2, sharp, ColorPencil, glassBlurry, Fluorescent, FillTest,removeBackGround
         };
         public colorFunction tempOperate = colorFunction.NULL;
         public Form1()
         {
             InitializeComponent();
+            pictureBox1.MouseDown += new MouseEventHandler(pictureBox1_MouseDown);
         }
-
+        private void pictureBox1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            value_int_1 = e.X; value_int_2 = e.Y;
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.removeBackGround);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
         private void 載入圖片ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog1.Filter = "圖片檔 (*.png;*.jpg;*.bmp;*.gif;*.tif)|*.png;*.jpg;*.bmp;*.gif;*.tif";
@@ -69,6 +78,8 @@ namespace photoegg4._1
                 pictureBox1.Image = a;
                 Now_Bitmap++;
                 panel1.Size = pictureBox1.Size;
+              //  Pixel_Operate(colorFunction.FillTest);
+               // Pixel_Operate(colorFunction.colorTo255);
                 /* for (int i = 15; i >0; i-=7)
                  {
                      value_int_1 = i;
@@ -173,6 +184,10 @@ namespace photoegg4._1
                     Pixel_C.mosaic((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
                 else if (func == (int)colorFunction.Fluorescent)
                     Pixel_C.Fluorescent((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
+                else if (func == (int)colorFunction.FillTest)
+                    Pixel_C.FillTest((byte*)MyBmpData.Scan0,  MyNewBmp.Width, MyNewBmp.Height, 4);
+                else if (func == (int)colorFunction.removeBackGround)
+                    Pixel_C.removeBackGround((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2,value_double_1);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -1094,6 +1109,50 @@ namespace photoegg4._1
             open_temp_perate = false;
             Pixel_Operate(colorFunction.Fluorescent);
             pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
+
+        private void 誤差0ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (panel1.Dock == DockStyle.Fill)
+            {
+                panel1.Dock = DockStyle.None;
+                pictureBox1.Dock = DockStyle.None;
+                pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+                panel1.Size = pictureBox1.Size;
+                value_double_1 = 0.01;
+                MessageBox.Show("使用魔術棒工具，將變更顯示模式");
+            }
+           /* if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.removeBackGround);*/
+            //pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
+
+        private void 誤差10ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (panel1.Dock == DockStyle.Fill)
+            {
+                panel1.Dock = DockStyle.None;
+                pictureBox1.Dock = DockStyle.None;
+                pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+                panel1.Size = pictureBox1.Size;
+                value_double_1 = 0.1;
+                MessageBox.Show("使用魔術棒工具，將變更顯示模式");
+            }
+        }
+
+        private void 誤差25ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (panel1.Dock == DockStyle.Fill)
+            {
+                panel1.Dock = DockStyle.None;
+                pictureBox1.Dock = DockStyle.None;
+                pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+                panel1.Size = pictureBox1.Size;
+                value_double_1 = 0.04;
+                MessageBox.Show("使用魔術棒工具，將變更顯示模式");
+            }
         }
     }
 }

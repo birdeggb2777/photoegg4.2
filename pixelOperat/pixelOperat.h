@@ -10,6 +10,7 @@
 #include <iostream>  
 #include<cmath>
 #include<algorithm>
+#include <vector>
 using namespace System;
 using namespace std;
 namespace pix {
@@ -35,6 +36,166 @@ namespace pix {
 				}
 			}
 			delete[] fp;
+		}
+		void removeBackGround(unsigned char* ptr, const  int width, const  int height, const  int channel,
+			const  int pointW, const  int pointH, const  double rate )
+		{
+			unsigned char** fp = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			vector<int> w2;
+			vector<int> h2;
+			w2.push_back(pointW);
+			h2.push_back(pointH);
+			int range = (int)(255*rate);
+			int b=fp[pointH][pointW * 4];
+			int g = fp[pointH][pointW * 4 + 1] ;
+			int r = fp[pointH][pointW * 4 + 2] ;
+			//fp[pointH][pointW * 4 + 3] ;
+			BackToRero(fp, w2, h2, width,height,b,g,r,range);
+			delete[] fp;
+		}
+		inline bool checkColorRange(int originColor,int color, int range) {
+			if (originColor + range>color && originColor - range< color)
+				return true;
+			return false;
+		}
+		void BackToRero(unsigned char** fp, vector<int> w, vector<int> h, int width, int height,int b,int g,int r,int range) {
+			if (w.size() < 1)return;
+			//if (w.size() > 5000)return;
+			vector<int> w2;
+			vector<int> h2;
+			for (int i = 0;i < w.size();i++)
+			{
+				if (w[i] < 0 || w[i] >= width || h[i] < 0 || h[i] >= height)
+				{
+					continue;
+				}
+				else {
+					if (checkColorRange(fp[h[i]][w[i] * 4], b, range) && checkColorRange(fp[h[i]][w[i] * 4 + 1], g, range) && checkColorRange(fp[h[i]][w[i] * 4 + 2], r, range))
+					{
+						fp[h[i]][w[i] * 4] = 0;
+						fp[h[i]][w[i] * 4 + 1] = 0;
+						fp[h[i]][w[i] * 4 + 2] = 0;
+						fp[h[i]][w[i] * 4 + 3] = 0;
+					}
+					if (h[i] - 1 > 0)
+					{
+						if (checkColorRange(fp[h[i]-1][w[i] * 4], b, range) && checkColorRange(fp[h[i]-1][w[i] * 4 + 1], g, range) && checkColorRange(fp[h[i]-1][w[i] * 4 + 2], r, range)
+							&&fp[h[i] - 1][w[i] * 4+3]!=0 && FindByVector(w2, h2, w[i], h[i] - 1) == false)
+						{
+							h2.push_back(h[i] - 1);w2.push_back(w[i]);
+						}
+					}
+					if (w[i] + 1 < width)
+					{
+						if (checkColorRange(fp[h[i]][(w[i]+1) * 4], b, range) && checkColorRange(fp[h[i]][(w[i]+1 )* 4 + 1], g, range) && checkColorRange(fp[h[i]][(w[i]+1) * 4 + 2], r, range)
+							&& fp[h[i]][(w[i]+1) * 4 + 3] != 0 && FindByVector(w2, h2, w[i] + 1, h[i]) == false)
+						{
+							h2.push_back(h[i]);w2.push_back(w[i] + 1);
+						}
+					}
+					if (w[i] - 1 > 0)
+					{
+						if (checkColorRange(fp[h[i]][(w[i] - 1) * 4], b, range) && checkColorRange(fp[h[i]][(w[i] - 1) * 4 + 1], g, range) && checkColorRange(fp[h[i]][(w[i] - 1) * 4 + 2], r, range)
+							&& fp[h[i]][(w[i] -1) * 4 + 3] != 0 && FindByVector(w2, h2, w[i] - 1, h[i]) == false)
+						{
+							h2.push_back(h[i]);w2.push_back(w[i] - 1);
+						}
+					}
+					if (h[i] + 1 < height)
+					{
+						if (checkColorRange(fp[h[i] + 1][w[i] * 4], b, range) && checkColorRange(fp[h[i] + 1][w[i] * 4 + 1], g, range) && checkColorRange(fp[h[i] + 1][w[i] * 4 + 2], r, range)
+							&& fp[h[i] + 1][w[i] * 4 + 3] != 0 && FindByVector(w2, h2, w[i], h[i] + 1) == false)
+						{
+							h2.push_back(h[i] + 1);w2.push_back(w[i]);
+						}
+					}
+				}
+			}
+			w.clear();
+			w.shrink_to_fit();
+			h.clear();
+			h.shrink_to_fit();
+			BackToRero(fp, w2, h2, width, height, b, g, r, range);
+
+		}
+		void FillTest(unsigned char* ptr, int width, int height, int channel)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			vector<int> w2;
+			vector<int> h2;
+			w2.push_back(10);
+			h2.push_back(10);
+			FT(fp, w2, h2, width, height);
+			delete[] fp;
+		}
+		bool FindByVector(vector<int> v, vector<int> v2, int n, int n2) {
+			for (int i = 0;i < v.size();i++) {
+				if (v[i] == n && v2[i] == n2)return true;
+			}
+			return false;
+		}
+		void FT(unsigned char** fp, vector<int> w, vector<int> h, int width, int height) {
+			if (w.size() < 1)return;
+			//if (w.size() > 5000)return;
+			vector<int> w2;
+			vector<int> h2;
+
+			for (int i = 0;i < w.size();i++)
+			{
+				if (w[i] < 0 || w[i] >= width || h[i] < 0 || h[i] >= height)
+				{
+					continue;
+				}
+				else {
+					fp[h[i]][w[i] * 4] =0;
+					fp[h[i]][w[i] * 4 + 1] = 0;
+					fp[h[i]][w[i] * 4 + 2] = 0;
+					fp[h[i]][w[i] * 4 + 3] = 0;
+					if (h[i] - 1 > 0)
+					{
+						if (fp[h[i] - 1][w[i] * 4] != 0&& fp[h[i] - 1][w[i] * 4+1]!=0&& fp[h[i] - 1][w[i] * 4+2]!=0
+							&& FindByVector(w2, h2, w[i] , h[i]- 1) == false)
+						{
+							h2.push_back(h[i] - 1);w2.push_back(w[i]);
+						}
+					}
+					if (w[i] + 1 < width)
+					{
+						if (fp[h[i]][(w[i] + 1) * 4] != 0 && fp[h[i]][(w[i] + 1) * 4+1] != 0&& fp[h[i]][(w[i] + 1) * 4+2] != 0
+							&& FindByVector(w2, h2, w[i]+1 , h[i]) == false)
+						{
+							h2.push_back(h[i]);w2.push_back(w[i] + 1);
+						}
+					}
+					if (w[i] - 1 > 0)
+					{
+						if (fp[h[i]][(w[i] - 1) * 4] != 0&& fp[h[i]][(w[i] - 1) * 4+1] != 0&& fp[h[i]][(w[i] - 1) * 4+2] != 0
+							&& FindByVector(w2, h2, w[i]-1 , h[i]) == false)
+						{
+							h2.push_back(h[i]);w2.push_back(w[i] - 1);
+						}
+					}
+					if (h[i] + 1 < height)
+					{
+						if (fp[h[i] + 1][w[i] * 4] != 0 && fp[h[i] + 1][w[i] * 4+1] != 0&& fp[h[i] + 1][w[i] * 4+2] != 0
+							&& FindByVector(w2, h2, w[i] , h[i]+ 1) == false)
+						{
+							h2.push_back(h[i] + 1);w2.push_back(w[i]);
+						}
+					}
+				}
+			}
+			w.clear();
+			w.shrink_to_fit();
+			h.clear();
+			h.shrink_to_fit();
+			FT(fp, w2, h2, width, height);
 		}
 		void Overexposed(unsigned char* ptr, int width, int height, int channel)
 		{
@@ -67,13 +228,13 @@ namespace pix {
 					else if (fp[y][x] + valueB < 0)fp[y][x] = 0;
 					else fp[y][x] = fp[y][x] + valueB;
 
-					if (fp[y][x+1] + valueG >= 255)fp[y][x+1] = 255;
-					else if (fp[y][x+1] + valueG < 0)fp[y][x+1] = 0;
-					else fp[y][x+1] = fp[y][x+1] + valueG;
+					if (fp[y][x + 1] + valueG >= 255)fp[y][x + 1] = 255;
+					else if (fp[y][x + 1] + valueG < 0)fp[y][x + 1] = 0;
+					else fp[y][x + 1] = fp[y][x + 1] + valueG;
 
-					if (fp[y][x+2] + valueR >= 255)fp[y][x+2] = 255;
-					else if (fp[y][x+2] + valueR < 0)fp[y][x+2] = 0;
-					else fp[y][x+2] = fp[y][x+2] + valueR;
+					if (fp[y][x + 2] + valueR >= 255)fp[y][x + 2] = 255;
+					else if (fp[y][x + 2] + valueR < 0)fp[y][x + 2] = 0;
+					else fp[y][x + 2] = fp[y][x + 2] + valueR;
 				}
 			}
 			delete[] fp;
@@ -488,7 +649,7 @@ namespace pix {
 			unsigned char** fp2 = new unsigned char* [height];
 			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
 			const int recWidth = value * channel;
-			const int rec = (value * 2 + 1) * (value * 2 + 1)+1;
+			const int rec = (value * 2 + 1) * (value * 2 + 1) + 1;
 			int Stride = width * channel, x = 0, y = 0;
 			for (int j = 0; j < height; j++)
 				fp[j] = ptr + (Stride * j);
@@ -513,18 +674,18 @@ namespace pix {
 							countR += fp2[y + y2][x + x2 + 2];
 						}
 					}
-					countB = countB*-1+ fp[y][x]* rec;
-					countG = countG*-1 + fp[y][x+1] * rec;
-					countR = countR*-1 + fp[y][x+2] * rec;
+					countB = countB * -1 + fp[y][x] * rec;
+					countG = countG * -1 + fp[y][x + 1] * rec;
+					countR = countR * -1 + fp[y][x + 2] * rec;
 					if (countB > 255)countB = 255;
 					if (countG > 255)countG = 255;
 					if (countR > 255)countR = 255;
-					if (countB <0)countB = 0;
-					if (countG <0)countG = 0;
-					if (countR <0)countR = 0;
+					if (countB < 0)countB = 0;
+					if (countG < 0)countG = 0;
+					if (countR < 0)countR = 0;
 					fp[y][x] = countB;
-					fp[y][x+1] = countG;
-					fp[y][x+2] = countR;
+					fp[y][x + 1] = countG;
+					fp[y][x + 2] = countR;
 					countB = countG = countR = 0;
 				}
 			}
