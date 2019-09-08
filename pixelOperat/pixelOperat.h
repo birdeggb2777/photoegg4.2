@@ -38,7 +38,7 @@ namespace pix {
 			delete[] fp;
 		}
 		void removeBackGround(unsigned char* ptr, const  int width, const  int height, const  int channel,
-			const  int pointW, const  int pointH, const  double rate )
+			const  int pointW, const  int pointH, const  int rate )
 		{
 			unsigned char** fp = new unsigned char* [height];
 			int Stride = width * channel, x = 0, y = 0;
@@ -48,7 +48,7 @@ namespace pix {
 			vector<int> h2;
 			w2.push_back(pointW);
 			h2.push_back(pointH);
-			int range = (int)(255*rate);
+			int range = rate;
 			int b=fp[pointH][pointW * 4];
 			int g = fp[pointH][pointW * 4 + 1] ;
 			int r = fp[pointH][pointW * 4 + 2] ;
@@ -57,7 +57,7 @@ namespace pix {
 			delete[] fp;
 		}
 		inline bool checkColorRange(int originColor,int color, int range) {
-			if (originColor + range>color && originColor - range< color)
+			if (originColor + range>=color && originColor - range<= color)
 				return true;
 			return false;
 		}

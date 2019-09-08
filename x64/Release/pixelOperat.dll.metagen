@@ -13,7 +13,7 @@ Class pix.pixelOperate: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Methods:
     colorTo255(Byte*, Int32, Int32, Int32): PrivateScope, Public, HideBySig
-    removeBackGround(Byte*, Int32 IsConst, Int32 IsConst, Int32 IsConst, Int32 IsConst, Int32 IsConst, Double IsConst): PrivateScope, Public, HideBySig
+    removeBackGround(Byte*, Int32 IsConst, Int32 IsConst, Int32 IsConst, Int32 IsConst, Int32 IsConst, Int32 IsConst): PrivateScope, Public, HideBySig
     checkColorRange(Int32, Int32, Int32): PrivateScope, Public, HideBySig
     BackToRero(Byte**, vector<int\,std::allocator<int> >*, vector<int\,std::allocator<int> >*, Int32, Int32, Int32, Int32, Int32, Int32): PrivateScope, Public, HideBySig
     FillTest(Byte*, Int32, Int32, Int32): PrivateScope, Public, HideBySig

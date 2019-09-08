@@ -76,14 +76,16 @@
             this.自動縮放ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.原始大小ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.拉伸ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.附屬程式ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.去背魔術棒ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.誤差0ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.誤差10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.誤差25ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.誤差50ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.誤差15ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -457,6 +459,47 @@
             this.拉伸ToolStripMenuItem.Text = "拉伸";
             this.拉伸ToolStripMenuItem.Click += new System.EventHandler(this.拉伸ToolStripMenuItem_Click);
             // 
+            // 附屬程式ToolStripMenuItem
+            // 
+            this.附屬程式ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.去背魔術棒ToolStripMenuItem});
+            this.附屬程式ToolStripMenuItem.Name = "附屬程式ToolStripMenuItem";
+            this.附屬程式ToolStripMenuItem.Size = new System.Drawing.Size(87, 25);
+            this.附屬程式ToolStripMenuItem.Text = "附屬程式";
+            // 
+            // 去背魔術棒ToolStripMenuItem
+            // 
+            this.去背魔術棒ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.誤差0ToolStripMenuItem,
+            this.誤差10ToolStripMenuItem,
+            this.誤差15ToolStripMenuItem,
+            this.誤差25ToolStripMenuItem,
+            this.誤差50ToolStripMenuItem});
+            this.去背魔術棒ToolStripMenuItem.Name = "去背魔術棒ToolStripMenuItem";
+            this.去背魔術棒ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.去背魔術棒ToolStripMenuItem.Text = "去背魔術棒";
+            // 
+            // 誤差0ToolStripMenuItem
+            // 
+            this.誤差0ToolStripMenuItem.Name = "誤差0ToolStripMenuItem";
+            this.誤差0ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.誤差0ToolStripMenuItem.Text = "誤差5%";
+            this.誤差0ToolStripMenuItem.Click += new System.EventHandler(this.誤差0ToolStripMenuItem_Click);
+            // 
+            // 誤差10ToolStripMenuItem
+            // 
+            this.誤差10ToolStripMenuItem.Name = "誤差10ToolStripMenuItem";
+            this.誤差10ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.誤差10ToolStripMenuItem.Text = "誤差10%";
+            this.誤差10ToolStripMenuItem.Click += new System.EventHandler(this.誤差10ToolStripMenuItem_Click);
+            // 
+            // 誤差25ToolStripMenuItem
+            // 
+            this.誤差25ToolStripMenuItem.Name = "誤差25ToolStripMenuItem";
+            this.誤差25ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.誤差25ToolStripMenuItem.Text = "誤差25%";
+            this.誤差25ToolStripMenuItem.Click += new System.EventHandler(this.誤差25ToolStripMenuItem_Click);
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.pictureBox1);
@@ -481,44 +524,19 @@
             this.timer1.Interval = 128;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
-            // 附屬程式ToolStripMenuItem
+            // 誤差50ToolStripMenuItem
             // 
-            this.附屬程式ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.去背魔術棒ToolStripMenuItem});
-            this.附屬程式ToolStripMenuItem.Name = "附屬程式ToolStripMenuItem";
-            this.附屬程式ToolStripMenuItem.Size = new System.Drawing.Size(87, 25);
-            this.附屬程式ToolStripMenuItem.Text = "附屬程式";
+            this.誤差50ToolStripMenuItem.Name = "誤差50ToolStripMenuItem";
+            this.誤差50ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.誤差50ToolStripMenuItem.Text = "誤差50%";
+            this.誤差50ToolStripMenuItem.Click += new System.EventHandler(this.誤差50ToolStripMenuItem_Click);
             // 
-            // 去背魔術棒ToolStripMenuItem
+            // 誤差15ToolStripMenuItem
             // 
-            this.去背魔術棒ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.誤差0ToolStripMenuItem,
-            this.誤差10ToolStripMenuItem,
-            this.誤差25ToolStripMenuItem});
-            this.去背魔術棒ToolStripMenuItem.Name = "去背魔術棒ToolStripMenuItem";
-            this.去背魔術棒ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
-            this.去背魔術棒ToolStripMenuItem.Text = "去背魔術棒";
-            // 
-            // 誤差0ToolStripMenuItem
-            // 
-            this.誤差0ToolStripMenuItem.Name = "誤差0ToolStripMenuItem";
-            this.誤差0ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
-            this.誤差0ToolStripMenuItem.Text = "誤差0%";
-            this.誤差0ToolStripMenuItem.Click += new System.EventHandler(this.誤差0ToolStripMenuItem_Click);
-            // 
-            // 誤差10ToolStripMenuItem
-            // 
-            this.誤差10ToolStripMenuItem.Name = "誤差10ToolStripMenuItem";
-            this.誤差10ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
-            this.誤差10ToolStripMenuItem.Text = "誤差10%";
-            this.誤差10ToolStripMenuItem.Click += new System.EventHandler(this.誤差10ToolStripMenuItem_Click);
-            // 
-            // 誤差25ToolStripMenuItem
-            // 
-            this.誤差25ToolStripMenuItem.Name = "誤差25ToolStripMenuItem";
-            this.誤差25ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
-            this.誤差25ToolStripMenuItem.Text = "誤差25%";
-            this.誤差25ToolStripMenuItem.Click += new System.EventHandler(this.誤差25ToolStripMenuItem_Click);
+            this.誤差15ToolStripMenuItem.Name = "誤差15ToolStripMenuItem";
+            this.誤差15ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.誤差15ToolStripMenuItem.Text = "誤差15%";
+            this.誤差15ToolStripMenuItem.Click += new System.EventHandler(this.誤差15ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -598,6 +616,8 @@
         private System.Windows.Forms.ToolStripMenuItem 誤差0ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 誤差10ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 誤差25ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 誤差50ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 誤差15ToolStripMenuItem;
     }
 }
 

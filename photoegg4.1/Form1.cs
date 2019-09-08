@@ -187,7 +187,7 @@ namespace photoegg4._1
                 else if (func == (int)colorFunction.FillTest)
                     Pixel_C.FillTest((byte*)MyBmpData.Scan0,  MyNewBmp.Width, MyNewBmp.Height, 4);
                 else if (func == (int)colorFunction.removeBackGround)
-                    Pixel_C.removeBackGround((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2,value_double_1);
+                    Pixel_C.removeBackGround((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2,value_int_3);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -1119,9 +1119,10 @@ namespace photoegg4._1
                 pictureBox1.Dock = DockStyle.None;
                 pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
                 panel1.Size = pictureBox1.Size;
-                value_double_1 = 0.01;
+                
                 MessageBox.Show("使用魔術棒工具，將變更顯示模式");
             }
+value_int_3 = 5;
            /* if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
             open_temp_perate = false;
@@ -1137,9 +1138,9 @@ namespace photoegg4._1
                 pictureBox1.Dock = DockStyle.None;
                 pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
                 panel1.Size = pictureBox1.Size;
-                value_double_1 = 0.1;
+               
                 MessageBox.Show("使用魔術棒工具，將變更顯示模式");
-            }
+            } value_int_3 = 10;
         }
 
         private void 誤差25ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1150,9 +1151,38 @@ namespace photoegg4._1
                 pictureBox1.Dock = DockStyle.None;
                 pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
                 panel1.Size = pictureBox1.Size;
-                value_double_1 = 0.04;
+              
+                MessageBox.Show("使用魔術棒工具，將變更顯示模式");
+            }  value_int_3 = 25;
+        }
+
+        private void 誤差50ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+             if (panel1.Dock == DockStyle.Fill)
+             {
+                 panel1.Dock = DockStyle.None;
+                 pictureBox1.Dock = DockStyle.None;
+                 pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+                 panel1.Size = pictureBox1.Size;
+              
+
+                 MessageBox.Show("使用魔術棒工具，將變更顯示模式");
+             }  value_int_3 = 50;
+        }
+
+        private void 誤差15ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (panel1.Dock == DockStyle.Fill)
+            {
+                panel1.Dock = DockStyle.None;
+                pictureBox1.Dock = DockStyle.None;
+                pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+                panel1.Size = pictureBox1.Size;
+
+
                 MessageBox.Show("使用魔術棒工具，將變更顯示模式");
             }
+            value_int_3 = 15;
         }
     }
 }
