@@ -38,7 +38,7 @@ namespace pix {
 			delete[] fp;
 		}
 		void removeBackGround(unsigned char* ptr, const  int width, const  int height, const  int channel,
-			const  int pointW, const  int pointH, const  int rate )
+			const  int pointW, const  int pointH, const  int rate)
 		{
 			unsigned char** fp = new unsigned char* [height];
 			int Stride = width * channel, x = 0, y = 0;
@@ -49,19 +49,19 @@ namespace pix {
 			w2.push_back(pointW);
 			h2.push_back(pointH);
 			int range = rate;
-			int b=fp[pointH][pointW * 4];
-			int g = fp[pointH][pointW * 4 + 1] ;
-			int r = fp[pointH][pointW * 4 + 2] ;
+			int b = fp[pointH][pointW * 4];
+			int g = fp[pointH][pointW * 4 + 1];
+			int r = fp[pointH][pointW * 4 + 2];
 			//fp[pointH][pointW * 4 + 3] ;
-			BackToRero(fp, w2, h2, width,height,b,g,r,range);
+			BackToRero(fp, w2, h2, width, height, b, g, r, range);
 			delete[] fp;
 		}
-		inline bool checkColorRange(int originColor,int color, int range) {
-			if (originColor + range>=color && originColor - range<= color)
+		inline bool checkColorRange(int originColor, int color, int range) {
+			if (originColor + range >= color && originColor - range <= color)
 				return true;
 			return false;
 		}
-		void BackToRero(unsigned char** fp, vector<int> w, vector<int> h, int width, int height,int b,int g,int r,int range) {
+		void BackToRero(unsigned char** fp, vector<int> w, vector<int> h, int width, int height, int b, int g, int r, int range) {
 			if (w.size() < 1)return;
 			//if (w.size() > 5000)return;
 			vector<int> w2;
@@ -82,16 +82,16 @@ namespace pix {
 					}
 					if (h[i] - 1 > 0)
 					{
-						if (checkColorRange(fp[h[i]-1][w[i] * 4], b, range) && checkColorRange(fp[h[i]-1][w[i] * 4 + 1], g, range) && checkColorRange(fp[h[i]-1][w[i] * 4 + 2], r, range)
-							&&fp[h[i] - 1][w[i] * 4+3]!=0 && FindByVector(w2, h2, w[i], h[i] - 1) == false)
+						if (checkColorRange(fp[h[i] - 1][w[i] * 4], b, range) && checkColorRange(fp[h[i] - 1][w[i] * 4 + 1], g, range) && checkColorRange(fp[h[i] - 1][w[i] * 4 + 2], r, range)
+							&& fp[h[i] - 1][w[i] * 4 + 3] != 0 && FindByVector(w2, h2, w[i], h[i] - 1) == false)
 						{
 							h2.push_back(h[i] - 1);w2.push_back(w[i]);
 						}
 					}
 					if (w[i] + 1 < width)
 					{
-						if (checkColorRange(fp[h[i]][(w[i]+1) * 4], b, range) && checkColorRange(fp[h[i]][(w[i]+1 )* 4 + 1], g, range) && checkColorRange(fp[h[i]][(w[i]+1) * 4 + 2], r, range)
-							&& fp[h[i]][(w[i]+1) * 4 + 3] != 0 && FindByVector(w2, h2, w[i] + 1, h[i]) == false)
+						if (checkColorRange(fp[h[i]][(w[i] + 1) * 4], b, range) && checkColorRange(fp[h[i]][(w[i] + 1) * 4 + 1], g, range) && checkColorRange(fp[h[i]][(w[i] + 1) * 4 + 2], r, range)
+							&& fp[h[i]][(w[i] + 1) * 4 + 3] != 0 && FindByVector(w2, h2, w[i] + 1, h[i]) == false)
 						{
 							h2.push_back(h[i]);w2.push_back(w[i] + 1);
 						}
@@ -99,7 +99,7 @@ namespace pix {
 					if (w[i] - 1 > 0)
 					{
 						if (checkColorRange(fp[h[i]][(w[i] - 1) * 4], b, range) && checkColorRange(fp[h[i]][(w[i] - 1) * 4 + 1], g, range) && checkColorRange(fp[h[i]][(w[i] - 1) * 4 + 2], r, range)
-							&& fp[h[i]][(w[i] -1) * 4 + 3] != 0 && FindByVector(w2, h2, w[i] - 1, h[i]) == false)
+							&& fp[h[i]][(w[i] - 1) * 4 + 3] != 0 && FindByVector(w2, h2, w[i] - 1, h[i]) == false)
 						{
 							h2.push_back(h[i]);w2.push_back(w[i] - 1);
 						}
@@ -153,38 +153,38 @@ namespace pix {
 					continue;
 				}
 				else {
-					fp[h[i]][w[i] * 4] =0;
+					fp[h[i]][w[i] * 4] = 0;
 					fp[h[i]][w[i] * 4 + 1] = 0;
 					fp[h[i]][w[i] * 4 + 2] = 0;
 					fp[h[i]][w[i] * 4 + 3] = 0;
 					if (h[i] - 1 > 0)
 					{
-						if (fp[h[i] - 1][w[i] * 4] != 0&& fp[h[i] - 1][w[i] * 4+1]!=0&& fp[h[i] - 1][w[i] * 4+2]!=0
-							&& FindByVector(w2, h2, w[i] , h[i]- 1) == false)
+						if (fp[h[i] - 1][w[i] * 4] != 0 && fp[h[i] - 1][w[i] * 4 + 1] != 0 && fp[h[i] - 1][w[i] * 4 + 2] != 0
+							&& FindByVector(w2, h2, w[i], h[i] - 1) == false)
 						{
 							h2.push_back(h[i] - 1);w2.push_back(w[i]);
 						}
 					}
 					if (w[i] + 1 < width)
 					{
-						if (fp[h[i]][(w[i] + 1) * 4] != 0 && fp[h[i]][(w[i] + 1) * 4+1] != 0&& fp[h[i]][(w[i] + 1) * 4+2] != 0
-							&& FindByVector(w2, h2, w[i]+1 , h[i]) == false)
+						if (fp[h[i]][(w[i] + 1) * 4] != 0 && fp[h[i]][(w[i] + 1) * 4 + 1] != 0 && fp[h[i]][(w[i] + 1) * 4 + 2] != 0
+							&& FindByVector(w2, h2, w[i] + 1, h[i]) == false)
 						{
 							h2.push_back(h[i]);w2.push_back(w[i] + 1);
 						}
 					}
 					if (w[i] - 1 > 0)
 					{
-						if (fp[h[i]][(w[i] - 1) * 4] != 0&& fp[h[i]][(w[i] - 1) * 4+1] != 0&& fp[h[i]][(w[i] - 1) * 4+2] != 0
-							&& FindByVector(w2, h2, w[i]-1 , h[i]) == false)
+						if (fp[h[i]][(w[i] - 1) * 4] != 0 && fp[h[i]][(w[i] - 1) * 4 + 1] != 0 && fp[h[i]][(w[i] - 1) * 4 + 2] != 0
+							&& FindByVector(w2, h2, w[i] - 1, h[i]) == false)
 						{
 							h2.push_back(h[i]);w2.push_back(w[i] - 1);
 						}
 					}
 					if (h[i] + 1 < height)
 					{
-						if (fp[h[i] + 1][w[i] * 4] != 0 && fp[h[i] + 1][w[i] * 4+1] != 0&& fp[h[i] + 1][w[i] * 4+2] != 0
-							&& FindByVector(w2, h2, w[i] , h[i]+ 1) == false)
+						if (fp[h[i] + 1][w[i] * 4] != 0 && fp[h[i] + 1][w[i] * 4 + 1] != 0 && fp[h[i] + 1][w[i] * 4 + 2] != 0
+							&& FindByVector(w2, h2, w[i], h[i] + 1) == false)
 						{
 							h2.push_back(h[i] + 1);w2.push_back(w[i]);
 						}
@@ -1833,6 +1833,230 @@ namespace pix {
 					countB = countB * -1 + fp[y][x] * rec;
 					countG = countG * -1 + fp[y][x + 1] * rec;
 					countR = countR * -1 + fp[y][x + 2] * rec;
+					if (countB > 255)countB = 255;
+					if (countG > 255)countG = 255;
+					if (countR > 255)countR = 255;
+					if (countB < 0)countB = 0;
+					if (countG < 0)countG = 0;
+					if (countR < 0)countR = 0;
+					fp[y][x] = countB;
+					fp[y][x + 1] = countG;
+					fp[y][x + 2] = countR;
+					countB = countG = countR = 0;
+				}
+			}
+			delete[] fp;
+			delete[] fp2;
+		}
+		void sharptest(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int vW,int vH)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			unsigned char** fp2 = new unsigned char* [height];
+			//const int recSize = ((value * 2 + 1) * (value * 2 + 1));
+			//
+
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			for (int j = 0; j < height; j++)
+				fp2[j] = ptr2 + (Stride * j);
+			int x2 = 0; int y2 = 0;
+			int countB = 0;
+			int countG = 0;
+			int countR = 0;
+			int rand = -2;
+			int value = 1;
+			const int rec = (value * 2 + 1) * (value * 2 + 1);
+const int recWidth = value * channel;
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					for (y2 = -value; y2 <= value; y2++)
+					{
+						for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+						{
+							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								continue;
+							countB += fp2[y + y2][x + x2];
+							countG += fp2[y + y2][x + x2 + 1];
+							countR += fp2[y + y2][x + x2 + 2];
+						}
+					}
+					fp2[y][x] = countB / ((value * 2 + 1) * (value * 2 + 1));
+					fp2[y][x + 1] = countG / ((value * 2 + 1) * (value * 2 + 1));
+					fp2[y][x + 2] = countR / ((value * 2 + 1) * (value * 2 + 1));
+					countB = countG = countR = 0;
+				}
+			}
+			//int vW = 1;
+			//int vH = 4;
+			int recWidth2 = vW * channel;
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					for (y2 = -vH; y2 <= vH; y2++)
+					{
+						for (x2 = -recWidth2; x2 <= recWidth2; x2 += channel)
+						{
+							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								continue;
+							countB += fp2[y + y2][x + x2];
+							countG += fp2[y + y2][x + x2 + 1];
+							countR += fp2[y + y2][x + x2 + 2];
+						}
+					}
+					countB = (countB)+(fp2[y][x] * -(vW * 2 + 1) * (vH * 2 + 1));
+					countG = (countG)+(fp2[y][x + 1] * -(vW * 2 + 1) * (vH * 2 + 1));
+					countR = (countR)+(fp2[y][x + 2] * -(vW * 2 + 1) * (vH * 2 + 1));
+					if (countB > 255)countB = 255;
+					if (countG > 255)countG = 255;
+					if (countR > 255)countR = 255;
+					if (countB < 0)countB = 0;
+					if (countG < 0)countG = 0;
+					if (countR < 0)countR = 0;
+					fp[y][x] = 255 - (countB + countG + countR) / 3;
+					fp[y][x + 1] = fp[y][x];
+					fp[y][x + 2] = fp[y][x];
+					countB = countG = countR = 0;
+				}
+			}
+			delete[] fp;
+			delete[] fp2;
+		}
+		//放射線
+		void sharptest00(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			unsigned char** fp2 = new unsigned char* [height];
+			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
+			const int recWidth = value * channel;
+			const int rec = (value * 2 + 1) * (value * 2 + 1);
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			for (int j = 0; j < height; j++)
+				fp2[j] = ptr2 + (Stride * j);
+			int x2 = 0; int y2 = 0;
+			int countB = 0;
+			int countG = 0;
+			int countR = 0;
+			int rand = -2;
+			/*for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					for (y2 = -value; y2 <= value; y2++)
+					{
+						for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+						{
+							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								continue;
+							countB += fp2[y + y2][x + x2];
+							countG += fp2[y + y2][x + x2 + 1];
+							countR += fp2[y + y2][x + x2 + 2];
+						}
+					}
+					//rand = std::rand() % 10;
+					//if (rand == (value * 2 + 1) * (value * 2 + 1))rand = 1;
+					fp[y][x] = countB / ((value * 2 + 1) * (value * 2 + 1) - rand);
+					fp[y][x + 1] = countG / ((value * 2 + 1) * (value * 2 + 1) - rand);
+					fp[y][x + 2] = countR / ((value * 2 + 1) * (value * 2 + 1) - rand);
+					countB = countG = countR = 0;
+				}
+			}*/
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					for (y2 = -value; y2 <= value; y2++)
+					{
+						for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+						{
+							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								continue;
+							countB += fp2[y + y2][x + x2];
+							countG += fp2[y + y2][x + x2 + 1];
+							countR += fp2[y + y2][x + x2 + 2];
+						}
+					}
+					countB = (countB)+(fp[y][x] * -rec);
+					countG = (countG)+(fp[y][x + 1] * -rec);
+					countR = (countR)+(fp[y][x + 2] * -rec);
+					if (countB > 255)countB = 255;
+					if (countG > 255)countG = 255;
+					if (countR > 255)countR = 255;
+					if (countB < 0)countB = 0;
+					if (countG < 0)countG = 0;
+					if (countR < 0)countR = 0;
+					fp[y][x] = 255 - countB;
+					fp[y][x + 1] = 255 - countG;
+					fp[y][x + 2] = 255 - countR;
+					//countB = countG = countR = 0;
+				}
+			}
+			delete[] fp;
+			delete[] fp2;
+		}
+		//污漬
+		void sharptest0(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			unsigned char** fp2 = new unsigned char* [height];
+			const int recSize = ((value * 2 + 1) * (value * 2 + 1));
+			const int recWidth = value * channel;
+			const int rec = (value * 2 + 1) * (value * 2 + 1) + 2;
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			for (int j = 0; j < height; j++)
+				fp2[j] = ptr2 + (Stride * j);
+			int x2 = 0; int y2 = 0;
+			int countB = 0;
+			int countG = 0;
+			int countR = 0;
+			int rand = -0;
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					for (y2 = -value; y2 <= value; y2++)
+					{
+						for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+						{
+							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								continue;
+							countB += fp2[y + y2][x + x2];
+							countG += fp2[y + y2][x + x2 + 1];
+							countR += fp2[y + y2][x + x2 + 2];
+						}
+					}
+					//rand = std::rand() % 10;
+					//if (rand == (value * 2 + 1) * (value * 2 + 1))rand = 1;
+					fp[y][x] = countB / ((value * 2 + 1) * (value * 2 + 1) - rand);
+					fp[y][x + 1] = countG / ((value * 2 + 1) * (value * 2 + 1) - rand);
+					fp[y][x + 2] = countR / ((value * 2 + 1) * (value * 2 + 1) - rand);
+				}
+			}
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					for (y2 = -value; y2 <= value; y2++)
+					{
+						for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+						{
+							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								continue;
+							countB += fp2[y + y2][x + x2];
+							countG += fp2[y + y2][x + x2 + 1];
+							countR += fp2[y + y2][x + x2 + 2];
+						}
+					}
+					countB = (countB)+(fp[y][x] * -rec);
+					countG = (countG)+(fp[y][x + 1] * -rec);
+					countR = (countR)+(fp[y][x + 2] * -rec);
 					if (countB > 255)countB = 255;
 					if (countG > 255)countG = 255;
 					if (countR > 255)countR = 255;

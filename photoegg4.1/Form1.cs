@@ -51,7 +51,7 @@ namespace photoegg4._1
             NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss,
             mosaic, horizontalFlip, verticalFlip, tile, ToneSeparation, Overexposed, oilPaint, ColorNoise, Binarization,
             ScanningLine, airbrush, kaleidoscope, contrast, BrightnessContrast, brightness2, allFlip, rgbNormal, oilPaint2,
-            blurry2, sharp, ColorPencil, glassBlurry, Fluorescent, FillTest,removeBackGround
+            blurry2, sharp, ColorPencil, glassBlurry, Fluorescent, FillTest,removeBackGround,sharptest
         };
         public colorFunction tempOperate = colorFunction.NULL;
         public Form1()
@@ -188,6 +188,9 @@ namespace photoegg4._1
                     Pixel_C.FillTest((byte*)MyBmpData.Scan0,  MyNewBmp.Width, MyNewBmp.Height, 4);
                 else if (func == (int)colorFunction.removeBackGround)
                     Pixel_C.removeBackGround((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2,value_int_3);
+                else if (func == (int)colorFunction.sharptest)
+                    Pixel_C.sharptest((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
+
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -794,6 +797,9 @@ namespace photoegg4._1
             pictureBox1.Image = a;
             Now_Bitmap++;
             panel1.Size = pictureBox1.Size;
+
+
+           
             // value_double_1 = 2;
             // brightness2(false);
             //AllFlip();
@@ -1195,6 +1201,50 @@ value_int_3 = 5;
             if (Now_Bitmap < 0) return;
             open_temp_perate = false;
             Pixel_Operate(colorFunction.colorToGray);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
+
+       /* private void SharptestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            value_int_1 =1;
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.sharptest);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
+        }*/
+
+        private void 強調寬度ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            value_int_1 =1;
+            value_int_2 = 4;
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.sharptest);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
+
+        private void 強調高度ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            value_int_1 = 4;
+            value_int_2 = 1;
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.sharptest);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
+
+        }
+
+        private void 正常線條ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            value_int_1 = 2;
+            value_int_2 = 2;
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.sharptest);
             pictureBox1.Image = originBitmap[Now_Bitmap];
         }
     }

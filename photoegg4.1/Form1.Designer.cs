@@ -49,6 +49,7 @@
             this.浮雕ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.磁磚ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.油畫ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.版畫ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.高效油畫ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.噴槍ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.萬花筒ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -86,7 +87,10 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.版畫ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.線稿抽取ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.強調寬度ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.強調高度ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.正常線條ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -168,6 +172,7 @@
             this.二值化ToolStripMenuItem,
             this.銳利化ToolStripMenuItem,
             this.風格化ToolStripMenuItem,
+            this.線稿抽取ToolStripMenuItem,
             this.馬賽克ToolStripMenuItem,
             this.色調分離ToolStripMenuItem,
             this.曝光過度ToolStripMenuItem,
@@ -213,14 +218,14 @@
             // 銳利化ToolStripMenuItem1
             // 
             this.銳利化ToolStripMenuItem1.Name = "銳利化ToolStripMenuItem1";
-            this.銳利化ToolStripMenuItem1.Size = new System.Drawing.Size(159, 30);
+            this.銳利化ToolStripMenuItem1.Size = new System.Drawing.Size(233, 30);
             this.銳利化ToolStripMenuItem1.Text = "銳利化";
             this.銳利化ToolStripMenuItem1.Click += new System.EventHandler(this.銳利化ToolStripMenuItem1_Click);
             // 
             // 更銳利化ToolStripMenuItem
             // 
             this.更銳利化ToolStripMenuItem.Name = "更銳利化ToolStripMenuItem";
-            this.更銳利化ToolStripMenuItem.Size = new System.Drawing.Size(159, 30);
+            this.更銳利化ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
             this.更銳利化ToolStripMenuItem.Text = "更銳利化";
             this.更銳利化ToolStripMenuItem.Click += new System.EventHandler(this.更銳利化ToolStripMenuItem_Click);
             // 
@@ -243,56 +248,63 @@
             // 浮雕ToolStripMenuItem
             // 
             this.浮雕ToolStripMenuItem.Name = "浮雕ToolStripMenuItem";
-            this.浮雕ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.浮雕ToolStripMenuItem.Size = new System.Drawing.Size(159, 30);
             this.浮雕ToolStripMenuItem.Text = "浮雕";
             this.浮雕ToolStripMenuItem.Click += new System.EventHandler(this.浮雕ToolStripMenuItem_Click);
             // 
             // 磁磚ToolStripMenuItem
             // 
             this.磁磚ToolStripMenuItem.Name = "磁磚ToolStripMenuItem";
-            this.磁磚ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.磁磚ToolStripMenuItem.Size = new System.Drawing.Size(159, 30);
             this.磁磚ToolStripMenuItem.Text = "磁磚";
             this.磁磚ToolStripMenuItem.Click += new System.EventHandler(this.磁磚ToolStripMenuItem_Click);
             // 
             // 油畫ToolStripMenuItem
             // 
             this.油畫ToolStripMenuItem.Name = "油畫ToolStripMenuItem";
-            this.油畫ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.油畫ToolStripMenuItem.Size = new System.Drawing.Size(159, 30);
             this.油畫ToolStripMenuItem.Text = "油畫";
             this.油畫ToolStripMenuItem.Click += new System.EventHandler(this.油畫ToolStripMenuItem_Click);
+            // 
+            // 版畫ToolStripMenuItem
+            // 
+            this.版畫ToolStripMenuItem.Name = "版畫ToolStripMenuItem";
+            this.版畫ToolStripMenuItem.Size = new System.Drawing.Size(159, 30);
+            this.版畫ToolStripMenuItem.Text = "版畫";
+            this.版畫ToolStripMenuItem.Click += new System.EventHandler(this.版畫ToolStripMenuItem_Click);
             // 
             // 高效油畫ToolStripMenuItem
             // 
             this.高效油畫ToolStripMenuItem.Name = "高效油畫ToolStripMenuItem";
-            this.高效油畫ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.高效油畫ToolStripMenuItem.Size = new System.Drawing.Size(159, 30);
             this.高效油畫ToolStripMenuItem.Text = "顏料暈開";
             this.高效油畫ToolStripMenuItem.Click += new System.EventHandler(this.高效油畫ToolStripMenuItem_Click);
             // 
             // 噴槍ToolStripMenuItem
             // 
             this.噴槍ToolStripMenuItem.Name = "噴槍ToolStripMenuItem";
-            this.噴槍ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.噴槍ToolStripMenuItem.Size = new System.Drawing.Size(159, 30);
             this.噴槍ToolStripMenuItem.Text = "噴槍";
             this.噴槍ToolStripMenuItem.Click += new System.EventHandler(this.噴槍ToolStripMenuItem_Click);
             // 
             // 萬花筒ToolStripMenuItem
             // 
             this.萬花筒ToolStripMenuItem.Name = "萬花筒ToolStripMenuItem";
-            this.萬花筒ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.萬花筒ToolStripMenuItem.Size = new System.Drawing.Size(159, 30);
             this.萬花筒ToolStripMenuItem.Text = "萬花筒";
             this.萬花筒ToolStripMenuItem.Click += new System.EventHandler(this.萬花筒ToolStripMenuItem_Click);
             // 
             // 色鉛筆ToolStripMenuItem
             // 
             this.色鉛筆ToolStripMenuItem.Name = "色鉛筆ToolStripMenuItem";
-            this.色鉛筆ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.色鉛筆ToolStripMenuItem.Size = new System.Drawing.Size(159, 30);
             this.色鉛筆ToolStripMenuItem.Text = "彩色筆";
             this.色鉛筆ToolStripMenuItem.Click += new System.EventHandler(this.色鉛筆ToolStripMenuItem_Click);
             // 
             // 螢光邊緣ToolStripMenuItem
             // 
             this.螢光邊緣ToolStripMenuItem.Name = "螢光邊緣ToolStripMenuItem";
-            this.螢光邊緣ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.螢光邊緣ToolStripMenuItem.Size = new System.Drawing.Size(159, 30);
             this.螢光邊緣ToolStripMenuItem.Text = "螢光邊緣";
             this.螢光邊緣ToolStripMenuItem.Click += new System.EventHandler(this.螢光邊緣ToolStripMenuItem_Click);
             // 
@@ -540,12 +552,36 @@
             this.timer1.Interval = 128;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
-            // 版畫ToolStripMenuItem
+            // 線稿抽取ToolStripMenuItem
             // 
-            this.版畫ToolStripMenuItem.Name = "版畫ToolStripMenuItem";
-            this.版畫ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
-            this.版畫ToolStripMenuItem.Text = "版畫";
-            this.版畫ToolStripMenuItem.Click += new System.EventHandler(this.版畫ToolStripMenuItem_Click);
+            this.線稿抽取ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.正常線條ToolStripMenuItem,
+            this.強調寬度ToolStripMenuItem,
+            this.強調高度ToolStripMenuItem});
+            this.線稿抽取ToolStripMenuItem.Name = "線稿抽取ToolStripMenuItem";
+            this.線稿抽取ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.線稿抽取ToolStripMenuItem.Text = "線稿抽取";
+            // 
+            // 強調寬度ToolStripMenuItem
+            // 
+            this.強調寬度ToolStripMenuItem.Name = "強調寬度ToolStripMenuItem";
+            this.強調寬度ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.強調寬度ToolStripMenuItem.Text = "強調寬度";
+            this.強調寬度ToolStripMenuItem.Click += new System.EventHandler(this.強調寬度ToolStripMenuItem_Click);
+            // 
+            // 強調高度ToolStripMenuItem
+            // 
+            this.強調高度ToolStripMenuItem.Name = "強調高度ToolStripMenuItem";
+            this.強調高度ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.強調高度ToolStripMenuItem.Text = "強調高度";
+            this.強調高度ToolStripMenuItem.Click += new System.EventHandler(this.強調高度ToolStripMenuItem_Click);
+            // 
+            // 正常線條ToolStripMenuItem
+            // 
+            this.正常線條ToolStripMenuItem.Name = "正常線條ToolStripMenuItem";
+            this.正常線條ToolStripMenuItem.Size = new System.Drawing.Size(233, 30);
+            this.正常線條ToolStripMenuItem.Text = "正常線條";
+            this.正常線條ToolStripMenuItem.Click += new System.EventHandler(this.正常線條ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -628,6 +664,10 @@
         private System.Windows.Forms.ToolStripMenuItem 誤差50ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 誤差15ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 版畫ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 線稿抽取ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 強調寬度ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 強調高度ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 正常線條ToolStripMenuItem;
     }
 }
 
