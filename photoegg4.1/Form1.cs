@@ -1184,6 +1184,19 @@ value_int_3 = 5;
             }
             value_int_3 = 15;
         }
+
+        private void 版畫ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.ColorPencil);
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.colorToGray);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
     }
 }
 
