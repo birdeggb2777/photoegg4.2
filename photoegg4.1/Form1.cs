@@ -51,7 +51,7 @@ namespace photoegg4._1
             NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss,
             mosaic, horizontalFlip, verticalFlip, tile, ToneSeparation, Overexposed, oilPaint, ColorNoise, Binarization,
             ScanningLine, airbrush, kaleidoscope, contrast, BrightnessContrast, brightness2, allFlip, rgbNormal, oilPaint2,
-            blurry2, sharp, ColorPencil, glassBlurry, Fluorescent, FillTest,removeBackGround,sharptest
+            blurry2, sharp, ColorPencil, glassBlurry, Fluorescent, FillTest, removeBackGround, sharptest
         };
         public colorFunction tempOperate = colorFunction.NULL;
         public Form1()
@@ -78,8 +78,8 @@ namespace photoegg4._1
                 pictureBox1.Image = a;
                 Now_Bitmap++;
                 panel1.Size = pictureBox1.Size;
-              //  Pixel_Operate(colorFunction.FillTest);
-               // Pixel_Operate(colorFunction.colorTo255);
+                //  Pixel_Operate(colorFunction.FillTest);
+                // Pixel_Operate(colorFunction.colorTo255);
                 /* for (int i = 15; i >0; i-=7)
                  {
                      value_int_1 = i;
@@ -185,9 +185,9 @@ namespace photoegg4._1
                 else if (func == (int)colorFunction.Fluorescent)
                     Pixel_C.Fluorescent((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
                 else if (func == (int)colorFunction.FillTest)
-                    Pixel_C.FillTest((byte*)MyBmpData.Scan0,  MyNewBmp.Width, MyNewBmp.Height, 4);
+                    Pixel_C.FillTest((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
                 else if (func == (int)colorFunction.removeBackGround)
-                    Pixel_C.removeBackGround((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2,value_int_3);
+                    Pixel_C.removeBackGround((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2, value_int_3);
                 else if (func == (int)colorFunction.sharptest)
                     Pixel_C.sharptest((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
 
@@ -336,6 +336,34 @@ namespace photoegg4._1
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             //g.Clear(Color.Transparent);
             g.DrawImage(b, new Rectangle(0, 0, (int)(b.Width * size), (int)(b.Height * size)), new Rectangle(0, 0, b.Width, b.Height), GraphicsUnit.Pixel);
+        }
+        public void TempBitmapResize(Bitmap b, double size = 0.5, bool istemp = false)
+        {
+            try
+            {
+                Bitmap temp = new Bitmap((int)(b.Width * size), (int)(b.Height * size));
+                Graphics g = Graphics.FromImage(temp);
+                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+                g.Clear(Color.Transparent);
+                g.DrawImage(b, new Rectangle(0, 0, (int)(b.Width * size), (int)(b.Height * size)), new Rectangle(0, 0, (int)(b.Width), (int)(b.Height)), GraphicsUnit.Pixel);
+                pictureBox1.Image = temp;
+                panel1.Dock = DockStyle.None;
+                pictureBox1.Dock = DockStyle.None;
+                pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+                panel1.Size = pictureBox1.Size;
+                if (istemp == true) originBitmap[Now_Bitmap] = (Bitmap)temp.Clone();
+            }
+            catch
+            {
+                MessageBox.Show("程式內部發生錯誤");
+            }
+            finally
+            {
+                GC.Collect();
+            }
+            // this.Refresh();
+            // temp.Dispose();
         }
         private void flipX()
         {
@@ -799,7 +827,7 @@ namespace photoegg4._1
             panel1.Size = pictureBox1.Size;
 
 
-           
+
             // value_double_1 = 2;
             // brightness2(false);
             //AllFlip();
@@ -1125,14 +1153,14 @@ namespace photoegg4._1
                 pictureBox1.Dock = DockStyle.None;
                 pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
                 panel1.Size = pictureBox1.Size;
-                
+
                 MessageBox.Show("使用魔術棒工具，將變更顯示模式");
             }
-value_int_3 = 5;
-           /* if (open_temp_perate == false) return;
-            if (Now_Bitmap < 0) return;
-            open_temp_perate = false;
-            Pixel_Operate(colorFunction.removeBackGround);*/
+            value_int_3 = 5;
+            /* if (open_temp_perate == false) return;
+             if (Now_Bitmap < 0) return;
+             open_temp_perate = false;
+             Pixel_Operate(colorFunction.removeBackGround);*/
             //pictureBox1.Image = originBitmap[Now_Bitmap];
         }
 
@@ -1144,9 +1172,10 @@ value_int_3 = 5;
                 pictureBox1.Dock = DockStyle.None;
                 pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
                 panel1.Size = pictureBox1.Size;
-               
+
                 MessageBox.Show("使用魔術棒工具，將變更顯示模式");
-            } value_int_3 = 10;
+            }
+            value_int_3 = 10;
         }
 
         private void 誤差25ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1157,23 +1186,25 @@ value_int_3 = 5;
                 pictureBox1.Dock = DockStyle.None;
                 pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
                 panel1.Size = pictureBox1.Size;
-              
+
                 MessageBox.Show("使用魔術棒工具，將變更顯示模式");
-            }  value_int_3 = 25;
+            }
+            value_int_3 = 25;
         }
 
         private void 誤差50ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-             if (panel1.Dock == DockStyle.Fill)
-             {
-                 panel1.Dock = DockStyle.None;
-                 pictureBox1.Dock = DockStyle.None;
-                 pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
-                 panel1.Size = pictureBox1.Size;
-              
+            if (panel1.Dock == DockStyle.Fill)
+            {
+                panel1.Dock = DockStyle.None;
+                pictureBox1.Dock = DockStyle.None;
+                pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+                panel1.Size = pictureBox1.Size;
 
-                 MessageBox.Show("使用魔術棒工具，將變更顯示模式");
-             }  value_int_3 = 50;
+
+                MessageBox.Show("使用魔術棒工具，將變更顯示模式");
+            }
+            value_int_3 = 50;
         }
 
         private void 誤差15ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1204,19 +1235,19 @@ value_int_3 = 5;
             pictureBox1.Image = originBitmap[Now_Bitmap];
         }
 
-       /* private void SharptestToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            value_int_1 =1;
-            if (open_temp_perate == false) return;
-            if (Now_Bitmap < 0) return;
-            open_temp_perate = false;
-            Pixel_Operate(colorFunction.sharptest);
-            pictureBox1.Image = originBitmap[Now_Bitmap];
-        }*/
+        /* private void SharptestToolStripMenuItem_Click(object sender, EventArgs e)
+         {
+             value_int_1 =1;
+             if (open_temp_perate == false) return;
+             if (Now_Bitmap < 0) return;
+             open_temp_perate = false;
+             Pixel_Operate(colorFunction.sharptest);
+             pictureBox1.Image = originBitmap[Now_Bitmap];
+         }*/
 
         private void 強調寬度ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            value_int_1 =1;
+            value_int_1 = 1;
             value_int_2 = 4;
             if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
@@ -1246,6 +1277,25 @@ value_int_3 = 5;
             open_temp_perate = false;
             Pixel_Operate(colorFunction.sharptest);
             pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
+
+        private void 縮放影像ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (panel1.Dock == DockStyle.Fill)
+            {
+                panel1.Dock = DockStyle.None;
+                pictureBox1.Dock = DockStyle.None;
+                pictureBox1.SizeMode = PictureBoxSizeMode.AutoSize;
+                panel1.Size = pictureBox1.Size;
+
+                MessageBox.Show("使用魔術棒工具，將變更顯示模式");
+            }
+            resetTimerValue();
+            resizeForm form = new resizeForm(this);
+            form.ShowDialog();
+            if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
+            else TempBitmapResize(originBitmap[Now_Bitmap], form.tra1, true);
+            form.Dispose();
         }
     }
 }
