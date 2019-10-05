@@ -42,10 +42,14 @@ namespace photoegg4._1
         public bool value_bool_4 = false;
         public bool value_bool_5 = false;
 
+        public int[] point_int_1 =new int[] { 0, 0 };
+        public int[] point_int_2 = new int[] { 0, 0 };
         /// <summary>
         /// 
         /// </summary>
         public bool isTemp = false;
+
+        private bool removeBackGround = false;
         public enum colorFunction
         {
             NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss,
@@ -58,15 +62,28 @@ namespace photoegg4._1
         {
             InitializeComponent();
             pictureBox1.MouseDown += new MouseEventHandler(pictureBox1_MouseDown);
+            pictureBox1.MouseUp += new MouseEventHandler(pictureBox1_MouseUp);
         }
         private void pictureBox1_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            value_int_1 = e.X; value_int_2 = e.Y;
+            if (removeBackGround == true)
+            {
+                value_int_1 = e.X; value_int_2 = e.Y;
+                if (open_temp_perate == false) return;
+                if (Now_Bitmap < 0) return;
+                open_temp_perate = false;
+                Pixel_Operate(colorFunction.removeBackGround);
+                pictureBox1.Image = originBitmap[Now_Bitmap];
+            }
+        }
+        private void pictureBox1_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+           /* value_int_1 = e.X; value_int_2 = e.Y;
             if (open_temp_perate == false) return;
             if (Now_Bitmap < 0) return;
             open_temp_perate = false;
             Pixel_Operate(colorFunction.removeBackGround);
-            pictureBox1.Image = originBitmap[Now_Bitmap];
+            pictureBox1.Image = originBitmap[Now_Bitmap];*/
         }
         private void 載入圖片ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -116,6 +133,7 @@ namespace photoegg4._1
         {
             int func = (int)fun;
             open_temp_perate = false;
+            if (func != (int)colorFunction.removeBackGround) removeBackGround = false;
             Bitmap MyNewBmp = (Bitmap)originBitmap[Now_Bitmap];
             if (func == (int)colorFunction.oilPaint2) { BitmapResize(MyNewBmp, value_double_1); }
             if (func == (int)colorFunction.oilPaint2) { BitmapResize(MyNewBmp, value_double_2); }
@@ -229,6 +247,7 @@ namespace photoegg4._1
             bool check = open_temp_perate;
             open_temp_perate = false;
             int func = (int)fun;
+            if (func != (int)colorFunction.removeBackGround) removeBackGround = false;
             Bitmap MyNewBmp = (Bitmap)originBitmap[Now_Bitmap];
 
             Bitmap MyNewBmp2 = (Bitmap)MyNewBmp.Clone();
@@ -1147,6 +1166,8 @@ namespace photoegg4._1
 
         private void 誤差0ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            removeBackGround = true;
+
             if (panel1.Dock == DockStyle.Fill)
             {
                 panel1.Dock = DockStyle.None;
@@ -1166,6 +1187,7 @@ namespace photoegg4._1
 
         private void 誤差10ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            removeBackGround = true;
             if (panel1.Dock == DockStyle.Fill)
             {
                 panel1.Dock = DockStyle.None;
@@ -1180,6 +1202,7 @@ namespace photoegg4._1
 
         private void 誤差25ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            removeBackGround = true;
             if (panel1.Dock == DockStyle.Fill)
             {
                 panel1.Dock = DockStyle.None;
@@ -1194,6 +1217,7 @@ namespace photoegg4._1
 
         private void 誤差50ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            removeBackGround = true;
             if (panel1.Dock == DockStyle.Fill)
             {
                 panel1.Dock = DockStyle.None;
@@ -1209,6 +1233,7 @@ namespace photoegg4._1
 
         private void 誤差15ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            removeBackGround = true;
             if (panel1.Dock == DockStyle.Fill)
             {
                 panel1.Dock = DockStyle.None;
