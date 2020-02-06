@@ -42,7 +42,7 @@ namespace photoegg4._1
         public bool value_bool_4 = false;
         public bool value_bool_5 = false;
 
-        public int[] point_int_1 =new int[] { 0, 0 };
+        public int[] point_int_1 = new int[] { 0, 0 };
         public int[] point_int_2 = new int[] { 0, 0 };
         /// <summary>
         /// 
@@ -55,7 +55,7 @@ namespace photoegg4._1
             NULL, colorTo255, colorToGray, brightness, blurry, HSV, pasteImage, emboss,
             mosaic, horizontalFlip, verticalFlip, tile, ToneSeparation, Overexposed, oilPaint, ColorNoise, Binarization,
             ScanningLine, airbrush, kaleidoscope, contrast, BrightnessContrast, brightness2, allFlip, rgbNormal, oilPaint2,
-            blurry2, sharp, ColorPencil, glassBlurry, Fluorescent, FillTest, removeBackGround, sharptest
+            blurry2, sharp, ColorPencil, glassBlurry, Fluorescent, FillTest, removeBackGround, sharptest, comic, rgbTone, cmykTone
         };
         public colorFunction tempOperate = colorFunction.NULL;
         public Form1()
@@ -78,12 +78,12 @@ namespace photoegg4._1
         }
         private void pictureBox1_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-           /* value_int_1 = e.X; value_int_2 = e.Y;
-            if (open_temp_perate == false) return;
-            if (Now_Bitmap < 0) return;
-            open_temp_perate = false;
-            Pixel_Operate(colorFunction.removeBackGround);
-            pictureBox1.Image = originBitmap[Now_Bitmap];*/
+            /* value_int_1 = e.X; value_int_2 = e.Y;
+             if (open_temp_perate == false) return;
+             if (Now_Bitmap < 0) return;
+             open_temp_perate = false;
+             Pixel_Operate(colorFunction.removeBackGround);
+             pictureBox1.Image = originBitmap[Now_Bitmap];*/
         }
         private void 載入圖片ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -148,6 +148,10 @@ namespace photoegg4._1
                     Pixel_C.colorTo255((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
                 else if (func == (int)colorFunction.colorToGray)
                     Pixel_C.colorToGray((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
+                else if (func == (int)colorFunction.rgbTone)
+                    Pixel_C.rgbTone((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
+                else if (func == (int)colorFunction.cmykTone)
+                    Pixel_C.cmykTone((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
                 else if (func == (int)colorFunction.brightness)
                     Pixel_C.brightness((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1);
                 else if (func == (int)colorFunction.brightness2)
@@ -208,7 +212,8 @@ namespace photoegg4._1
                     Pixel_C.removeBackGround((byte*)MyBmpData.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2, value_int_3);
                 else if (func == (int)colorFunction.sharptest)
                     Pixel_C.sharptest((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4, value_int_1, value_int_2);
-
+                else if (func == (int)colorFunction.comic)
+                    Pixel_C.Comic((byte*)MyBmpData.Scan0, (byte*)MyBmpData2.Scan0, MyNewBmp.Width, MyNewBmp.Height, 4);
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
@@ -1321,6 +1326,45 @@ namespace photoegg4._1
             if (form.define == false) pictureBox1.Image = originBitmap[Now_Bitmap];
             else TempBitmapResize(originBitmap[Now_Bitmap], form.tra1, true);
             form.Dispose();
+        }
+
+        private void 漫畫ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            value_int_1 = 0;
+            value_int_2 = 140;
+            value_int_3 = 0;
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.comic);
+            Pixel_Operate(colorFunction.HSV);
+            Pixel_Operate(colorFunction.HSV);
+            Pixel_Operate(colorFunction.HSV);
+            Pixel_Operate(colorFunction.HSV);
+            value_int_2 = -65;value_int_3 = 20;
+            Pixel_Operate(colorFunction.HSV);
+            /* value_int_1 = -10;
+             value_int_2 = -50;
+             BrightnessContrast(false);*/
+            pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
+
+        private void rGB色調ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.rgbTone);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
+        }
+
+        private void cMYK色調ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (open_temp_perate == false) return;
+            if (Now_Bitmap < 0) return;
+            open_temp_perate = false;
+            Pixel_Operate(colorFunction.cmykTone);
+            pictureBox1.Image = originBitmap[Now_Bitmap];
         }
     }
 }

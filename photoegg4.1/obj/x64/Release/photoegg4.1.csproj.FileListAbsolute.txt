@@ -107,7 +107,6 @@ E:\桌面碟\專案資料夾\photoegg4.1\newphotoegg4.1\photoegg4.2\photoegg4.2\
 E:\桌面碟\專案資料夾\photoegg4.1\newphotoegg4.1\photoegg4.2\photoegg4.2\photoegg4.1\obj\x64\Release\photoegg4._1.tileForm.resources
 E:\桌面碟\專案資料夾\photoegg4.1\newphotoegg4.1\photoegg4.2\photoegg4.2\photoegg4.1\obj\x64\Release\photoegg4._1.ToneSeparationForm.resources
 E:\桌面碟\專案資料夾\photoegg4.1\newphotoegg4.1\photoegg4.2\photoegg4.2\photoegg4.1\obj\x64\Release\photoegg4.1.csproj.GenerateResource.cache
-E:\桌面碟\專案資料夾\photoegg4.1\newphotoegg4.1\photoegg4.2\photoegg4.2\photoegg4.1\obj\x64\Release\photoegg4.1.csproj.CoreCompileInputs.cache
 E:\桌面碟\專案資料夾\photoegg4.1\newphotoegg4.1\photoegg4.2\photoegg4.2\photoegg4.1\obj\x64\Release\photoegg4.1.csproj.CopyComplete
 E:\桌面碟\專案資料夾\photoegg4.1\newphotoegg4.1\photoegg4.2\photoegg4.2\photoegg4.1\obj\x64\Release\photoegg4.1.exe
 E:\桌面碟\專案資料夾\photoegg4.1\newphotoegg4.1\photoegg4.2\photoegg4.2\photoegg4.1\obj\x64\Release\photoegg4.1.pdb

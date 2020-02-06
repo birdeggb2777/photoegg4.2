@@ -37,6 +37,56 @@ namespace pix {
 			}
 			delete[] fp;
 		}
+		void rgbTone(unsigned char* ptr, int width, int height, int channel)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			unsigned char b = 0;
+				unsigned char g = 0;
+			unsigned char r = 0;
+			unsigned char gray = 0;
+				for (y = 0; y < height; y++)
+				{
+					for (x = 0; x < Stride; x += channel)
+					{
+						b = fp[y][x];
+						g = fp[y][x+1];
+						r = fp[y][x+2];
+						gray = (r + g + b) / 3;
+						fp[y][x] = (int)(b + (int)abs((int)((gray - b)))) > 255 ? (unsigned char)(255) : (unsigned char)(b + (int)abs((int)((gray - b))));
+						fp[y][x+1] = (int)(g + (int)abs((int)((gray - g)))) > 255 ? (unsigned char)(255) : (unsigned char)(g + (int)abs((int)((gray - g))));
+						fp[y][x+2] = (int)(r + (int)abs((int)((gray - r)))) > 255 ? (unsigned char)(255) : (unsigned char)(r + (int)abs((int)((gray - r))));
+					}
+				}
+			delete[] fp;
+		}
+		void cmykTone(unsigned char* ptr, int width, int height, int channel)
+		{
+			unsigned char** fp = new unsigned char* [height];
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			unsigned char b = 0;
+			unsigned char g = 0;
+			unsigned char r = 0;
+			unsigned char gray = 0;
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					b = 255-fp[y][x];
+					g = 255-fp[y][x + 1];
+					r = 255-fp[y][x + 2];
+					gray = (r + g + b) / 3;
+					fp[y][x] = (int)(b + (int)abs((int)((gray - b)))) > 255 ? (unsigned char)(0) : (unsigned char)(255-(b + (int)abs((int)((gray - b)))));
+					fp[y][x + 1] = (int)(g + (int)abs((int)((gray - g)))) > 255 ? (unsigned char)(0) : (unsigned char)(255-(g + (int)abs((int)((gray - g)))));
+					fp[y][x + 2] = (int)(r + (int)abs((int)((gray - r)))) > 255 ? (unsigned char)(0) : (unsigned char)(255-(r + (int)abs((int)((gray - r)))));
+				}
+			}
+			delete[] fp;
+		}
 		void removeBackGround(unsigned char* ptr, const  int width, const  int height, const  int channel,
 			const  int pointW, const  int pointH, const  int rate)
 		{
@@ -796,7 +846,7 @@ namespace pix {
 		static void oilpaintThread(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int value, double value2, int bgr, int half)
 		{
 			int adopt = (int)((double)(value * value) * value2);
-			if (adopt > value * value - 1)adopt = value * value - 1;
+			if (adopt > value* value - 1)adopt = value * value - 1;
 			if (adopt < 0)adopt = 0;
 			unsigned char** fp = new unsigned char* [height];
 			unsigned char** fp2 = new unsigned char* [height];
@@ -1145,6 +1195,85 @@ namespace pix {
 			}
 			delete[] fp;
 			delete[] fp2;
+		}
+		void Comic(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel) {
+			unsigned char** fp = new unsigned char* [height];
+			unsigned char** fp2 = new unsigned char* [height];
+			//const int recSize = ((value * 2 + 1) * (value * 2 + 1));
+			//
+			int  vW = 2;
+			int vH = 2;
+
+			int Stride = width * channel, x = 0, y = 0;
+			for (int j = 0; j < height; j++)
+				fp[j] = ptr + (Stride * j);
+			for (int j = 0; j < height; j++)
+				fp2[j] = ptr2 + (Stride * j);
+			int x2 = 0; int y2 = 0;
+			int countB = 0;
+			int countG = 0;
+			int countR = 0;
+			int rand = -2;
+			int value = 1;
+			const int rec = (value * 2 + 1) * (value * 2 + 1);
+			const int recWidth = value * channel;
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					for (y2 = -value; y2 <= value; y2++)
+					{
+						for (x2 = -recWidth; x2 <= recWidth; x2 += channel)
+						{
+							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								continue;
+							countB += fp2[y + y2][x + x2];
+							countG += fp2[y + y2][x + x2 + 1];
+							countR += fp2[y + y2][x + x2 + 2];
+						}
+					}
+					fp2[y][x] = countB / ((value * 2 + 1) * (value * 2 + 1));
+					fp2[y][x + 1] = countG / ((value * 2 + 1) * (value * 2 + 1));
+					fp2[y][x + 2] = countR / ((value * 2 + 1) * (value * 2 + 1));
+					countB = countG = countR = 0;
+				}
+			}
+			//int vW = 1;
+			//int vH = 4;
+			int recWidth2 = vW * channel;
+			for (y = 0; y < height; y++)
+			{
+				for (x = 0; x < Stride; x += channel)
+				{
+					for (y2 = -vH; y2 <= vH; y2++)
+					{
+						for (x2 = -recWidth2; x2 <= recWidth2; x2 += channel)
+						{
+							if (y + y2 < 0 || y + y2 >= height || x + x2 < 0 || x + x2 >= Stride)
+								continue;
+							countB += fp2[y + y2][x + x2];
+							countG += fp2[y + y2][x + x2 + 1];
+							countR += fp2[y + y2][x + x2 + 2];
+						}
+					}
+					countB = (countB)+(fp2[y][x] * -(vW * 2 + 1) * (vH * 2 + 1));
+					countG = (countG)+(fp2[y][x + 1] * -(vW * 2 + 1) * (vH * 2 + 1));
+					countR = (countR)+(fp2[y][x + 2] * -(vW * 2 + 1) * (vH * 2 + 1));
+					if (countB > 255)countB = 255;
+					if (countG > 255)countG = 255;
+					if (countR > 255)countR = 255;
+					if (countB < 0)countB = 0;
+					if (countG < 0)countG = 0;
+					if (countR < 0)countR = 0;
+					fp[y][x] = (fp[y][x] * 0.3 + (255 - (countB + countG + countR) / 3) * 0.7);
+					fp[y][x + 1] = (fp[y][x + 1] * 0.3 + (255 - (countB + countG + countR) / 3) * 0.7);
+					fp[y][x + 2] = (fp[y][x + 2] * 0.3 + (255 - (countB + countG + countR) / 3) * 0.7);
+					countB = countG = countR = 0;
+				}
+			}
+			delete[] fp;
+			delete[] fp2;
+
 		}
 		void ToneSeparation(unsigned char* ptr, int width, int height, int channel, int value)
 		{
@@ -1848,7 +1977,7 @@ namespace pix {
 			delete[] fp;
 			delete[] fp2;
 		}
-		void sharptest(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int vW,int vH)
+		void sharptest(unsigned char* ptr, unsigned char* ptr2, int width, int height, int channel, int vW, int vH)
 		{
 			unsigned char** fp = new unsigned char* [height];
 			unsigned char** fp2 = new unsigned char* [height];
@@ -1867,7 +1996,7 @@ namespace pix {
 			int rand = -2;
 			int value = 1;
 			const int rec = (value * 2 + 1) * (value * 2 + 1);
-const int recWidth = value * channel;
+			const int recWidth = value * channel;
 			for (y = 0; y < height; y++)
 			{
 				for (x = 0; x < Stride; x += channel)
