@@ -217,6 +217,7 @@ namespace photoegg4._1
             }
             MyNewBmp.UnlockBits(MyBmpData);
             MyNewBmp2.UnlockBits(MyBmpData2);
+            GC.Collect();
             /*if (func == (int)colorFunction.glassBlurry)
             {
                 Bitmap MyNewBmp_ = (Bitmap)MyNewBmp.Clone();
@@ -349,7 +350,7 @@ namespace photoegg4._1
             else
                 TimerBitmap = (Bitmap)TempBmp.Clone();
             open_temp_perate = true;
-
+            GC.Collect();
             //tempOperate = colorFunction.NULL;
         }
 
